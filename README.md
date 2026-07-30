@@ -1,5 +1,31 @@
 # course-modelling-2026
-Course repo for fall 2026 course "Modelling"
+Public repo for 2026 AU BCE course "Modelling"
 
-# Links for development
-qmd book suggestions from ChatGPT: <https://chatgpt.com/share/6932c1d7-fd80-8006-9f51-c99148df279c>
+# Course instructors
+
+|                 | GitHub user name     | Contact information                   |
+|--------------   |-----------           |------------                           |
+| Frederik Dalby  | fdalby               | https://au.dk/fd@bce.au.dk            |
+| Sasha D. Hafner | sashahafner          | https://au.dk/sasha.hafner@bce.au.dk  |
+
+# Repo contents
+
+* Course information: [course_info.md](https://github.com/AU-BCE-EE/course-modelling-2025/blob/main/course_info.md)
+* Class schedule: [schedule.csv](https://github.com/AU-BCE-EE/course-modelling-2025/blob/main/schedule.csv)
+* Warm-up problems: [warm_up.md](https://github.com/AU-BCE-EE/course-modelling-2025/blob/main/warm_up.md)
+* Documents on Python and other topics: [docs](https://github.com/AU-BCE-EE/course-modelling-2025/tree/main/docs)
+* Data for assignments or demos: [data](https://github.com/AU-BCE-EE/course-modelling-2025/tree/main/data)
+
+# Brightspace
+We will use the course Brightspace page for announcements and for sharing reading materials.
+You can find reading materials on Brightspace under [Content -> Reading material](https://brightspace.au.dk/d2l/le/lessons/184142/units/2412028).
+
+# Repo usage
+Most of the repo content is meant to be viewed online.
+Just click the file name or relevant link to view a GitHub rendering of each file.
+The files with an `.md` extension are "Markdown" files intended for reading on GitHub.
+And you are all familiar with the `.pdf` extension.
+These two file types are usually the versions you should be opening, not the `.xopp` or `.qmd` files, which are the versions that we (the instructors) create or edit, and are only included here because it greatly simplifies our workflow to have the source and the final version in a single repo.
+In some cases csv files with the `.csv` extension are used to make a table, e.g., with the class schedule.
+All three of these files are displayed clearly on GitHub.
+To download a file, use the "download" button generally shown at the top right of the file page.
