@@ -20,6 +20,10 @@ Public repo for 2026 AU BCE course "Modelling"
 We will use the course Brightspace page for announcements and for sharing reading materials.
 You can find reading materials on Brightspace under [Content -> Reading material](https://brightspace.au.dk/d2l/le/lessons/184142/units/2412028).
 
+# Textbook
+Our course textbook is free and online here: <https://au-bce-ee.github.io/modeling-py-book/>.
+The source repo is here: <https://github.com/AU-BCE-EE/modeling-py-book>.
+
 # Repo usage
 Most of the repo content is meant to be viewed online.
 Just click the file name or relevant link to view a GitHub rendering of each file.
