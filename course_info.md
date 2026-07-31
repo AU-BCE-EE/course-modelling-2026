@@ -14,25 +14,24 @@ You will learn methods for developing models and implementing them using Python,
 | Sasha D. Hafner | sashahafner          | sasha.hafner@bce.au.dk  |
 
 # Official course description
-See the [course catalog entry](https://kursuskatalog.au.dk/en/course/134371/Modelling).
+See the [course catalog entry](https://kursuskatalog.au.dk/en/course/141579/Modellering).
 
 # Course and class organization
 We will meet twice a week.
-We expect that a typical class will be run something like this:
+We expect that a typical two hour class will be run something like this:
 
 |                                  |  Duration (min.)   | Total (min.)|
 |--------------                    |-----------         |------------ |
-| Discuss exercise or warm up    | 15                 |   15        |
+| Catch up/Quiz or warm up         | 15                 |   15        |
 | Lecture                          | 30                 |   45        |
-| Break                            |  5                 |   50        |
-| Lecture                          | 20                 |   70        |
-| Quiz/discussion                  | 10                 |   80        |
-| Work on new assignment           | 20                 |  100        |
+| Break                            | 10                 |   55        |
+| Exercises                        | 50                 |   105       |
 
-You should be sure to always bring a laptop with Python 3 and Spyder or your preferred script editor installed to class.
+
+You should be sure to always bring a laptop with Python 3 and your preferred script editor installed to class.
 But also bring a notebook (paper!) and a pen or pencil to each class.
 
-We will present some slides or notes in most classes, and will generally make some form of these materials available to students *after* class.
+We will present some slides or notes in most classes, and will generally make some form of these materials available to students just *before* class.
 But these files of course cannot include everything we say or show, so you should expect to have an approach to take notes during class.
 
 Active participation in class will help you learn, and it will generally make the class more effective for everyone.
@@ -92,16 +91,11 @@ And lastly, remember that you cannot use AI on the exam for this course.
 
 # Reading materials
 As with any class, you are responsible for your own learning.
-Part of your learning in this class will come from independent reading, and we will usually assign reading material for each class.
-You should check the [class schedule](https://github.com/AU-BCE-EE/course-modelling-2025/blob/main/schedule.csv) before class for reading assignments.
-Our course text is:
-
-Rasmuson, A. et al. 2014. Mathematical Modeling in Chemical Engineering. Cambridge University Press. 183 pp.
-
-You can find reading materials on Brightspace under [Content -> Reading material](https://brightspace.au.dk/d2l/le/lessons/184142/units/2412028).
+We will rely on a book dedicated for this course, which is available at XXX. The book is work in progress and the teachers may edit or update the book contents as the course progresses. Therefore, be sure to access the book through the link posted here (and on the front page)
+In addition we will sometimes make use of demonstration videos and other reading material. 
 
 # Brightspace
-We will use the course Brightspace page for announcements and for sharing reading materials.
+We will use the course Brightspace page for announcements and for handling project submissions + feedback. Otherwise all the course material will be here at GitHub.
 
 # Git and GitHub
 Git and GitHub are software tools for tracking changes to files and collaborating in writing computer code.
