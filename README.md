@@ -25,7 +25,7 @@ If you are interested in the source code for the book it is here: <https://githu
 
 # Repo usage
 The schedule, class files and book will be updated throughout the course, so always refer to the updated versions through the links on this page
-Under each class, you will find both files in the format of .md, .qmd, .html, and .pdf which can be clicked and viewed directly on GitHub. If you want to download the files you can click it and use the "download" button generally shown at the top right of the file page (arrow down synmbol).
+Under each class, you will find both files in the format of .md, .qmd, .html, and .pdf which can be clicked and viewed directly on GitHub. If you want to download the files you can click it and use the "download" button generally shown at the top right of the file page (arrow down symbol).
 
 Each class folder will have a number, a date and a theme. You can search for any file in the whole repo in the search bar in the middle/top of the repo. 
 We will generally provide slides and exercises for you before the class starts and solutions will then be uploaded after class.
