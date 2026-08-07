@@ -10,7 +10,7 @@ Public repo for 2026 AU BCE course "Modelling"
 
 # Repo contents
 * Class schedule: [schedule.csv](https://github.com/AU-BCE-EE/course-modelling-2025/blob/main/schedule.csv)
-* Class files: [classes](https://github.com/AU-BCE-EE/course-modelling-2025/blob/main/classes)
+* Class files: [classes](https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes)
 
 # Official course description
 See the [course catalog entry](https://kursuskatalog.au.dk/en/course/141579/Modellering).
