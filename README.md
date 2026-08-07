@@ -5,7 +5,7 @@ Public repo for 2026 AU BCE course "Modelling"
 
 |                 | GitHub user name     | Contact information                   |
 |--------------   |-----------           |------------                           |
-| Frederik Dalby  | fdalby               | https://au.dk/fd@bce.au.dk            |
+| Frederik R. Dalby  | fdalby               | https://au.dk/fd@bce.au.dk            |
 | Sasha D. Hafner | sashahafner          | https://au.dk/sasha.hafner@bce.au.dk  |
 
 # Repo contents
