@@ -4,63 +4,7 @@
     "href": "index.html",
     "title": "Schedule",
     "section": "",
-    "text": "Links appear below as material is released – slides and exercises are generally posted before class, solutions after.\n\n\n\n\n\nClass\nDate\nDay\nTopic\nSlides\nExercises\nSolutions\n\n\n\n\n1\n24 Aug 2026\nMonday\nCourse intro & intro to modelling\ncourse-intro, model-classification\nexercises\n\n\n\n2\n27 Aug 2026\nThursday\nModel formulation\nmodel-formulation\nexercises\n\n\n\n3\n31 Aug 2026\nMonday\nSolving and formulating\n\n\n\n\n\n4\n03 Sep 2026\nThursday\nHeat transfer\n\n\n\n\n\n5\n07 Sep 2026\nMonday\nHeat transfer\n\n\n\n\n\n6\n10 Sep 2026\nThursday\nMass transfer\n\n\n\n\n\n7\n14 Sep 2026\nMonday\nMass transfer\n\n\n\n\n\n8\n17 Sep 2026\nThursday\nChemical reactions & microbiology\n\n\nurea\n\n\n9\n21 Sep 2026\nMonday\nMini-project 1\n\n\n\n\n\n10\n24 Sep 2026\nThursday\nMini-project 1\n\n\n\n\n\n11\n28 Sep 2026\nMonday\nMini-project 1\n\n\n\n\n\n12\n01 Oct 2026\nThursday\nSpatial models, PDEs, control volume, nodes\n\n\n\n\n\n13\n05 Oct 2026\nMonday\nSpatial models, boundary conditions\n\n\n\n\n\n14\n08 Oct 2026\nThursday\nSpatial models\n\n\n\n\n\nBreak\n12 Oct 2026\n\n\n\n\n\n\n\nBreak\n15 Oct 2026\n\n\n\n\n\n\n\n15\n19 Oct 2026\nMonday\nSpatial models\n\n\n\n\n\n16\n22 Oct 2026\nThursday\nSpatial models\n\n\n\n\n\n17\n26 Oct 2026\nMonday\nSpatial models\n\n\n\n\n\n18\n29 Oct 2026\nThursday\nSpatial models\n\n\n\n\n\n19\n02 Nov 2026\nMonday\nVerification\n\n\n\n\n\n20\n05 Nov 2026\nThursday\nValidation\n\n\n\n\n\n21\n09 Nov 2026\nMonday\nParameter estimation\n\n\n\n\n\n22\n12 Nov 2026\nThursday\nTime-variable inputs\n\n\n\n\n\n23\n16 Nov 2026\nMonday\nMini-project 2\n\n\n\n\n\n24\n19 Nov 2026\nThursday\nMini-project 2\n\n\n\n\n\n25\n23 Nov 2026\nMonday\nMini-project 2\n\n\n\n\n\n26\n26 Nov 2026\nThursday\nBuffer\n\n\n\n\n\n27\n30 Nov 2026\nMonday\nExam project\n\n\n\n\n\n28\n03 Dec 2026\nThursday\nExam project"
-  },
-  {
-    "objectID": "classes/08-17-sept-reactions/solutions/urea.html",
-    "href": "classes/08-17-sept-reactions/solutions/urea.html",
-    "title": "Modelling 2026",
-    "section": "",
-    "text": "Formulate (pencil and paper or digital equivalent) and implement (in Python) a simple urea hydrolysis model. You can assume the reaction is first-order. Assume all products accumulate in a fixed solution volume (or solvent, water, mass). Plot predicted urea, ammonia, and carbon dioxide concentration over time.\nSolution"
-  },
-  {
-    "objectID": "classes/08-17-sept-reactions/solutions/urea.html#conceptual-model",
-    "href": "classes/08-17-sept-reactions/solutions/urea.html#conceptual-model",
-    "title": "Modelling 2026",
-    "section": "1. Conceptual model",
-    "text": "1. Conceptual model\nLet’s get the reaction written down first. This is copied from the book.\n\\[\n\\ce{CO(NH2)2 + H2O -&gt; 2NH3 + CO2}\n\\]\nNow, one state variable is of course urea. But the problem description implies we need to track products as well. So \\(\\ce{NH3}\\) and \\(\\ce{CO2}\\) must be included as state variables as well.\nIn this model let’s assume we have a fixed volume of solution with urea. The urea is hydrolyzed following first-order kinetics, and the products accumulate.\n\n\n\n\n\n\nFigure 1: Conceptual model of urea model"
-  },
-  {
-    "objectID": "classes/08-17-sept-reactions/solutions/urea.html#balanceconservation-equations",
-    "href": "classes/08-17-sept-reactions/solutions/urea.html#balanceconservation-equations",
-    "title": "Modelling 2026",
-    "section": "2. Balance/conservation equations",
-    "text": "2. Balance/conservation equations\nFor urea:\nrate of urea accumulation = - rate of consumption in reaction\nAmmonia:\nrate of \\(\\ce{NH3}\\) accumulation = rate of production in reaction\nCarbon dioxide:\nrate of \\(\\ce{CO2}\\) accumulation = rate of production in reaction\nThese could all be interpreted as in total quantity or concentration units. Let’s use mg/L, because it is a common unit, and will demonstrate some challenges with reaction model units."
-  },
-  {
-    "objectID": "classes/08-17-sept-reactions/solutions/urea.html#constitutive-equation",
-    "href": "classes/08-17-sept-reactions/solutions/urea.html#constitutive-equation",
-    "title": "Modelling 2026",
-    "section": "3. Constitutive equation",
-    "text": "3. Constitutive equation\nReaction is first-order, so the rate \\(r\\) depends on a rate constant \\(k\\) and the urea concentration.\n\\[\nr = k \\cdot c_{urea}\n\\]"
-  },
-  {
-    "objectID": "classes/08-17-sept-reactions/solutions/urea.html#linking-equations",
-    "href": "classes/08-17-sept-reactions/solutions/urea.html#linking-equations",
-    "title": "Modelling 2026",
-    "section": "4. Linking equations",
-    "text": "4. Linking equations\nWe link reactant/product consumption/production rates to the overall reaction rates through the stoichiometric coefficients.\n\\[\n\\ce{CO(NH2)2 + H2O -&gt; 2NH3 + CO2}\n\\]\nSo, for mole-based units, we would have:\n\\[\nr_{urea} = - r\n\\]\n\\[\nr_{\\ce{NH3}} = 2 \\cdot r\n\\]\n\\[\nr_{\\ce{CO2}} = r\n\\]\nBut here we are going to use mg/L, so we need to include molar mass, which we’ll call \\(M\\). We’ll keep \\(r\\) in mol/L-s.\n\\[\nr_{urea} = - M_{urea} \\cdot r\n\\]\n\\[\nr_{\\ce{NH3}} = M_{\\ce{NH3}} \\cdot 2 \\cdot r\n\\]\n\\[\nr_{\\ce{CO2}} = M_{\\ce{CO2}} \\cdot r\n\\]"
-  },
-  {
-    "objectID": "classes/08-17-sept-reactions/solutions/urea.html#initial-or-boundary-conditions",
-    "href": "classes/08-17-sept-reactions/solutions/urea.html#initial-or-boundary-conditions",
-    "title": "Modelling 2026",
-    "section": "5. Initial or boundary conditions",
-    "text": "5. Initial or boundary conditions\nWe will have to specify initial concentrations."
-  },
-  {
-    "objectID": "classes/08-17-sept-reactions/solutions/urea.html#governing-equation",
-    "href": "classes/08-17-sept-reactions/solutions/urea.html#governing-equation",
-    "title": "Modelling 2026",
-    "section": "6. Governing equation",
-    "text": "6. Governing equation\nHere we need multiple governing equations. From 2, 3, and 4 above:\n\\[\n\\frac{d~urea}{dt} = - M_{urea} \\cdot k \\cdot \\frac{c_{urea}}{M_{urea}}\n\\]\nBut the molar mass drops out; after all this is a first-order reaction, so units don’t matter as long as they match on the LHS and RHS.\n\\[\n\\frac{d ~ urea}{dt} = - k \\cdot c_{urea}\n\\]\nBut for the others, they do.\n\\[\n\\frac{d \\ce{NH3}}{dt} = \\frac{ M_{\\ce{NH3}} } {M_{urea}} \\cdot 2 \\cdot k \\cdot c_{urea}\n\\]\n\\[\n\\frac{d \\ce{CO2}}{dt} = \\frac{ M_{\\ce{CO2}} } {M_{urea}} \\cdot k \\cdot c_{urea}\n\\]"
-  },
-  {
-    "objectID": "classes/08-17-sept-reactions/solutions/urea.html#solution",
-    "href": "classes/08-17-sept-reactions/solutions/urea.html#solution",
-    "title": "Modelling 2026",
-    "section": "7. Solution",
-    "text": "7. Solution\nFor inputs, we only need the first-order rate constant \\(k\\) and the initial concentrations.\nWe could easily solve this system analytically.\nBut we’ll start with a numerical approach.\n\nNumerical\n\n\nurea_mods.py\n\n\"\"\"\nFile name: urea_mods.py\nAuthor: Sasha D. Hafner\nCourse: Modelling 2026\n\nDescription:\n    This module defines a numeric and an analytical model\n    for urea hydrolysis.\n\nUsage:\n    See urea.qmd\n\"\"\"\n\n# Load packages\nimport numpy as np\nfrom scipy.integrate import solve_ivp\n\n# Numerical model function\ndef urea_num(\n    c0,\n    k,\n    t_range,\n    t_step\n):\n\n    \"\"\"\n    Dynamic numerical model for urea hydrolysis.\n\n    Parameters\n    ----------\n    c0 : list or tuple of floats\n        Initial concentrations of urea, NH3, and CO2, in that order (mg/L)\n    k : float\n        First-order rate constant (1/s)\n    t_range : list or tuple of two floats \n        Minimum and maximum time in output (s) \n    t_step : float\n        Time step in output (s)\n\n    Returns\n    -------\n    dictionary\n        With elements 't' for time (s), c_urea, c_NH3, \n        and c_CO2 for solute concentrations (mg/L)\n    \"\"\"\n\n    # Set molar masses (g/mol or mg/mmol)\n    mm = np.array([60.056, 17.031, 44.010])\n\n    # Stoichiometric coefficients\n    ss = np.array([-1, 2, 1])\n\n    # Define rates function\n    def rates(t, conc):\n\n        # Derivatives depend only on urea concentration\n        # Let's get milimolar concentration here (mmol/L)\n        cm = conc[0] / mm[0]\n\n        # Reaction rate in mmol/L-s\n        rr = k * cm \n\n        # Now derivatives\n        dcdt = ss * mm * rr\n\n        return dcdt\n\n    res = solve_ivp(\n        rates,\n        t_span = t_range, \n        y0 = c0, \n        t_eval = np.arange(t_range[0], t_range[1] + t_step, t_step)\n    )\n\n    # Return results in dictionary\n\n    out = {\n        't': res.t,\n        'c_urea': res.y[0, :],\n        'c_NH3': res.y[1, :],\n        'c_CO2': res.y[2, :]\n    }\n\n    return out\n\n# Analytical model function\ndef urea_ana(\n    c0,\n    k,\n    t_range,\n    t_step\n):\n\n    \"\"\"\n    Analytical numerical model for urea hydrolysis.\n\n    Parameters\n    ----------\n    c0 : list or tuple of floats\n        Initial concentrations of urea, NH3, and CO2, in that order (mg/L)\n    k : float\n        First-order rate constant (1/s)\n    t_range : list or tuple of two floats \n        Minimum and maximum time in output (s) \n    t_step : float\n        Time step in output (s)\n\n    Returns\n    -------\n    dictionary\n        With elements 't' for time (s), c_urea, c_NH3, \n        and c_CO2 for solute concentrations (mg/L)\n    \"\"\"\n\n    # Set molar masses (g/mol or mg/mmol)\n    mm = np.array([60.056, 17.031, 44.010])\n\n    # Stoichiometric coefficients\n    ss = np.array([-1, 2, 1])\n\n    t_eval = np.arange(t_range[0], t_range[1] + t_step, t_step)\n\n    cm0 = c0[0] / mm[0]\n    c_urea = cm0 * np.exp(-k * t_eval)\n    c_NH3 = ss[1] * cm0 * (1 - np.exp(-k * t_eval))\n    c_CO2 = ss[2] * cm0 * (1 - np.exp(-k * t_eval))\n\n    # Return results in dictionary\n\n    out = {\n        't': t_eval,\n        'c_urea': c_urea * mm[0],\n        'c_NH3': c_NH3 * mm[1],\n        'c_CO2': c_CO2 * mm[2]\n    }\n\n    return out\n\n\n\nHere are some predictions.\n\n# Python packages\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom importlib import reload\n\n# Our module, loaded from the file ice_mods.py\nimport urea_mods as um\n\nReload as needed during development. (If your Python model works the first time, you are better than me.)\n\nreload(um)\n\n&lt;module 'urea_mods' from '/home/sasha/repos/course-modelling-2026/classes/08-17-sept-reactions/solutions/urea_mods.py'&gt;\n\n\n\nres = um.urea_num(\n    c0=[100, 0, 0], \n    k=1e-3, \n    t_range = (0, 3 * 3600),\n    t_step = 60\n)\n\n\nplt.plot(res['t'] / 60, res['c_urea'], label = 'Urea')\nplt.plot(res['t'] / 60, res['c_NH3'], label = 'Ammonia')\nplt.plot(res['t'] / 60, res['c_CO2'], label = 'Carbon dioxide')\nplt.xlabel('Time (min.)')\nplt.ylabel('Concentration (mg/L)')\nplt.legend()\n\n\n\n\n\n\n\n\nLet’s do a little external verification. Are the final concentrations reasonable? 100 mg urea is 0.00167 mol. So we’d expect \\(2 \\cdot 0.00167 = 0.00333\\) mol \\(\\ce{NH3}\\) and 0.00167 mol \\(\\ce{CO2}\\). That’s 57 mg \\(\\ce{NH3}\\) and 73 mg \\(\\ce{CO2}\\). Check:\n\nres['c_NH3'][-5:]\n\narray([56.71557953, 56.71566598, 56.71574738, 56.71582405, 56.71589626])\n\n\n\nres['c_CO2'][-5:]\n\narray([73.27968572, 73.27979742, 73.2799026 , 73.28000166, 73.28009496])\n\n\nLooks good!\n\n\nAnalyical solution\nStart with the urea GE:\n\\[\n\\frac{d ~ urea}{dt} = - k \\cdot c_{urea}\n\\]\nFrom Chapter 2, you should know that this is a solution:\n\\[\nc_{urea} = c_{urea, 0} \\cdot e^{-k \\cdot t}\n\\]\nFor the others, here is a mass balance-based approach.\n\\[\nc_{\\ce{NH3}} = \\frac{M_{\\ce{NH3}}} {M_{urea}} \\cdot 2 \\cdot c_{urea, 0} \\cdot (1 - e^{-k \\cdot t})\n\\]\n\\[\nc_{\\ce{CO2}} = \\frac{M_{\\ce{NH3}}} {M_{urea}} \\cdot c_{urea, 0} \\cdot (1 - e^{-k \\cdot t})\n\\]\nHere are some results.\n\n# Python packages\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom importlib import reload\n\n# Our module, loaded from the file ice_mods.py\nimport urea_mods as um\n\nReload as needed during development. (If your Python model works the first time, you are better than me.)\n\nreload(um)\n\n&lt;module 'urea_mods' from '/home/sasha/repos/course-modelling-2026/classes/08-17-sept-reactions/solutions/urea_mods.py'&gt;\n\n\n\nres = um.urea_ana(\n    c0=[100, 0, 0], \n    k=1e-3, \n    t_range = (0, 3 * 3600),\n    t_step = 60\n)\n\n\nplt.plot(res['t'] / 60, res['c_urea'], label = 'Urea')\nplt.plot(res['t'] / 60, res['c_NH3'], label = 'Ammonia')\nplt.plot(res['t'] / 60, res['c_CO2'], label = 'Carbon dioxide')\nplt.xlabel('Time (min.)')\nplt.ylabel('Concentration (mg/L)')\nplt.legend()"
+    "text": "Modelling 2026 class schedule. Links appear below as material is released – slides and exercises are generally posted before class, solutions after.\n\n\n\n\n\nClass\nDate\nTopic\nPreparation\nSlides\nExercises\nSolutions\n\n\n\n\n1\n24 Aug 2026\nCourse intro & intro to modelling\nChapter 1\ncourse-intro, model-classification\nexercises\n\n\n\n2\n27 Aug 2026\nModel formulation\nChapter 2\n\n\n\n\n\n3\n31 Aug 2026\nSolving and formulating\nChapter 3\n\n\n\n\n\n4\n03 Sep 2026\nHeat transfer\nChapter 4\n\n\n\n\n\n5\n07 Sep 2026\nHeat transfer\nChapter 4\n\n\n\n\n\n6\n10 Sep 2026\nMass transfer\nChapter 5\n\n\n\n\n\n7\n14 Sep 2026\nMass transfer\nChapter 5\n\n\n\n\n\n8\n17 Sep 2026\nChemical reactions & microbiology\nChapter 6\n\n\n\n\n\n9\n21 Sep 2026\nMini-project 1\n\n\n\n\n\n\n10\n24 Sep 2026\nMini-project 1\n\n\n\n\n\n\n11\n28 Sep 2026\nMini-project 1\n\n\n\n\n\n\n12\n01 Oct 2026\nSpatial models, PDEs, control volume, nodes\nChapter 7\n\n\n\n\n\n13\n05 Oct 2026\nSpatial models, boundary conditions\nChapter 7\n\n\n\n\n\n14\n08 Oct 2026\nSpatial models\nChapter 7\n\n\n\n\n\nBreak\n12 Oct 2026\n\n\n\n\n\n\n\nBreak\n15 Oct 2026\n\n\n\n\n\n\n\n15\n19 Oct 2026\nSpatial models\nChapter 7\n\n\n\n\n\n16\n22 Oct 2026\nSpatial models\nChapter 7\n\n\n\n\n\n17\n26 Oct 2026\nSpatial models\nChapter 7\n\n\n\n\n\n18\n29 Oct 2026\nSpatial models\nChapter 7\n\n\n\n\n\n19\n02 Nov 2026\nVerification\nChapter 8\n\n\n\n\n\n20\n05 Nov 2026\nValidation\nChapter 8\n\n\n\n\n\n21\n09 Nov 2026\nParameter estimation\nChapter 9\n\n\n\n\n\n22\n12 Nov 2026\nTime-variable inputs\nChapter 10\n\n\n\n\n\n23\n16 Nov 2026\nMini-project 2\n\n\n\n\n\n\n24\n19 Nov 2026\nMini-project 2\n\n\n\n\n\n\n25\n23 Nov 2026\nMini-project 2\n\n\n\n\n\n\n26\n26 Nov 2026\nBuffer\n\n\n\n\n\n\n27\n30 Nov 2026\nExam project\n\n\n\n\n\n\n28\n03 Dec 2026\nExam project"
   },
   {
     "objectID": "classes/01-24-aug-intro/exercises/exercises.html",
@@ -70,25 +14,18 @@
     "text": "Problem 1-3, 5 in the book."
   },
   {
-    "objectID": "classes/02-27-aug-model-formulation/exercises/exercises.html",
-    "href": "classes/02-27-aug-model-formulation/exercises/exercises.html",
-    "title": "Modelling 2026",
-    "section": "",
-    "text": "Problem 1-3 in Chapter 2"
-  },
-  {
     "objectID": "course_info.html",
     "href": "course_info.html",
     "title": "Course Info",
     "section": "",
-    "text": "GitHub user name\nContact information\n\n\n\n\nFrederik R. Dalby\nfdalby\nhttps://au.dk/fd@bce.au.dk\n\n\nSasha D. Hafner\nsashahafner\nhttps://au.dk/sasha.hafner@bce.au.dk"
+    "text": "Course webpage for Modelling 2026 (Modellering). See the Schedule tab for links to class materials."
   },
   {
     "objectID": "course_info.html#instructors",
     "href": "course_info.html#instructors",
     "title": "Course Info",
-    "section": "",
-    "text": "GitHub user name\nContact information\n\n\n\n\nFrederik R. Dalby\nfdalby\nhttps://au.dk/fd@bce.au.dk\n\n\nSasha D. Hafner\nsashahafner\nhttps://au.dk/sasha.hafner@bce.au.dk"
+    "section": "Instructors",
+    "text": "Instructors\n\n\n\n\nGitHub user name\nContact information\n\n\n\n\nFrederik R. Dalby\nfdalby\nhttps://au.dk/fd@bce.au.dk\n\n\nSasha D. Hafner\nsashahafner\nhttps://au.dk/sasha.hafner@bce.au.dk"
   },
   {
     "objectID": "course_info.html#official-course-description",
@@ -109,7 +46,7 @@
     "href": "course_info.html#textbook",
     "title": "Course Info",
     "section": "Textbook",
-    "text": "Textbook\nOur course textbook is free and online here: https://au-bce-ee.github.io/modeling-py-book/. If you are interested in the source code for the book, it is here: https://github.com/AU-BCE-EE/modeling-py-book."
+    "text": "Textbook\nOur course textbook is free and online here: https://au-bce-ee.github.io/modeling-py-book/."
   },
   {
     "objectID": "course_info.html#course-and-class-organization",

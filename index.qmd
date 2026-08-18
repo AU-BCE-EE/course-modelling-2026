@@ -4,7 +4,7 @@ execute:
   freeze: false
 ---
 
-*Modelling 2026* clas schedule.
+*Modelling 2026* class schedule.
 Links appear below as material is released -- slides and exercises are
 generally posted before class, solutions after.
 
@@ -35,6 +35,8 @@ with open("schedule.csv", newline="", encoding="utf-8-sig") as f:
     for row in csv.DictReader(f):
         class_num = row["Class"].strip()
         topic = row["Topic"].strip()
+        location = row["Location"].strip()
+        prep = row["Prep"].strip()
         day = row["Day"].strip()
 
         try:
@@ -51,14 +53,14 @@ with open("schedule.csv", newline="", encoding="utf-8-sig") as f:
 
         rows_html.append(
             "<tr>"
-            f"<td>{class_num}</td><td>{date}</td><td>{day}</td><td>{topic}</td>"
+            f"<td>{class_num}</td><td>{date}</td><td>{topic}</td><td>{prep}</td>"
             f"<td>{slides}</td><td>{exercises}</td><td>{solutions}</td>"
             "</tr>"
         )
 
 table_html = (
     "<table class='table table-striped'><thead><tr>"
-    "<th>Class</th><th>Date</th><th>Day</th><th>Topic</th>"
+    "<th>Class</th><th>Date</th><th>Topic</th><th>Preparation</th>"
     "<th>Slides</th><th>Exercises</th><th>Solutions</th>"
     "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table>"
 )
