@@ -1,5 +1,7 @@
 ---
 title: "Schedule"
+execute:
+  freeze: false
 ---
 
 Links appear below as material is released -- slides and exercises are
