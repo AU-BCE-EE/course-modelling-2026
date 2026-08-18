@@ -4,6 +4,7 @@ execute:
   freeze: false
 ---
 
+*Modelling 2026* clas schedule.
 Links appear below as material is released -- slides and exercises are
 generally posted before class, solutions after.
 

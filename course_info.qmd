@@ -2,6 +2,9 @@
 title: "Course Info"
 ---
 
+Course webpage for *Modelling 2026* (Modellering).
+See the [Schedule tab](index.qmd) for links to class materials.
+
 ## Instructors
 
 |                    | GitHub user name | Contact information                  |
@@ -20,7 +23,6 @@ The course [Brightspace page](https://brightspace.au.dk/d2l/le/lessons/219354/to
 ## Textbook
 
 Our course textbook is free and online here: <https://au-bce-ee.github.io/modeling-py-book/>.
-If you are interested in the source code for the book, it is here: <https://github.com/AU-BCE-EE/modeling-py-book>.
 
 ## Course and class organization
 
