@@ -5,8 +5,9 @@ execute:
 ---
 
 *Modelling 2026* class schedule.
-Links appear below as material is released -- slides and exercises are
-generally posted before class, solutions after.
+Links appear below as material is released -- slides and exercises are generally posted before class, solutions after.
+The reading in the "Preparation" column should be completed before class.
+The textbook is [here](https://au-bce-ee.github.io/course-modelling-2026/).
 
 ```{python}
 #| echo: false
