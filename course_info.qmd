@@ -1,0 +1,41 @@
+---
+title: "Course Info"
+---
+
+## Instructors
+
+|                    | GitHub user name | Contact information                  |
+|--------------------|-------------------|--------------------------------------|
+| Frederik R. Dalby  | fdalby            | <https://au.dk/fd@bce.au.dk>              |
+| Sasha D. Hafner    | sashahafner       | <https://au.dk/sasha.hafner@bce.au.dk>    |
+
+## Official course description
+
+See the [course catalog entry](https://kursuskatalog.au.dk/en/course/141579/Modellering).
+
+## Brightspace
+
+The course [Brightspace page](https://brightspace.au.dk/d2l/le/lessons/219354/topics/2823471) is used for announcements and assignment submission.
+
+## Textbook
+
+Our course textbook is free and online here: <https://au-bce-ee.github.io/modeling-py-book/>.
+If you are interested in the source code for the book, it is here: <https://github.com/AU-BCE-EE/modeling-py-book>.
+
+## Course and class organization
+
+We will meet twice a week.
+You should be sure to always bring a laptop with Python 3 and VS Code or your preferred script editor installed to class.
+But also bring a notebook (paper!) and a pen or pencil to each class.
+
+Slides and exercises are generally posted on the [schedule](index.qmd) before class starts, and solutions are posted after class.
+
+## AI tools
+
+ChatGPT and other generative artificial intelligence tools can be extremely good at writing Python code and much more besides.
+We don't know what the future of education or work in science and engineering will look like in the coming years or decades, and AI will almost certainly change both.
+But for now, we and society still expect students to learn knowledge and skills beyond asking a chatbot questions.
+So please do not use AI for completing assignments!
+We will discuss AI more in class, and look at some ways you could use it that we might support.
+Also remember that AU has an AI policy here: <https://medarbejdere.au.dk/en/gai>.
+And lastly, remember that you cannot use AI on the exam for this course.

@@ -1,0 +1,63 @@
+---
+title: "Schedule"
+---
+
+Links appear below as material is released -- slides and exercises are
+generally posted before class, solutions after.
+
+```{python}
+#| echo: false
+import csv
+from datetime import datetime
+from pathlib import Path
+from IPython.display import HTML, display
+
+root = Path(".")
+
+def material_links(class_num, subdir):
+    folder = next(root.glob(f"classes/{int(class_num):02d}-*/{subdir}"), None)
+    if folder is None:
+        return ""
+    links = []
+    for item in sorted(folder.iterdir()):
+        if item.suffix in (".qmd", ".md"):
+            href = item.with_suffix(".html")
+            links.append(f'<a href="{href.as_posix()}">{item.stem}</a>')
+        elif item.suffix in (".pptx", ".pdf"):
+            links.append(f'<a href="{item.as_posix()}">{item.stem}</a>')
+    return ", ".join(links)
+
+rows_html = []
+with open("schedule.csv", newline="", encoding="utf-8-sig") as f:
+    for row in csv.DictReader(f):
+        class_num = row["Class"].strip()
+        topic = row["Topic"].strip()
+        day = row["Day"].strip()
+
+        try:
+            date = datetime.strptime(row["Date"].strip(), "%d-%m-%Y").strftime("%d %b %Y")
+        except ValueError:
+            date = row["Date"].strip()
+
+        if class_num.isdigit():
+            slides = material_links(class_num, "slides")
+            exercises = material_links(class_num, "exercises")
+            solutions = material_links(class_num, "solutions")
+        else:
+            slides = exercises = solutions = ""
+
+        rows_html.append(
+            "<tr>"
+            f"<td>{class_num}</td><td>{date}</td><td>{day}</td><td>{topic}</td>"
+            f"<td>{slides}</td><td>{exercises}</td><td>{solutions}</td>"
+            "</tr>"
+        )
+
+table_html = (
+    "<table class='table table-striped'><thead><tr>"
+    "<th>Class</th><th>Date</th><th>Day</th><th>Topic</th>"
+    "<th>Slides</th><th>Exercises</th><th>Solutions</th>"
+    "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table>"
+)
+display(HTML(table_html))
+```

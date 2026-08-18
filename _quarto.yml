@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Modelling 2026"
+  navbar:
+    title: false
+    left:
+      - href: course_info.qmd
+        text: "Modelling 2026"
+      - href: index.qmd
+        text: Schedule
+      - text: Textbook
+        href: https://au-bce-ee.github.io/modeling-py-book/
+    right:
+      - icon: github
+        href: https://github.com/AU-BCE-EE/course-modelling-2026
+        aria-label: GitHub repo
+
+format:
+  html:
+    theme: cosmo
+    include-in-header:
+      - _mathjax-macros.html
+
+execute:
+  freeze: auto
