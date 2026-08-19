@@ -12,7 +12,7 @@ See the [Schedule tab](index.qmd) for links to class materials.
 | Frederik R. Dalby  | fdalby            | <https://au.dk/fd@bce.au.dk>              |
 | Sasha D. Hafner    | sashahafner       | <https://au.dk/sasha.hafner@bce.au.dk>    |
 | Anne               | AnneMortensen     | <anm@bce.au.dk>         |
-| Peter              | PetervNes         | <au811709@bce.au.dk>    |
+| Peter van Nes      | PetervNes         | <au811709@bce.au.dk>    |
 
 ## Official course description
 
