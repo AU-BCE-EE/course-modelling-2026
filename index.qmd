@@ -7,16 +7,40 @@ execute:
 *Modelling 2026* class schedule.
 Links appear below as material is released -- slides and exercises are generally posted before class, solutions after.
 The reading in the "Preparation" column should be completed before class.
-The textbook is [here](https://au-bce-ee.github.io/course-modelling-2026/).
+The textbook is [here](https://au-bce-ee.github.io/modeling-py-book/).
 
 ```{python}
 #| echo: false
 import csv
+import re
 from datetime import datetime
 from pathlib import Path
 from IPython.display import HTML, display
 
 root = Path(".")
+
+ZOOM_URL = "https://aarhusuniversity.zoom.us/j/61345517558"
+
+BOOK_URL = "https://au-bce-ee.github.io/modeling-py-book/"
+BOOK_CHAPTERS = {
+    1: "01_intro",
+    2: "02_components_formulation",
+    3: "03_solving",
+    4: "04_heat_transfer",
+    5: "05_mass_transfer",
+    6: "06_reactions_microbiology",
+    7: "07_spatial_models",
+    8: "08_verification_validation",
+    9: "09_parameter_estimation",
+    10: "10_time_variable_inputs",
+}
+
+def link_prep(prep):
+    m = re.fullmatch(r"Chapter (\d+)", prep)
+    if not m or int(m.group(1)) not in BOOK_CHAPTERS:
+        return prep
+    slug = BOOK_CHAPTERS[int(m.group(1))]
+    return f'<a href="{BOOK_URL}{slug}.html">{prep}</a>'
 
 def material_links(class_num, subdir):
     folder = next(root.glob(f"classes/{int(class_num):02d}-*/{subdir}"), None)
@@ -53,6 +77,11 @@ with open("schedule.csv", newline="", encoding="utf-8-sig") as f:
             solutions = material_links(class_num, "solutions")
         else:
             slides = exercises = solutions = ""
+
+        if location == "Online":
+            location = f'<a href="{ZOOM_URL}">Online</a>'
+
+        prep = link_prep(prep)
 
         rows_html.append(
             "<tr>"
