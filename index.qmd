@@ -39,6 +39,8 @@ with open("schedule.csv", newline="", encoding="utf-8-sig") as f:
         location = row["Location"].strip()
         prep = row["Prep"].strip()
         day = row["Day"].strip()
+        teacher = row["Teacher"].strip()
+        location = row["Location"].strip()
 
         try:
             date = datetime.strptime(row["Date"].strip(), "%d-%m-%Y").strftime("%d %b %Y")
@@ -54,14 +56,14 @@ with open("schedule.csv", newline="", encoding="utf-8-sig") as f:
 
         rows_html.append(
             "<tr>"
-            f"<td>{class_num}</td><td>{date}</td><td>{topic}</td><td>{prep}</td>"
+            f"<td>{class_num}</td><td>{date}</td><td>{location}</td><td>{topic}</td><td>{teacher}</td><td>{prep}</td>"
             f"<td>{slides}</td><td>{exercises}</td><td>{solutions}</td>"
             "</tr>"
         )
 
 table_html = (
     "<table class='table table-striped'><thead><tr>"
-    "<th>Class</th><th>Date</th><th>Topic</th><th>Preparation</th>"
+    "<th>Class</th><th>Date</th><th>Location</th><th>Topic</th><th>Teacher</th><th>Preparation</th>"
     "<th>Slides</th><th>Exercises</th><th>Solutions</th>"
     "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table>"
 )
