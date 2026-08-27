@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Schedule – Modelling 2026</title>
+<title>solutions – Modelling 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,23 +29,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -145,10 +145,36 @@ MathJax = {
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -165,11 +191,11 @@ MathJax = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./course_info.html"> 
+    <a class="nav-link" href="../../../course_info.html"> 
 <span class="menu-text">Modelling 2026</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
   <li class="nav-item">
@@ -196,379 +222,93 @@ MathJax = {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Schedule</h1>
+
+
+
+<p>Problem 1</p>
+<p>Our conceptual model for the gasoline spillage.</p>
+<div id="fig-gasoline" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Sketch of gasoline spillage">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gasoline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../../drawings/gasoline.png" class="img-fluid figure-img" alt="Sketch of gasoline spillage">
 </div>
-
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p><em>Modelling 2026</em> class schedule. Links appear below as material is released – slides and exercises are generally posted before class, solutions after. The reading in the “Preparation” column should be completed before class. The textbook is <a href="https://au-bce-ee.github.io/modeling-py-book/">here</a>.</p>
-<div id="e8e09e06" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display">
-<table class="table table-striped caption-top table-sm small">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">Class</th>
-<th data-quarto-table-cell-role="th">Date</th>
-<th data-quarto-table-cell-role="th">Location</th>
-<th data-quarto-table-cell-role="th">Topic</th>
-<th data-quarto-table-cell-role="th">Teacher</th>
-<th data-quarto-table-cell-role="th">Preparation</th>
-<th data-quarto-table-cell-role="th">Slides</th>
-<th data-quarto-table-cell-role="th">Exercises</th>
-<th data-quarto-table-cell-role="th">Solutions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>24 Aug 2026</td>
-<td>5250-235 HA 2</td>
-<td>Course intro &amp; intro to modelling</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/01_intro.html">Chapter 1</a></td>
-<td><a href="classes/01-24-aug-intro/slides/course-intro.pptx">course-intro</a>, <a href="classes/01-24-aug-intro/slides/model-classification.pptx">model-classification</a></td>
-<td><a href="classes/01-24-aug-intro/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/01-24-aug-intro/solutions/solutions.html">solutions</a></td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>27 Aug 2026</td>
-<td>5250-235 HA 2</td>
-<td>Model formulation</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/02_components_formulation.html">Chapter 2</a></td>
-<td><a href="classes/02-27-aug-model-formulation/slides/model-formulation.pptx">model-formulation</a></td>
-<td><a href="classes/02-27-aug-model-formulation/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/02-27-aug-model-formulation/solutions/solutions.html">solutions</a></td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>31 Aug 2026</td>
-<td>5250-235 HA 2</td>
-<td>Solving and implementing</td>
-<td>Frederik</td>
-<td>Chapter 3 and https://youtu.be/hWMa6LdN0Io</td>
-<td><a href="classes/03-31-aug-solving-implementing/slides/solving-implementing.pptx">solving-implementing</a></td>
-<td><a href="classes/03-31-aug-solving-implementing/exercises/exercises.html">exercises</a></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>03 Sep 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Heat transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/04_heat_transfer.html">Chapter 4</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>07 Sep 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Heat transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/04_heat_transfer.html">Chapter 4</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>10 Sep 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Mass transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/05_mass_transfer.html">Chapter 5</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>14 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mass transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/05_mass_transfer.html">Chapter 5</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>17 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Chemical reactions &amp; microbiology</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/06_reactions_microbiology.html">Chapter 6</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>21 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 1</td>
-<td>Sasha</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>24 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 1</td>
-<td>Sasha (EmiLi)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>28 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 1</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>01 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models, PDEs, control volume, nodes</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>05 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models, boundary conditions</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>14</td>
-<td>08 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Break</td>
-<td>12 Oct 2026</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Break</td>
-<td>15 Oct 2026</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>15</td>
-<td>19 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>16</td>
-<td>22 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>17</td>
-<td>26 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>18</td>
-<td>29 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>19</td>
-<td>02 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Verification</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/08_verification_validation.html">Chapter 8</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>20</td>
-<td>05 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Validation</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/08_verification_validation.html">Chapter 8</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>21</td>
-<td>09 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Parameter estimation</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/09_parameter_estimation.html">Chapter 9</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>22</td>
-<td>12 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Time-variable inputs</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/10_time_variable_inputs.html">Chapter 10</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>23</td>
-<td>16 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 2</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>24</td>
-<td>19 Nov 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Mini-project 2</td>
-<td>Sasha</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>25</td>
-<td>23 Nov 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Mini-project 2</td>
-<td>Sasha</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>26</td>
-<td>26 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Buffer</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>27</td>
-<td>30 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Exam project</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>28</td>
-<td>03 Dec 2026</td>
-<td>5250-235 HA 2</td>
-<td>Exam project</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gasoline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Conceptual model of the gasoline spillage
+</figcaption>
+</figure>
 </div>
+<p>The general mass balance for any system is:</p>
+<p><span class="math inline">\(Accumulation = in - out + generated - consumed\)</span></p>
+<p>There is no generation or consumption, there is nothing going into the gasoline puddle, but there is evaporation, which would be the “out” term. We have to consider the state variable. We will assume that the gasoline puddle is made of 100% gasoline, so the mass of the puddle is our state variable.</p>
+<p><span class="math inline">\(Accumulation = -out\)</span></p>
+<p>Evaporation can only happen from the surface of the puddle. If the puddle is very flat and keeps the same height, but only shrink in diameter as it evaporates, we can assume the surface is proportional to the mass of the puddle. So the evaporation rate would be a proportionality constant multiplied with the mass of the puddle.</p>
+<p><span class="math inline">\(out = k \cdot M\)</span></p>
+<p><span class="math inline">\(\frac{dM}{dt} = -k \cdot M\)</span></p>
+<p>Problem 2</p>
+<p>Conceptual model of saltwater tank</p>
+<div id="fig-saltwater" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Sketch of tank with saltwater">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-saltwater-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../../drawings/saltwater.png" class="img-fluid figure-img" alt="Sketch of tank with saltwater">
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-saltwater-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Conceptual model of saltwater tank
+</figcaption>
+</figure>
+</div>
+<p>The general mass balance for any system is:</p>
+<p><span class="math inline">\(Accumulation = in - out + generated - consumed\)</span></p>
+<p>In terms of mass of salt: There is no generation or consumption of salt so:</p>
+<p><span class="math inline">\(\frac{dM}{dt} = F_{in} \cdot C_{in} - F_{out} \cdot C\)</span></p>
+<p>Rather than mass of salt we want concentration of salt as state variable, we use a linking equation for this since we know that:</p>
+<p><span class="math inline">\(\frac{dM}{dt} = V \cdot \frac{dC}{dt}\)</span></p>
+<p><span class="math inline">\(V \cdot \frac{dC}{dt} = F_{in} \cdot C_{in} - F_{out} \cdot C\)</span></p>
+<p>Finally:</p>
+<p><span class="math inline">\(\frac{dC}{dt} = \frac{(F_{in} \cdot C_{in} - F_{out} \cdot C)}{V}\)</span></p>
+<p>We need to know the flow rate of water in (assuming it is the same rate out), the volume of water in the reactor, and the concentration of salt in the inlet water. Finally to actually solve the problem we need the initial condition for salt concentration in the water in the tank to start with. We cannot see this directly from the differential equation, but it would be the constant that appears from integrating the ODE.</p>
+<p>Problem 3</p>
+<p>The conceptual model of the slurry cooling:</p>
+<div id="fig-slurry-cool" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Sketch of slurry cooling in pig barn">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-slurry-cool-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../../drawings/slurry_cool.png" class="img-fluid figure-img" alt="Sketch of slurry cooling in pig barn">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-slurry-cool-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Conceptual model slurry cooling in a pig barn
+</figcaption>
+</figure>
+</div>
+<p>The general energy balance for any system is:</p>
+<p><span class="math inline">\(Accumulation = in - out + generated - consumed\)</span></p>
+<p>The state variable we want is temperature of the slurry in the pit.</p>
+<p>There is no generation or consumption of energy, and we will ignore heat from the pigs and any excreted slurry to keep things simple. But there will be heat loss due to the cooling technology. This will be the “out” term. Cooling is lost from below the slurry, with some defined surface area, A (but this was hard to know, when you are not an expert in climate technologies for pig barns..).</p>
+<p><span class="math inline">\(out = A \cdot h \cdot (T_{slurry} - T_{floor})\)</span></p>
+<p><span class="math inline">\(\frac{dQ}{dt} = - A \cdot h \cdot (T_{slurry} - T_{floor})\)</span></p>
+<p>Then convert <span class="math inline">\(\frac{dQ}{dt}\)</span> to <span class="math inline">\(\frac{dT}{dt}\)</span> using the heat capacity of the slurry in the pit, <span class="math inline">\(C_p\)</span>, and the mass of slurry in the pit, <span class="math inline">\(M_{slurry}\)</span></p>
+<p><span class="math inline">\(Q = M_{slurry} \cdot C_p \cdot T_{slurry}\)</span></p>
+<p>differentiation gets us to</p>
+<p><span class="math inline">\(\frac{dQ}{dt} = M_{slurry} \cdot C_p \cdot \frac{dT}{dt}\)</span></p>
+<p><span class="math inline">\(M_{slurry} \cdot C_p \cdot \frac{dT}{dt} = - A \cdot h \cdot (T_{slurry} - T_{floor})\)</span></p>
+<p>This is all good if we had no heat input from excreted slurry. But we do, which makes it slightly more complicated.</p>
+<p><span class="math inline">\(In = Q_{in} = M_{in} \cdot C_p \cdot T_{in}\)</span></p>
+<p>But we get in trouble because with flow of slurry into the pit, <span class="math inline">\(M_{slurry}\)</span> will change over time. Then we need another equation to describe the change in <span class="math inline">\(M_{slurry}\)</span>.</p>
+<p><span class="math inline">\(\frac{dM}{dt} = M_{in}\)</span></p>
+<p>and we cannot do this anymore:</p>
+<p><span class="math inline">\(\frac{dQ}{dt} = M_{slurry} \cdot C_p \cdot \frac{dT}{dt}\)</span></p>
+<p>because <span class="math inline">\(M_{slurry}\)</span> is changing over time (not a constant). With the product rule of differentiation:</p>
+<p><span class="math inline">\(\frac{dQ}{dt} = M_{slurry} \cdot C_p \cdot \frac{dT}{dt} + \frac{dM}{dt} \cdot C_p \cdot T_{slurry}\)</span></p>
+<p>So putting together we have:</p>
+<p><span class="math inline">\(M_{slurry} \cdot C_p \cdot \frac{dT}{dt} + \frac{dM}{dt} \cdot C_p \cdot T_{slurry} = in - out\)</span></p>
+<p><span class="math inline">\(M_{slurry} \cdot C_p \cdot \frac{dT}{dt} + \frac{dM}{dt} \cdot C_p \cdot T_{slurry} = M_{in} \cdot C_p \cdot T_{in} - A \cdot h \cdot (T_{slurry} - T_{floor})\)</span></p>
+<p>Then isolating <span class="math inline">\(\frac{dT}{dt}\)</span> and putting substituting <span class="math inline">\(\frac{dM}{dt}\)</span> with <span class="math inline">\(M_{in}\)</span></p>
+<p><span class="math inline">\(M_{slurry} \cdot C_p \cdot \frac{dT}{dt} = M_{in} \cdot C_p \cdot T_{in} - A \cdot h \cdot (T_{slurry} - T_{floor}) - M_{in} \cdot C_p \cdot T_{slurry}\)</span></p>
+<p><span class="math inline">\(\frac{dT}{dt} = \frac{M_{in}}{M_{slurry}} \cdot T_{in} - \frac{A \cdot h \cdot (T_{slurry} - T_{floor})}{M_{slurry} \cdot C_p} - \frac{M_{in}}{M_{slurry}} \cdot T_{slurry}\)</span></p>
+<p>Collecting terms.</p>
+<p><span class="math inline">\(\frac{dT}{dt} = \frac{M_{in}}{M_{slurry}} \cdot (T_{in}-T_{slurry}) - A \cdot h \cdot \frac{T_{slurry} - T_{floor}}{(M_{slurry} \cdot C_p)}\)</span></p>
+<p>and remember that we need to track <span class="math inline">\(M_{slurry}\)</span> over time, so we also need the equation for the governing equation for that one.</p>
+<p><span class="math inline">\(\frac{dM}{dt} = M_{in}\)</span></p>
 
 
 
