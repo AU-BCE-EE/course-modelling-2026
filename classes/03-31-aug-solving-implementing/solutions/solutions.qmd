@@ -1,0 +1,412 @@
+---
+title: "solutions"
+format: html
+editor: visual
+---
+
+Evaporation problem model functions file
+
+```{python}
+"""
+File: evap_mods
+Authors: Frederik R. Dalby and Sasha D. Hafner
+Course: Modelling 2026
+
+Description:
+    A module with a two function (analytical and numerical)
+    models for evaporation of gasoline.
+"""
+import numpy as np
+from scipy.integrate import solve_ivp
+
+def evap(k, M_init, time_range, dt):
+
+    """
+    Simulate evaporation of gasoline from puddle with an analytical model.
+    
+        Parameters
+        ----------
+        k: float
+            mass transfer coefficient (1/sec)
+        M_init : float
+            Initial mass of gasoline spilled (g)
+        time_range: tupple
+            tupple with start and end simulation times (sec)
+        dt: float
+            time step in solution (sec)
+        
+        Returns
+        -------
+        dict with keys 'times' (s) and 'M' (g)
+    """
+    
+    times = np.arange(time_range[0], time_range[-1] + dt, dt)
+    M = M_init * np.exp(- k * times)
+
+    return{
+          'times': times,
+          'M': M,
+       }
+
+
+
+def evap_num(k, M_init, time_range, dt):
+
+    """
+    Simulate evaporation of gasoline from puddle with a numerical model.
+    
+        Parameters
+        ----------
+        k: float
+            mass transfer coefficient (1/sec)
+        M_init : float
+            Initial mass of gasoline spilled (g)
+        time_range: tupple
+            tupple with start and end simulation times (sec)
+        dt: float
+            time step in solution (sec)
+        
+        Returns
+        -------
+        dict with keys 'times' (s) and 'M' (g)
+    """
+    
+    times = np.arange(time_range[0], time_range[-1] + dt, dt)
+
+    def rates(t, M):
+        return - k * M
+
+    res = solve_ivp(rates,
+                    t_span = [time_range[0], time_range[-1]],
+                    y0 = [M_init],
+                    t_eval = times)
+    
+    return{
+          'times': res.t,
+          'M': res.y[0,:],
+       }
+```
+
+Evaporation problem call model function file
+
+```{python}
+"""
+File: evap_pred.py
+Authors: Frederik R. Dalby and Sasha D. Hafner
+Course: Modelling 2026
+
+Description:
+    Application of the `evap()` and `evap_num()` model functions.
+"""
+import matplotlib.pyplot as plt
+import evap_mods as ev
+
+preds = ev.evap(
+    k=0.01, 
+    M_init=500, 
+    time_range=(0., 60 * 60), 
+    dt = 60
+)
+
+print(preds)
+
+plt.plot(preds['times'], preds['M'], label = "analytical")
+plt.ylabel('Mass, g')
+plt.xlabel('Time, sec')
+plt.legend()
+plt.show()
+
+preds_num = ev.evap_num(
+    k=0.01, 
+    M_init=500, 
+    time_range=(0., 60 * 60), 
+    dt = 60
+)
+
+print(preds_num)
+
+plt.plot(preds_num['times'], preds_num['M'], label = "numerical")
+plt.ylabel('Mass, g')
+plt.xlabel('Time, sec')
+plt.legend()
+plt.show()
+```
+
+Salt problem model functions file
+
+```{python}
+"""
+File: salt_mods
+Authors: Frederik R. Dalby and Sasha D. Hafner
+Course: Modelling 2026
+
+Description:
+    A module with a two function (analytical and numerical)
+    models for salt concentration in tank.
+"""
+import numpy as np
+from scipy.integrate import solve_ivp
+
+def salt(F_in, V, C_init, C_inlet, time_range, dt):
+
+    """
+    Simulate salt concentration in a CSTR with an analytical model.
+    
+        Parameters
+        ----------
+        F_in: float
+            Volume flow into the tank (m3/sec)
+        V: float
+            Volume of salt water
+        C_init: float
+            Initial concnetration of salt (kg/m3)
+        C_inlet: float
+            Concentration of salt in inlet flow (kg/m3)
+        time_range: tupple
+            tupple with start and end simulation times (sec)
+        dt: float
+            time step in solution (sec)
+        
+        Returns
+        -------
+        dict with keys 'times' (s) and 'C' (kg/m3)
+    """
+    
+    times = np.arange(time_range[0], time_range[-1] + dt, dt)
+    F = F_in
+    K = F/V
+
+    # derivation of analytical model using calculus 
+    # dC/dt = K * C_inlet - K * C
+    # gather C's
+    # dC/dt = K * (C_inlet - C)
+    # separate vars
+    # dC/(C_inlet - C) = K *dt
+    # integrate
+    # -ln(C_inlet - C) = K*t + C1
+    # multiply by -1 to get clean ln on LHS
+    # ln(C_inlet - C) = -K*t - C1
+    # exp on both sides
+    # C_inlet - C = exp(-K*t - C1) = exp(-C1) * exp(-K*t)
+    # sub exp(-C1) with C2
+    # C_inlet - C = C2 * exp(-K*t)
+    # isolate C
+    # -C = C2 * exp(-K*t) - C_inlet
+    # C = -C2 * exp(-K*t) + C_inlet
+    # set t = 0, then C0 = -C2 + C_inlet --> -C2 = C0 - C_inlet --> C2 = C_inlet - C0
+
+    C2 = C_inlet - C_init
+    # now write analytical solution
+    C = -C2 * np.exp(-K * times) + C_inlet
+
+    return{
+          'times': times,
+          'C': C,
+       }
+
+
+def salt_num(F_in, V, C_init, C_inlet, time_range, dt):
+
+    """
+    Simulate salt concentration in a CSTR with a numerical model.
+    
+        Parameters
+        ----------
+        F_in: float
+            Volume flow into the tank (m3/sec)
+        V: float
+            Volume of salt water
+        C_init: float
+            Initial concnetration of salt (kg/m3)
+        C_inlet: float
+            Concentration of salt in inlet flow (kg/m3)
+        time_range: tupple
+            tupple with start and end simulation times (sec)
+        dt: float
+            time step in solution (sec)
+        
+        Returns
+        -------
+        dict with keys 'times' (s) and 'C' (kg/m3)
+    """
+    
+    times = np.arange(time_range[0], time_range[-1] + dt, dt)
+    F_out = F_in
+
+    def rates(t, C):
+        return (F_in * C_inlet - F_out * C)/V
+
+    res = solve_ivp(rates,
+                t_span = [time_range[0], time_range[-1]],
+                y0 = [C_init],
+                t_eval = times)
+
+    return{
+          'times': res.t,
+          'C': res.y[0,:],
+       }
+```
+
+Salt problem call model functions file
+
+```{python}
+"""
+File: salt_pred.py
+Authors: Frederik R. Dalby and Sasha D. Hafner
+Course: Modelling 2026
+
+Description:
+    Application of the `salt()` and `salt_num()` model functions.
+"""
+import matplotlib.pyplot as plt
+import sys
+sys.path.append('modules')
+import salt_mods as cstr
+
+preds = cstr.salt(
+    F_in =0.05, 
+    V = 5, 
+    C_init = 4,
+    C_inlet = 0.5, 
+    time_range=(0., 60 * 60), 
+    dt = 60
+)
+
+print(preds)
+
+plt.plot(preds['times'], preds['C'], label = "analytical")
+plt.ylabel('C, kg/m3')
+plt.xlabel('Time, sec')
+plt.legend()
+plt.show()
+
+
+preds_num = cstr.salt_num(
+    F_in =0.05, 
+    V = 5, 
+    C_init = 4,
+    C_inlet = 0.5, 
+    time_range=(0., 60 * 60), 
+    dt = 60
+)
+
+print(preds_num)
+
+plt.plot(preds_num['times'], preds_num['C'], label = "numerical")
+plt.ylabel('C, kg/m3')
+plt.xlabel('Time, sec')
+plt.legend()
+plt.show()
+```
+
+Slurry cooling model functions file
+
+```{python}
+"""
+File: slurry_cooling_mods
+Authors: Frederik R. Dalby and Sasha D. Hafner 
+Course: Modelling 2026
+
+Description:
+    A module with a numerical model for slurry cooling
+"""
+import numpy as np
+from scipy.integrate import solve_ivp
+
+def slur_cool(M_in, T_in, M_init, T_init, A, h, Cp, T_floor, time_range, dt):
+
+    """
+    Simulate temperature of slurry in pit that is being cooled from below.
+    
+        Parameters
+        ----------
+        M_in: float
+            Mass flow rate of manure into the pit (kg/sec)
+        T_in: float
+            Temperature of ingoing manure (deg C)
+        M_init: float
+            Initial mass of slurry in the pit (kg)
+        T_init: float
+            Initial temperature of slurry in the pit (degC)
+        A: float
+            Area of pit bottom (m2)
+        h: float
+            heat transfer coefficient (W/(m2 * degC))
+        Cp: float
+            heat capacity of slurry (J/(kg * degC))
+        T_floor: float
+            Temperature of pit floor (degC)
+        time_range: tupple
+            tupple with start and end simulation times (sec)
+        dt: float
+            time step in solution (sec)
+        
+        Returns
+        -------
+        dict with keys 'times' (s), 'M' (kg), 'T' (degC)
+    """
+    
+    times = np.arange(time_range[0], time_range[-1] + dt, dt)
+    
+    def rates(t, y):
+        M = y[0]
+        T = y[1]
+        dTdt = M_in/M * (T_in - T) - A * h * (T - T_floor)/(M * Cp)
+        dMdt = M_in 
+        return np.array([dMdt, dTdt])
+
+    res = solve_ivp(rates,
+                t_span = [time_range[0], time_range[-1]],
+                y0 = [M_init, T_init],
+                t_eval = times)
+
+    return{
+          'times': res.t,
+          'M': res.y[0,:],
+          'T': res.y[1,:]
+       }
+```
+
+Slurry cooling problem call model functions file
+
+```{python}
+"""
+File: slurry_cooling_pred.py
+Authors: Frederik R. Dalby and Sasha D. Hafner
+Course: Modelling 2026
+
+Description:
+    Application of the `salt()` and `salt_num()` model functions.
+"""
+import matplotlib.pyplot as plt
+import sys
+sys.path.append('modules')
+import slurry_cooling_mods as sc
+
+preds = sc.slur_cool(
+    M_in = 500 * 6/(60*60*24), 
+    T_in = 37,
+    M_init = 40000, 
+    T_init = 20, 
+    A = 200,
+    h = 10,
+    Cp = 4200,
+    T_floor = 12,
+    time_range=(0., 60 * 60 * 24 * 7), # 7 days sim.
+    dt = 60 * 60
+)
+
+print(preds)
+
+plt.plot(preds['times']/60/60/24, preds['T'], label = "numerical")
+plt.ylabel('Temp, degC')
+plt.xlabel('Time, days')
+plt.legend()
+plt.show()
+
+plt.plot(preds['times']/60/60/24, preds['M'], label = "numerical")
+plt.ylabel('Slurry mass, kg')
+plt.xlabel('Time, days')
+plt.legend()
+plt.show()
+```
