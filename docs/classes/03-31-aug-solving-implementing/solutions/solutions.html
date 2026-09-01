@@ -2,23 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>solutions – Modelling 2026</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -73,14 +67,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../../../">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-95229807032217d73f7f766adb5e0d58.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,77 +104,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <script>
-
 MathJax = {
-
   loader: {load: ['[tex]/mhchem']},
-
   tex: {
-
     packages: {'[+]': ['mhchem']},
-
     macros: {
-
       degC: "{^\\circ\\mathrm{C}}",
-
       degCpm: "{^\\circ\\mathrm{C}~m^{-1}}",
-
       Wpms: "{\\mathrm{W~m^{-2}}}",
-
       WpmspK: "{\\mathrm{W~m^{-2}~K^{-1}}}",
-
       WpmpK: "{\\mathrm{W~m^{-1}~K^{-1}}}",
-
       Jps: "{\\mathrm{J~s^{-1}}}",
-
       Jpg: "{\\mathrm{J~g^{-1}}}",
-
       kgps: "{\\mathrm{kg~s^{-1}}}",
-
       kgpmc: "{\\mathrm{kg~m^{-3}}}",
-
       kgpmcps: "{\\mathrm{kg~m^{-3}~s^{-1}}}",
-
       kgpspms: "{\\mathrm{kg~s^{-1}~m^{-2}}}",
-
       gps: "{\\mathrm{g~s^{-1}}}",
-
       gpmc: "{\\mathrm{g~m^{-3}}}",
-
       gpmcps: "{\\mathrm{g~m^{-3}~s^{-1}}}",
-
       mgpl: "{\\mathrm{mg~L^{-1}}}",
-
       gpmol: "{\\mathrm{g~mol^{-1}}}",
-
       msq: "{\\mathrm{m^{2}}}",
-
       mps: "{\\mathrm{m~s^{-1}}}",
-
       msqps: "{\\mathrm{m^{2}~s^{-1}}}",
-
       kJpkg: "{\\mathrm{kJ~kg^{-1}}}",
-
       kJpkgpK: "{\\mathrm{kJ~kg^{-1}~K^{-1}}}",
-
       molps: "{\\mathrm{mol~s^{-1}}}",
-
       molpmcps: "{\\mathrm{mol~m^{-3}~s^{-1}}}",
-
       pers: "{\\mathrm{s^{-1}}}",
-
       mcbps: "{\\mathrm{m^{3}~s^{-1}}}",
-
       mcb: "{\\mathrm{m^{3}}}"
-
     }
-
   }
-
 };
-
 </script>
-
 
 
 </head>
@@ -190,6 +149,10 @@ MathJax = {
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -250,7 +213,7 @@ MathJax = {
 
 
 <p>Evaporation problem model functions file</p>
-<div id="d4b1cf48" class="cell" data-execution_count="1">
+<div id="5f9c5a57" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">File: evap_mods</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">Authors: Frederik R. Dalby and Sasha D. Hafner</span></span>
@@ -331,7 +294,7 @@ MathJax = {
 <span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>       }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Evaporation problem call model function file</p>
-<div id="24b22ab1" class="cell" data-execution_count="2">
+<div id="49d01326" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">File: evap_pred.py</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">Authors: Frederik R. Dalby and Sasha D. Hafner</span></span>
@@ -436,7 +399,7 @@ MathJax = {
 </div>
 </div>
 <p>Salt problem model functions file</p>
-<div id="f79a7017" class="cell" data-execution_count="3">
+<div id="5959154e" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">File: salt_mods</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">Authors: Frederik R. Dalby and Sasha D. Hafner</span></span>
@@ -549,7 +512,7 @@ MathJax = {
 <span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>       }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Salt problem call model functions file</p>
-<div id="a98f8eca" class="cell" data-execution_count="4">
+<div id="d786466c" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">File: salt_pred.py</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">Authors: Frederik R. Dalby and Sasha D. Hafner</span></span>
@@ -655,7 +618,7 @@ MathJax = {
 </div>
 </div>
 <p>Slurry cooling model functions file</p>
-<div id="426dd2b5" class="cell" data-execution_count="5">
+<div id="725f1209" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">File: slurry_cooling_mods</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">Authors: Frederik R. Dalby and Sasha D. Hafner </span></span>
@@ -721,7 +684,7 @@ MathJax = {
 <span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>       }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Slurry cooling problem call model functions file</p>
-<div id="2552335f" class="cell" data-execution_count="6">
+<div id="a8d21749" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">File: slurry_cooling_pred.py</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">Authors: Frederik R. Dalby and Sasha D. Hafner</span></span>
