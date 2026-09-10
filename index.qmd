@@ -73,6 +73,7 @@ with open("schedule.csv", newline="", encoding="utf-8-sig") as f:
         topic = linkify(row["Topic"].strip())
         location = row["Location"].strip()
         prep = row["Prep"].strip()
+        solutions_video = linkify(row["Solutions video"].strip())
         day = row["Day"].strip()
         teacher = row["Teacher"].strip()
         location = row["Location"].strip()
@@ -88,6 +89,8 @@ with open("schedule.csv", newline="", encoding="utf-8-sig") as f:
             solutions = material_links(class_num, "solutions")
         else:
             slides = exercises = solutions = ""
+
+        solutions = ", ".join(link for link in (solutions, solutions_video) if link)
 
         if location == "Online":
             location = f'<a href="{ZOOM_URL}">Online</a>'
