@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Schedule – Modelling 2026</title>
+<title>salt_sol2 – Modelling 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,26 +23,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-10fd48598b97136444802eb836e05e93.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-10fd48598b97136444802eb836e05e93.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -106,9 +141,6 @@ MathJax = {
   }
 };
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -126,11 +158,11 @@ MathJax = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./course_info.html"> 
+    <a class="nav-link" href="../../../course_info.html"> 
 <span class="menu-text">Modelling 2026</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
   <li class="nav-item">
@@ -161,7 +193,7 @@ MathJax = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Schedule</h1>
+<h1 class="title">Salt solution - implementation</h1>
 </div>
 
 
@@ -178,356 +210,65 @@ MathJax = {
 </header>
 
 
-<p><em>Modelling 2026</em> class schedule. Links appear below as material is released – slides and exercises are generally posted before class, solutions after. The reading in the “Preparation” column should be completed before class. The textbook is <a href="https://au-bce-ee.github.io/modeling-py-book/">here</a>.</p>
-<div id="a757d0c4" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display">
-<table class="table table-striped caption-top table-sm small">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">Class</th>
-<th data-quarto-table-cell-role="th">Date</th>
-<th data-quarto-table-cell-role="th">Location</th>
-<th data-quarto-table-cell-role="th">Topic</th>
-<th data-quarto-table-cell-role="th">Teacher</th>
-<th data-quarto-table-cell-role="th">Preparation</th>
-<th data-quarto-table-cell-role="th">Slides</th>
-<th data-quarto-table-cell-role="th">Exercises</th>
-<th data-quarto-table-cell-role="th">Solutions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>24 Aug 2026</td>
-<td>5250-235 HA 2</td>
-<td>Course intro &amp; intro to modelling</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/01_intro.html">Chapter 1</a></td>
-<td><a href="classes/01-24-aug-intro/slides/course-intro.pptx">course-intro</a>, <a href="classes/01-24-aug-intro/slides/model-classification.pptx">model-classification</a></td>
-<td><a href="classes/01-24-aug-intro/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/01-24-aug-intro/solutions/solutions.html">solutions</a></td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>27 Aug 2026</td>
-<td>5250-235 HA 2</td>
-<td>Model formulation</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/02_components_formulation.html">Chapter 2</a></td>
-<td><a href="classes/02-27-aug-model-formulation/slides/model-formulation.pptx">model-formulation</a></td>
-<td><a href="classes/02-27-aug-model-formulation/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/02-27-aug-model-formulation/solutions/solutions.html">solutions</a></td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>31 Aug 2026</td>
-<td>5250-235 HA 2</td>
-<td>Solving and implementing</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/03_solving.html">Chapter 3</a> and <a href="https://youtu.be/hWMa6LdN0Io">https://youtu.be/hWMa6LdN0Io</a></td>
-<td><a href="classes/03-31-aug-solving-implementing/slides/solving-implementing.pptx">solving-implementing</a></td>
-<td><a href="classes/03-31-aug-solving-implementing/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/03-31-aug-solving-implementing/solutions/solutions.html">solutions</a></td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>03 Sep 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Heat transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/04_heat_transfer.html">Chapter 4</a></td>
-<td><a href="classes/04-03-sept-heat-transfer/slides/heat_trans_slides.pdf">heat_trans_slides</a></td>
-<td><a href="classes/04-03-sept-heat-transfer/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/04-03-sept-heat-transfer/solutions/ferm_sol.html">ferm_sol</a>, <a href="classes/04-03-sept-heat-transfer/solutions/ice_sol.html">ice_sol</a>, <a href="https://youtu.be/VJiXyR1Z40U">https://youtu.be/VJiXyR1Z40U</a>, <a href="https://youtu.be/yFDLnl1zFt4">https://youtu.be/yFDLnl1zFt4</a></td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>07 Sep 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Heat transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/04_heat_transfer.html">Chapter 4</a></td>
-<td><a href="classes/05-07-sept-heat-transfer/slides/heat_trans2_slides.pdf">heat_trans2_slides</a></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>10 Sep 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Mass transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/05_mass_transfer.html">Chapter 5</a></td>
-<td></td>
-<td><a href="classes/06-10-sept-mass-transfer/exercises/exercises.html">exercises</a></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>14 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mass transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/05_mass_transfer.html">Chapter 5</a></td>
-<td></td>
-<td><a href="classes/07-14-sept-mass-transfer/exercises/exercise.html">exercise</a></td>
-<td><a href="classes/07-14-sept-mass-transfer/solutions/salt_sol1.pdf">salt_sol1</a>, <a href="classes/07-14-sept-mass-transfer/solutions/salt_sol2.html">salt_sol2</a></td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>17 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Review</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/02_components_formulation.html">Chapter 2</a> - <a href="https://au-bce-ee.github.io/modeling-py-book/05_mass_transfer.html">Chapter 5</a>, Appendix D</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>21 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Chemical reactions &amp; microbiology</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/06_reactions_microbiology.html">Chapter 6</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>24 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 1</td>
-<td>Sasha (EmiLi)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>28 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 1</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>01 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models, PDEs, control volume, nodes</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a> (7.1-7.2)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>05 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models, boundary conditions</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a> (7.3)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>14</td>
-<td>08 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Break</td>
-<td>12 Oct 2026</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Break</td>
-<td>15 Oct 2026</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>15</td>
-<td>19 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>16</td>
-<td>22 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>17</td>
-<td>26 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>18</td>
-<td>29 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>19</td>
-<td>02 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Verification</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/08_verification_validation.html">Chapter 8</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>20</td>
-<td>05 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Validation</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/08_verification_validation.html">Chapter 8</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>21</td>
-<td>09 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Parameter estimation</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/09_parameter_estimation.html">Chapter 9</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>22</td>
-<td>12 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Time-variable inputs</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/10_time_variable_inputs.html">Chapter 10</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>23</td>
-<td>16 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 2</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>24</td>
-<td>19 Nov 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Mini-project 2</td>
-<td>Sasha</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>25</td>
-<td>23 Nov 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Mini-project 2</td>
-<td>Sasha</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>26</td>
-<td>26 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Buffer</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>27</td>
-<td>30 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Exam project</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>28</td>
-<td>03 Dec 2026</td>
-<td>5250-235 HA 2</td>
-<td>Exam project</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>salt_mod.py</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename="salt_mod.py"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">File name: salt_mod.py</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">Author: Sasha D. Hafner</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">Course: Modelling 2026</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">Description:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Implementation of analytical ocean salt</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    accumulation model in salty() function. </span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">Usage:</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    See demo script in this directory.</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> salty(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    conc_init,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    conc_river,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    to_rate,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    times    </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">    ...fill this in!</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    conc <span class="op">=</span> conc_init <span class="op">+</span> to_rate <span class="op">*</span> conc_river <span class="op">*</span> times</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> conc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Here are some predictions.</p>
+<div id="13179d5f" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> salt_mod <span class="im">as</span> sm</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># If needed (common!) use reload function to reload module after editing it</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> importlib <span class="im">import</span> <span class="bu">reload</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="bu">reload</span>(sm)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>sm.salty(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    conc_init<span class="op">=</span><span class="dv">35</span>, </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    conc_river<span class="op">=</span><span class="fl">0.01</span>, </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    to_rate<span class="op">=</span><span class="fl">3.6e-5</span>, </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    times <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1000</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>array([35.        , 35.00000735, 35.00001469, 35.00002204, 35.00002939,
+       35.00003673, 35.00004408, 35.00005143, 35.00005878, 35.00006612,
+       35.00007347, 35.00008082, 35.00008816, 35.00009551, 35.00010286,
+       35.0001102 , 35.00011755, 35.0001249 , 35.00013224, 35.00013959,
+       35.00014694, 35.00015429, 35.00016163, 35.00016898, 35.00017633,
+       35.00018367, 35.00019102, 35.00019837, 35.00020571, 35.00021306,
+       35.00022041, 35.00022776, 35.0002351 , 35.00024245, 35.0002498 ,
+       35.00025714, 35.00026449, 35.00027184, 35.00027918, 35.00028653,
+       35.00029388, 35.00030122, 35.00030857, 35.00031592, 35.00032327,
+       35.00033061, 35.00033796, 35.00034531, 35.00035265, 35.00036   ])</code></pre>
 </div>
 </div>
 
