@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>exercise – Modelling 2026</title>
+<title>ammonia – Modelling 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -159,28 +159,16 @@ MathJax = {
 
 
 
-<section id="in-class-practice-problem" class="level1">
-<h1>In-class practice problem</h1>
-<p>Salt is transported to the world’s oceans through river flow. Water leaves through evaporation but the salt stays behind. (In fact some processes must remove salt, because its concentration has not increased over millions of years, but the details are not clear and here we will ignore removal.) Develop a <em>simple</em> model of this system that can be used to predict salt concetration in the oceans.</p>
-<p>For part 1:</p>
+<section id="ammonia-volatilization" class="level1">
+<h1>Ammonia volatilization</h1>
+<p>A thin layer of animal slurry is spread on an agricultural field for use as fertilizer. Given a free ammonia ((NH3 (aq)) concentration of 10 mg/L and a mass transfer coefficient of 0.01 m/s, what is the initial rate of ammonia volatilization (flux)? What is the initial mass flow rate if the slurry has a surface area of 1 ha (10,000 square meters)? What would happen to the liquid-side profile and flux over time if</p>
 <ul>
-<li>Conceptual model including a sketch</li>
-<li>State variable(s)</li>
-<li>Conservation equation</li>
-<li>Mode and constituitive equation</li>
-<li>Governing equation</li>
-<li>Analytical solution</li>
+<li>the slurry layer is very still, with no mixing, or</li>
+<li>the slurry layer is well-mixed below a thin film at the interface?</li>
 </ul>
-<p>For part 2:</p>
-<p>Implement your model in Python using a module approach. If using VS Code, use best practice (see Appendix D) and try keyboard shortcuts.</p>
-<p>Inputs/constants, all approximate:</p>
-<ul>
-<li>Ocean volume: 1.4e9 cubic km (1.4 billion)</li>
-<li>River flow: 5e4 cubic km per year (50 thousand)</li>
-<li>Present salt concentration in oceans: 35 parts per thousand (ppt) = about 35 g/L</li>
-<li>River salt concentration: 0.1 - 100 mg/L but can use 10 mg/L</li>
-</ul>
-<p>You don’t actually need these values, but if you successfully implement your model, why not apply it as well? You might be curious to see how quickly the predicted salt concentration changes.</p>
+<p>Given a total ammonia concentration of 3 g/L in the slurry, would you expect that initial flux to persist for days?</p>
+<p>If all liquid-side resistance to transport is in a 100 micron layer at the slurry surface, is it reasonable to assume steady-state within that film?</p>
+<p>Discuss, calculate, draw, …</p>
 
 
 </section>
