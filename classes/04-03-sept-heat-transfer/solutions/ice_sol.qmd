@@ -26,9 +26,16 @@ Once it gets above that temperature, it is no longer within the model boundary.
 
 ## 2. Balance/conservation equations
 
+We might start with this:
+
 rate of energy accumulation = rate of convective heat transfer in 
 
-Here we have a transfer of sensible heat energy but it is converted to latent heat through melting (a phase change).
+But here we have a transfer of sensible heat energy but it is converted to latent heat through melting (a phase change).
+Should we include that in the conservation equation?
+I think so, otherwise the equation implies constant heat energy accumulation, which does not follow our conceptual model.
+So, let's use this:
+
+rate of energy accumulation = rate of convective heat transfer in - rate of sensible to latent energy conversion through melting
 
 ## 3. Constitutive equation
 
@@ -93,6 +100,11 @@ There is a fixed air temperature $T_{air}$.
 ## 6. Governing equation
 
 Now we have to put it all together.
+
+We assume that the ice cube is always at the freezing point, and all (sensible) energy transfered from the air to the ice goes to melting, so the accumulation term is zero.
+Then: 
+
+rate of sensible to latent energy conversion through melting = rate of convective heat transfer in 
 
 As shown in part 4 above, we can link the derivative of our state variable to heat energy accumulation $Q$.
 And we can get $Q$ from the constitutive equation in 3, like this:

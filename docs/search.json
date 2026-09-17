@@ -74,7 +74,7 @@
     "href": "classes/04-03-sept-heat-transfer/solutions/ice_sol.html#balanceconservation-equations",
     "title": "2. Melting ice model",
     "section": "2. Balance/conservation equations",
-    "text": "2. Balance/conservation equations\nrate of energy accumulation = rate of convective heat transfer in\nHere we have a transfer of sensible heat energy but it is converted to latent heat through melting (a phase change)."
+    "text": "2. Balance/conservation equations\nWe might start with this:\nrate of energy accumulation = rate of convective heat transfer in\nBut here we have a transfer of sensible heat energy but it is converted to latent heat through melting (a phase change). Should we include that in the conservation equation? I think so, otherwise the equation implies constant heat energy accumulation, which does not follow our conceptual model. So, let’s use this:\nrate of energy accumulation = rate of convective heat transfer in - rate of sensible to latent energy conversion through melting"
   },
   {
     "objectID": "classes/04-03-sept-heat-transfer/solutions/ice_sol.html#constitutive-equation",
@@ -102,7 +102,7 @@
     "href": "classes/04-03-sept-heat-transfer/solutions/ice_sol.html#governing-equation",
     "title": "2. Melting ice model",
     "section": "6. Governing equation",
-    "text": "6. Governing equation\nNow we have to put it all together.\nAs shown in part 4 above, we can link the derivative of our state variable to heat energy accumulation \\(Q\\). And we can get \\(Q\\) from the constitutive equation in 3, like this:\n\\[\nQ = A \\cdot q\n\\]\nwhere \\(q\\) comes from\n\\[\nq = h \\cdot (T_{air} - T_{ice}).\n\\]\nFor a numeric model it can be easier and safer (less risk of errors) to implement the calculations stepwise, with intermediate variables. It also makes the code easier to understand.\nSo, starting with the current value of \\(M\\), we get the exposed area from\n\\[\nA = 2 \\cdot \\pi \\cdot (\\frac{3}{2 \\pi} \\cdot \\frac{M}{\\rho})^{\\frac{2}{3}}.\n\\]\nAnd then heat flux:\n\\[\nq = h \\cdot (T_{air} - T_{ice}).\n\\]\nThen heat flow:\n\\[\nQ = A \\cdot q\n\\]\nAnd finally, the ODE:\n\\[\n\\frac{dM}{dt} = - \\frac{Q}{\\Delta H_f}.\n\\]"
+    "text": "6. Governing equation\nNow we have to put it all together.\nWe assume that the ice cube is always at the freezing point, and all (sensible) energy transfered from the air to the ice goes to melting, so the accumulation term is zero. Then:\nrate of sensible to latent energy conversion through melting = rate of convective heat transfer in\nAs shown in part 4 above, we can link the derivative of our state variable to heat energy accumulation \\(Q\\). And we can get \\(Q\\) from the constitutive equation in 3, like this:\n\\[\nQ = A \\cdot q\n\\]\nwhere \\(q\\) comes from\n\\[\nq = h \\cdot (T_{air} - T_{ice}).\n\\]\nFor a numeric model it can be easier and safer (less risk of errors) to implement the calculations stepwise, with intermediate variables. It also makes the code easier to understand.\nSo, starting with the current value of \\(M\\), we get the exposed area from\n\\[\nA = 2 \\cdot \\pi \\cdot (\\frac{3}{2 \\pi} \\cdot \\frac{M}{\\rho})^{\\frac{2}{3}}.\n\\]\nAnd then heat flux:\n\\[\nq = h \\cdot (T_{air} - T_{ice}).\n\\]\nThen heat flow:\n\\[\nQ = A \\cdot q\n\\]\nAnd finally, the ODE:\n\\[\n\\frac{dM}{dt} = - \\frac{Q}{\\Delta H_f}.\n\\]"
   },
   {
     "objectID": "classes/04-03-sept-heat-transfer/solutions/ice_sol.html#solution",

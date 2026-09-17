@@ -262,8 +262,10 @@ Figure&nbsp;1: Conceptual model of melting ice model
 </section>
 <section id="balanceconservation-equations" class="level2">
 <h2 class="anchored" data-anchor-id="balanceconservation-equations">2. Balance/conservation equations</h2>
+<p>We might start with this:</p>
 <p>rate of energy accumulation = rate of convective heat transfer in</p>
-<p>Here we have a transfer of sensible heat energy but it is converted to latent heat through melting (a phase change).</p>
+<p>But here we have a transfer of sensible heat energy but it is converted to latent heat through melting (a phase change). Should we include that in the conservation equation? I think so, otherwise the equation implies constant heat energy accumulation, which does not follow our conceptual model. So, let’s use this:</p>
+<p>rate of energy accumulation = rate of convective heat transfer in - rate of sensible to latent energy conversion through melting</p>
 </section>
 <section id="constitutive-equation" class="level2">
 <h2 class="anchored" data-anchor-id="constitutive-equation">3. Constitutive equation</h2>
@@ -308,6 +310,8 @@ A = 2 \cdot \pi \cdot (\frac{3}{2 \pi} \cdot V)^{\frac{2}{3}}.
 <section id="governing-equation" class="level2">
 <h2 class="anchored" data-anchor-id="governing-equation">6. Governing equation</h2>
 <p>Now we have to put it all together.</p>
+<p>We assume that the ice cube is always at the freezing point, and all (sensible) energy transfered from the air to the ice goes to melting, so the accumulation term is zero. Then:</p>
+<p>rate of sensible to latent energy conversion through melting = rate of convective heat transfer in</p>
 <p>As shown in part 4 above, we can link the derivative of our state variable to heat energy accumulation <span class="math inline">\(Q\)</span>. And we can get <span class="math inline">\(Q\)</span> from the constitutive equation in 3, like this:</p>
 <p><span class="math display">\[
 Q = A \cdot q
@@ -436,7 +440,7 @@ Q = A \cdot q
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here are some predictions.</p>
-<div id="6441f55f" class="cell" data-execution_count="1">
+<div id="c4be978e" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python packages</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -446,7 +450,7 @@ Q = A \cdot q
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ice_mods <span class="im">as</span> im</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We’ll start with 50 g ice cubes and an air temperature of 20 <span class="math inline">\(\degC\)</span>. For the convection heat transfer coefficient, we’ll pick a value toward the lower end of the range from the parameter value appendix in the book, because we can assume this is free convection.</p>
-<div id="f0e113cb" class="cell" data-execution_count="2">
+<div id="af3314dd" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">reload</span>(im)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pred01 <span class="op">=</span> im.melt(</span>
@@ -458,7 +462,7 @@ Q = A \cdot q
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s plot model output.</p>
-<div id="442e529e" class="cell" data-execution_count="3">
+<div id="9b2168af" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plt.plot(pred01[<span class="st">"t"</span>] <span class="op">/</span> <span class="dv">60</span>, <span class="dv">1000</span> <span class="op">*</span> pred01[<span class="st">"m"</span>])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Time (min)"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Ice mass (g)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -474,7 +478,7 @@ Q = A \cdot q
 </div>
 </div>
 <p>Now for multiple sizes, say 10, 50, and 100 g. Note that a 100 g ice cube (hemisphere) would be quite large, with a 5 cm radius!</p>
-<div id="9d6045de" class="cell" data-execution_count="4">
+<div id="7112fbeb" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pred_10g <span class="op">=</span> im.melt(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    mass_0 <span class="op">=</span> <span class="fl">0.01</span>, </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    temp_air <span class="op">=</span> <span class="dv">20</span>, </span>
@@ -499,7 +503,7 @@ Q = A \cdot q
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    t_step <span class="op">=</span> <span class="dv">60</span></span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="50333cc8" class="cell" data-execution_count="5">
+<div id="a4b891dd" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plt.plot(pred_10g[<span class="st">"t"</span>] <span class="op">/</span> <span class="dv">60</span>, <span class="dv">1000</span> <span class="op">*</span> pred_10g[<span class="st">"m"</span>], label <span class="op">=</span> <span class="st">'10 g'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.plot(pred_50g[<span class="st">"t"</span>] <span class="op">/</span> <span class="dv">60</span>, <span class="dv">1000</span> <span class="op">*</span> pred_50g[<span class="st">"m"</span>], label <span class="op">=</span> <span class="st">'50 g'</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.plot(pred_100g[<span class="st">"t"</span>] <span class="op">/</span> <span class="dv">60</span>, <span class="dv">1000</span> <span class="op">*</span> pred_100g[<span class="st">"m"</span>], label <span class="op">=</span> <span class="st">'100 g'</span>)</span>
