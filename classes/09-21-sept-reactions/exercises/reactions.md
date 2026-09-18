@@ -1,3 +1,3 @@
 # Exercises
 
-Work on problems 1 and 3 in Chapter 6.
+Work on problems 1 and 2 in Chapter 6.
