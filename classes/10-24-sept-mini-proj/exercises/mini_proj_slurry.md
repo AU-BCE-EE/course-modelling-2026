@@ -24,7 +24,7 @@ You should follow the model formulation steps from class.
 When necessary, make assumptions, but try to be realistic. 
 When you do make assumption be explicit in your report about them. 
 Selecting an appropriate level of complexity in a model is often difficult and somewhat arbitrary. 
-Our advice is to start relatively simply, and if you find at the end or along the way that the model is not realistic enough, add components as needed.
+Our advice is to start relatively simple, and if you find at the end or along the way that the model is not realistic enough, add components as needed.
 For this model you should think about how it will be used (see task 2 below) and also the level of complexity we have used in class.
 
 ### 2. Model implementation
@@ -58,9 +58,9 @@ The report should follow a structure with these headings:
 * Application (including presentation of results)
 * Python code (in appendix)
 
-While we recommend following the model formulation steps described in the book, you do not need to include a description these steps in your report.
+While we recommend following the model formulation steps described in the book, you do not need to include a description of these steps in your report.
 
-Report length: The report should be no more than 5 pages (fewer is fine as long) excluding the Python code in the appendix.
+Report length: The report should be no more than 5 pages (fewer is fine as well) excluding the Python code in the appendix.
 
 Groups: Work on the project and report in groups of 3-5 people
 
