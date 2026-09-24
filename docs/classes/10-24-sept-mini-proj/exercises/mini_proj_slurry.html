@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Schedule – Modelling 2026</title>
+<title>mini_proj_slurry – Modelling 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,23 +26,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-10fd48598b97136444802eb836e05e93.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-10fd48598b97136444802eb836e05e93.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -106,10 +106,36 @@ MathJax = {
   }
 };
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -126,11 +152,11 @@ MathJax = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./course_info.html"> 
+    <a class="nav-link" href="../../../course_info.html"> 
 <span class="menu-text">Modelling 2026</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
   <li class="nav-item">
@@ -157,381 +183,59 @@ MathJax = {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Schedule</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p><em>Modelling 2026</em> class schedule. Links appear below as material is released – slides and exercises are generally posted before class, solutions after. The reading or watching in the “Preparation” column should be completed before class. The textbook is <a href="https://au-bce-ee.github.io/modeling-py-book/">here</a>.</p>
-<div id="c79c70e3" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display">
-<table class="table table-striped caption-top table-sm small">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">Class</th>
-<th data-quarto-table-cell-role="th">Date</th>
-<th data-quarto-table-cell-role="th">Location</th>
-<th data-quarto-table-cell-role="th">Topic</th>
-<th data-quarto-table-cell-role="th">Teacher</th>
-<th data-quarto-table-cell-role="th">Preparation</th>
-<th data-quarto-table-cell-role="th">Slides</th>
-<th data-quarto-table-cell-role="th">Exercises</th>
-<th data-quarto-table-cell-role="th">Solutions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>24 Aug 2026</td>
-<td>5250-235 HA 2</td>
-<td>Course intro &amp; intro to modelling</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/01_intro.html">Chapter 1</a></td>
-<td><a href="classes/01-24-aug-intro/slides/course-intro.pptx">course-intro</a>, <a href="classes/01-24-aug-intro/slides/model-classification.pptx">model-classification</a></td>
-<td><a href="classes/01-24-aug-intro/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/01-24-aug-intro/solutions/solutions.html">solutions</a></td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>27 Aug 2026</td>
-<td>5250-235 HA 2</td>
-<td>Model formulation</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/02_components_formulation.html">Chapter 2</a></td>
-<td><a href="classes/02-27-aug-model-formulation/slides/model-formulation.pptx">model-formulation</a></td>
-<td><a href="classes/02-27-aug-model-formulation/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/02-27-aug-model-formulation/solutions/solutions.html">solutions</a></td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>31 Aug 2026</td>
-<td>5250-235 HA 2</td>
-<td>Solving and implementing</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/03_solving.html">Chapter 3</a> and <a href="https://youtu.be/hWMa6LdN0Io">https://youtu.be/hWMa6LdN0Io</a></td>
-<td><a href="classes/03-31-aug-solving-implementing/slides/solving-implementing.pptx">solving-implementing</a></td>
-<td><a href="classes/03-31-aug-solving-implementing/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/03-31-aug-solving-implementing/solutions/solutions.html">solutions</a></td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>03 Sep 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Heat transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/04_heat_transfer.html">Chapter 4</a></td>
-<td><a href="classes/04-03-sept-heat-transfer/slides/heat_trans_slides.pdf">heat_trans_slides</a></td>
-<td><a href="classes/04-03-sept-heat-transfer/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/04-03-sept-heat-transfer/solutions/ferm_sol.html">ferm_sol</a>, <a href="classes/04-03-sept-heat-transfer/solutions/ice_sol.html">ice_sol</a>, <a href="https://youtu.be/VJiXyR1Z40U">https://youtu.be/VJiXyR1Z40U</a>, <a href="https://youtu.be/yFDLnl1zFt4">https://youtu.be/yFDLnl1zFt4</a></td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>07 Sep 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Heat transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/04_heat_transfer.html">Chapter 4</a></td>
-<td><a href="classes/05-07-sept-heat-transfer/slides/heat_trans2_slides.pdf">heat_trans2_slides</a></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>10 Sep 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Mass transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/05_mass_transfer.html">Chapter 5</a></td>
-<td></td>
-<td><a href="classes/06-10-sept-mass-transfer/exercises/exercises.html">exercises</a></td>
-<td><a href="classes/06-10-sept-mass-transfer/solutions/benz_sol.html">benz_sol</a>, <a href="classes/06-10-sept-mass-transfer/solutions/gill_sol.html">gill_sol</a></td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>14 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mass transfer</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/05_mass_transfer.html">Chapter 5</a></td>
-<td></td>
-<td><a href="classes/07-14-sept-mass-transfer/exercises/salt.html">salt</a></td>
-<td><a href="classes/07-14-sept-mass-transfer/solutions/salt_sol1.pdf">salt_sol1</a>, <a href="classes/07-14-sept-mass-transfer/solutions/salt_sol2.html">salt_sol2</a></td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>17 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Review</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/02_components_formulation.html">Chapter 2</a> - <a href="https://au-bce-ee.github.io/modeling-py-book/05_mass_transfer.html">Chapter 5</a>, Appendix D</td>
-<td><a href="classes/08-17-sept-review/slides/review.pdf">review</a></td>
-<td><a href="classes/08-17-sept-review/exercises/ammonia.html">ammonia</a></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>21 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Chemical reactions &amp; microbiology</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/06_reactions_microbiology.html">Chapter 6</a></td>
-<td><a href="classes/09-21-sept-reactions/slides/reactions.pdf">reactions</a></td>
-<td><a href="classes/09-21-sept-reactions/exercises/reactions.html">reactions</a></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>24 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 1</td>
-<td>Sasha (EmiLi)</td>
-<td></td>
-<td></td>
-<td><a href="classes/10-24-sept-mini-proj/exercises/mini_proj_slurry.html">mini_proj_slurry</a></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>28 Sep 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 1</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>01 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models, PDEs, control volume, nodes</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a> (7.1-7.2)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>05 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models, boundary conditions</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a> (7.3)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>14</td>
-<td>08 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Break</td>
-<td>12 Oct 2026</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Break</td>
-<td>15 Oct 2026</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>15</td>
-<td>19 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>16</td>
-<td>22 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>17</td>
-<td>26 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>18</td>
-<td>29 Oct 2026</td>
-<td>5250-235 HA 2</td>
-<td>Spatial models</td>
-<td>Frederik</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/07_spatial_models.html">Chapter 7</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>19</td>
-<td>02 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Verification</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/08_verification_validation.html">Chapter 8</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>20</td>
-<td>05 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Validation</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/08_verification_validation.html">Chapter 8</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>21</td>
-<td>09 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Parameter estimation</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/09_parameter_estimation.html">Chapter 9</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>22</td>
-<td>12 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Time-variable inputs</td>
-<td>Sasha</td>
-<td><a href="https://au-bce-ee.github.io/modeling-py-book/10_time_variable_inputs.html">Chapter 10</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>23</td>
-<td>16 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Mini-project 2</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>24</td>
-<td>19 Nov 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Mini-project 2</td>
-<td>Sasha</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>25</td>
-<td>23 Nov 2026</td>
-<td><a href="https://aarhusuniversity.zoom.us/j/61345517558">Online</a></td>
-<td>Mini-project 2</td>
-<td>Sasha</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>26</td>
-<td>26 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Buffer</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>27</td>
-<td>30 Nov 2026</td>
-<td>5250-235 HA 2</td>
-<td>Exam project</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>28</td>
-<td>03 Dec 2026</td>
-<td>5250-235 HA 2</td>
-<td>Exam project</td>
-<td>Frederik</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<section id="mini-project-i---ammonia-volatilization-from-slurry-storage" class="level1">
+<h1>Mini-project I - Ammonia volatilization from slurry storage</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>On dairy cattle farms animal slurry (mixture of feces, urine, bedding, washing water, and wasted feed) is collected pits below the floor in the barn. Then after a few days the slurry is pumped to an external outdoor storage tank. The slurry contains a high amount of ammonia, which, as you know, includes two chemical species: <span class="math inline">\(\ce{NH3}\)</span> (free ammonia) and <span class="math inline">\(\ce{NH4+}\)</span> (ammonium ion). You know from your chemistry classes that these two species exist in an equilibrium that depends on the pH. In fact you should have developed a free ammonia calculator for the Chapter 6 work.</p>
+<p>A livestock experts explains to you that actually the <span class="math inline">\(\ce{NH3}\)</span> and <span class="math inline">\(\ce{NH4+}\)</span> comes from urea hydrolysis and urea is excreted in animal urine, this process of urea hydrolysis to ammonia is very quick; within a day virtually 100% is converted. Slurry is pumped into the tank from the barn, and then later removed from the tank for application in the field to fertilize crops.</p>
+<p>The slurry tank is open in the top and ammonia (NH3) is therefore volatilized as a gas (or vapor) from the tank. To be sure of the quantity of ammonia applied in the field, it is necessary to know how much is lost through volatilization. In this project you will develop a model for slurry ammonia that can predict this loss of ammonia and the effect on available ammonia for field application.</p>
+</section>
+<section id="task" class="level2">
+<h2 class="anchored" data-anchor-id="task">Task</h2>
+<section id="model-formulation" class="level3">
+<h3 class="anchored" data-anchor-id="model-formulation">1. Model formulation</h3>
+<p>The first task is to develop a simplified model for predicting the ammonia concentration in the slurry tank. You should follow the model formulation steps from class. When necessary, make assumptions, but try to be realistic. When you do make assumption be explicit in your report about them. Selecting an appropriate level of complexity in a model is often difficult and somewhat arbitrary. Our advice is to start relatively simply, and if you find at the end or along the way that the model is not realistic enough, add components as needed. For this model you should think about how it will be used (see task 2 below) and also the level of complexity we have used in class.</p>
+</section>
+<section id="model-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="model-implementation">2. Model implementation</h3>
+<p>Once you have formulated the model implement it in Python using the module approach we have covered in class. Be sure to document your module and all functions using the docstring approach we have used.</p>
+<p>Avoid using Copilot or any other AI tools.</p>
+</section>
+<section id="model-application" class="level3">
+<h3 class="anchored" data-anchor-id="model-application">3. Model application</h3>
+<p>Use your model to make an estimate of the fraction of total ammonia (commonly described as “total ammoniacal nitrogen” or TAN) from slurry that is lost from the storage tank. Then, evaluate at least two design or management options for limiting the loss of ammonia to the atmosphere, which in practice is done both for pollution control and to save valuable fertilizer nitrogen. You can come up with ideas, but you are welcome to use some from the list below. Evaluate at least two options by comparing them to a reference scenario.</p>
+<ol type="1">
+<li>Floating covers that go on top of the tank.</li>
+<li>Dimensioning of the slurry tank</li>
+<li>Slowing down hydrolysis of urea to ammonia by adding inhibitors</li>
+</ol>
+<p>You are free to ask us for help in finding realistic values for parameters and other inputs. But you need to be able to describe what it is you need!</p>
+</section>
+</section>
+<section id="report" class="level2">
+<h2 class="anchored" data-anchor-id="report">Report</h2>
+<p>The report should follow a structure with these headings:</p>
+<ul>
+<li>Problem definition (brief)</li>
+<li>Conceptual model (include sketch of system)</li>
+<li>Mathematical model and description of implementation in Python</li>
+<li>Application (including presentation of results)</li>
+<li>Python code (in appendix)</li>
+</ul>
+<p>While we recommend following the model formulation steps described in the book, you do not need to include a description these steps in your report.</p>
+<p>Report length: The report should be no more than 5 pages (fewer is fine as long) excluding the Python code in the appendix.</p>
+<p>Groups: Work on the project and report in groups of 3-5 people</p>
+<p>Deadline: Submit the report through Brightspace before 23:59 on the 8th of September.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
