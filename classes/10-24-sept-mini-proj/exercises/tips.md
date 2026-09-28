@@ -1,6 +1,6 @@
 # Some suggestions on slurry model inputs
 
-## Henry's law constant
+## 1. Henry's law constant
 We have worked with a dimensionless form of Henry's law constant. 
 Here is some Python code for calculating it as a function of temperature
 
@@ -24,7 +24,7 @@ Clegg, S., Brimblecombe, P., 1989. Solubility of ammonia in pure aqueous and mul
 
 Technically the $L$ is $kg$ of water, but the substitution is good enough for our work.
 
-## Conversion of liquid and gas phase overall mass transfer coefficients
+## 2. Conversion of liquid and gas phase overall mass transfer coefficients
 
 An overall mass transfer coefficient for interphase mass transfer must be for the appropriate phase.
 If the flux is to be calculated using gas phase concentrations, the mass transfer coefficient must be in gas phase units, e.g., 
@@ -51,4 +51,20 @@ K_G = K_L \cdot H,
 $$
 
 where $H=$ dimensionless Henry's law constant (aq:g).
+
+## 3. What to do with free ammonia?
+
+There was some confusion in class about what exactly should be done with free ammonia, $\ce{NH3(aq)}$.
+One thing we saw that was not correct was trying to write a governing equation (GE) for that chemical species.
+If you assume chemical equilibrium between $\ce{NH4+}$ and $\ce{NH3(aq)}$, you only need a GE for total ammonia (TAN) and not one for $\ce{NH3(aq)}$.
+Why not?
+Well, you cannot both assume that the time derivative of free ammonia is determined by its volatilization rate *and* that free ammonia is in equilibrium with ammonium.
+The first assumption is consistent with a kinetic model and the second an equilibrium model.
+Try it, conceptually, thinking about how solute concentrations would change over time steps to see that it won't work.
+
+So, what should you do? 
+Think carefully about the state variable(s) for this model. Do you need more than one? You only need one GE per state variable.
+Instead of thinking about tracking the concentration of free ammonia over time, think about tracking the TAN concentration, and *linking* the rate of TAN loss to free ammonia volatilization with the chemical speciation equation (pH and temperature dependent equations). 
+It may help to recognize that you could write a GE for TAN that does not even explicitly include free ammonia, but instead a constitutive equation that depends on pH and temperature, incorporating the speciation bit directly in the GE.
+But you don't have to do this; it is fine to use free ammonia concentration as an intermediate variable in a numerical model.
 
