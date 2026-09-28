@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Course Info – Modelling 2026</title>
+<title>tips – Modelling 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-95229807032217d73f7f766adb5e0d58.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-95229807032217d73f7f766adb5e0d58.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,6 +107,35 @@ MathJax = {
 };
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -117,7 +146,7 @@ MathJax = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -127,11 +156,11 @@ MathJax = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./course_info.html" aria-current="page"> 
+    <a class="nav-link" href="../../../course_info.html"> 
 <span class="menu-text">Modelling 2026</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
   <li class="nav-item">
@@ -158,84 +187,47 @@ MathJax = {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Course Info</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>Course webpage for <em>Modelling 2026</em> (Modellering). See the <a href="./index.html">Schedule tab</a> for links to class materials.</p>
-<section id="instructors" class="level2">
-<h2 class="anchored" data-anchor-id="instructors">Instructors</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th>GitHub user name</th>
-<th>Contact information</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Frederik R. Dalby</td>
-<td>fdalby</td>
-<td><a href="https://au.dk/fd@bce.au.dk" class="uri">https://au.dk/fd@bce.au.dk</a></td>
-</tr>
-<tr class="even">
-<td>Sasha D. Hafner</td>
-<td>sashahafner</td>
-<td><a href="https://au.dk/sasha.hafner@bce.au.dk" class="uri">https://au.dk/sasha.hafner@bce.au.dk</a></td>
-</tr>
-<tr class="odd">
-<td>Anne N. Mortensen</td>
-<td>AnneMortensen</td>
-<td><a href="mailto:anm@bce.au.dk" class="email">anm@bce.au.dk</a></td>
-</tr>
-<tr class="even">
-<td>Peter van Nes</td>
-<td>PetervNes</td>
-<td><a href="mailto:au811709@bce.au.dk" class="email">au811709@bce.au.dk</a></td>
-</tr>
-</tbody>
-</table>
+<section id="some-suggestions-on-slurry-model-inputs" class="level1">
+<h1>Some suggestions on slurry model inputs</h1>
+<section id="henrys-law-constant" class="level2">
+<h2 class="anchored" data-anchor-id="henrys-law-constant">Henry’s law constant</h2>
+<p>We have worked with a dimensionless form of Henry’s law constant. Here is some Python code for calculating it as a function of temperature</p>
+<pre><code># 1. temp_c is input temperature in degrees C but the calculations are based on Kelvin
+temp_k = temp_c + 273.15
+# 2. Universal gas constant (atm L/mol-K)
+R = 0.082057
+# 3. Henry's law constant in mol / L - atm
+kh = 10**(-3.51645 - 0.0013637 * temp_k + 1701.35 / temp_k)
+# 4. Henry's law constant in dimensionless form aq:g (e.g., g/m3 aq. per g/m3 gas, g/L per g/L, etc.)
+hen = R * temp_k * kh</code></pre>
+<p>At 25 <span class="math inline">\(\degC\)</span> you should get a value of 1485. This high value reflects the high solubility of ammonia; it means the concentration in the liquid phase (e.g., g/m3) is <span class="math inline">\(&gt; 1000\)</span> times as large as the concentration in the gas phase (also in g/m3, but here m3 of <em>gas</em>).</p>
+<p>This equation for `kh’ comes from:</p>
+<p>Clegg, S., Brimblecombe, P., 1989. Solubility of ammonia in pure aqueous and multicomponent solutions. Journal of Physical Chemistry 93 (20), 7237-7248.</p>
+<p>Technically the <span class="math inline">\(L\)</span> is <span class="math inline">\(kg\)</span> of water, but the substitution is good enough for our work.</p>
 </section>
-<section id="official-course-description" class="level2">
-<h2 class="anchored" data-anchor-id="official-course-description">Official course description</h2>
-<p>See the <a href="https://kursuskatalog.au.dk/en/course/141579/Modellering">course catalog entry</a>.</p>
-</section>
-<section id="brightspace" class="level2">
-<h2 class="anchored" data-anchor-id="brightspace">Brightspace</h2>
-<p>The course <a href="https://brightspace.au.dk/d2l/le/lessons/219354/topics/2823471">Brightspace page</a> is used for announcements and assignment submission.</p>
-</section>
-<section id="textbook" class="level2">
-<h2 class="anchored" data-anchor-id="textbook">Textbook</h2>
-<p>Our course textbook is free and online here: <a href="https://au-bce-ee.github.io/modeling-py-book/" class="uri">https://au-bce-ee.github.io/modeling-py-book/</a>.</p>
-</section>
-<section id="course-and-class-organization" class="level2">
-<h2 class="anchored" data-anchor-id="course-and-class-organization">Course and class organization</h2>
-<p>We will meet twice a week. You should be sure to always bring a laptop with Python 3 and VS Code or your preferred script editor installed to class. But also bring a notebook (paper!) and a pen or pencil to each class.</p>
-<p>Slides and exercises are generally posted on the <a href="./index.html">schedule</a> before class starts, and solutions are posted after class.</p>
-</section>
-<section id="ai-tools" class="level2">
-<h2 class="anchored" data-anchor-id="ai-tools">AI tools</h2>
-<p>ChatGPT and other generative artificial intelligence tools can be extremely good at writing Python code and much more besides. We don’t know what the future of education or work in science and engineering will look like in the coming years or decades, and AI will almost certainly change both. But for now, we and society still expect students to learn knowledge and skills beyond asking a chatbot questions. So please do not use AI for completing assignments! We will discuss AI more in class, and look at some ways you could use it that we might support. Also remember that AU has an AI policy here: <a href="https://medarbejdere.au.dk/en/gai" class="uri">https://medarbejdere.au.dk/en/gai</a>. And lastly, remember that you cannot use AI on the exam for this course.</p>
+<section id="conversion-of-liquid-and-gas-phase-overall-mass-transfer-coefficients" class="level2">
+<h2 class="anchored" data-anchor-id="conversion-of-liquid-and-gas-phase-overall-mass-transfer-coefficients">Conversion of liquid and gas phase overall mass transfer coefficients</h2>
+<p>An overall mass transfer coefficient for interphase mass transfer must be for the appropriate phase. If the flux is to be calculated using gas phase concentrations, the mass transfer coefficient must be in gas phase units, e.g.,</p>
+<p><span class="math display">\[
+J = K_G \cdot (c_g^* - c_g).
+\]</span></p>
+<p>If, on the other hand, liquid (aqueous) phase units are used for concentrations, <span class="math inline">\(K_L\)</span>, in liquid phase units, must be used:</p>
+<p><span class="math display">\[
+J = K_L \cdot (c_l - c_l^*).
+\]</span></p>
+<p>We saw in class how these two equations are equivalent, i.e., they will return the exact same value of the flux <span class="math inline">\(J\)</span> if the conversion is done correctly. To convert between <span class="math inline">\(K_L\)</span> and <span class="math inline">\(K_G\)</span>, it is helpful to think of the units as having a separate numerator and denominator. <span class="math inline">\(K_L\)</span> in <span class="math inline">\(\mps\)</span> actually means flux in <span class="math inline">\(\gpspms\)</span> per difference in concentration in <span class="math inline">\(\gpmc\)</span>. (Show that the units work out.) Of course the <span class="math inline">\(\mc\)</span> bit of the expression is liquid phase volume, because this is <span class="math inline">\(K_L\)</span>. So to convert to <span class="math inline">\(K_G\)</span>, use:</p>
+<p><span class="math display">\[
+K_G = K_L \cdot H,
+\]</span></p>
+<p>where <span class="math inline">\(H=\)</span> dimensionless Henry’s law constant (aq:g).</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
