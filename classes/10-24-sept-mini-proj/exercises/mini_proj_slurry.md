@@ -64,5 +64,5 @@ Report length: The report should be no more than 5 pages (fewer is fine as well)
 
 Groups: Work on the project and report in groups of 3-5 people
 
-Deadline: Submit the report through Brightspace before 23:59 on the 8th of September. 
+Deadline: Submit the report through Brightspace before 23:59 on the 8th of October. 
 
