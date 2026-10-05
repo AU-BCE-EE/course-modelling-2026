@@ -1,0 +1,52 @@
+1.  Discretize the following PDEs with method of lines approach.
+
+A\) 1D advection
+
+$\frac{\partial c}{\partial t} + v \frac{\partial c}{\partial x} = 0$
+
+Solution: Central difference has the highest order of accuracy so we use that. With central difference formula for dc/dx we get.
+
+$\frac{\partial c}{\partial t} + v\frac{c_{i+1}-c_{i-1}}{2\Delta x} = 0$
+
+However, when getting to implementation in python of a real problem we should use either backward or forward for advection (depends on flow direction) to avoid stability issues!
+
+B\) 2D diffusion
+
+$\frac{\partial c}{\partial t} = D \left( \frac{\partial^2 c}{\partial x^2} + \frac{\partial^2 c}{\partial y^2} \right)$
+
+Solution: With central difference formula for
+
+$\frac{\partial c}{\partial t} = D\left(\frac{c_{i-1,j}-2c_{i,j}+c_{i+1,j}}{\Delta x^2} +\frac{c_{i,j-1}-2c_{i,j}+c_{i,j+1}}{\Delta y^2}\right)$
+
+Note the difference in i vs j indexing for the two dimensions!
+
+C\) 1D advection-diffusion
+
+
+$\frac{\partial c}{\partial t} = D \frac{\partial^2 c}{\partial x^2} - v \frac{\partial c}{\partial x}$
+
+Solution: Again we use central difference to increase accuracy, but should be aware of the stability problem in later python implementation!
+
+$\frac{\partial c}{\partial t} = \left(\frac{c_{i-1}-2c_i+c_{i+1}}{\Delta x^2}\right) -v\left(\frac{c_{i+1}-c_{i-1}}{2\Delta x}\right)$
+
+2. Identify from the problem text where information is given about the boundary conditions and initial conditions. What type of BCs are given? Try to formulate the BCs and ICs for each problem (if any are given).
+
+A\) Oxygen diffuses into your cell tissue at your forehead while your cycling. The wind is blowing and constantly refreshing the air at the surface of your forehead. By sticking a micro oxygen sensor into your cell tissue on your forehead you notice that the concentration of oxygen drops and then increases again until you hit a capillary arteria, which is saturated with oxygen.
+
+Solution: Since the wind is constantly refreshing the air at the surface we can interpret this as a constant concentration of oxygen (atmospheric pressure – 21% oxygen). Similarly at the capillary we have a flow of blood with saturated oxygen which is constant. Therefore we have Dirichlet boundary conditions at the cell surface and at the capillary (fixed state variables -oxygen concentration). One could argue for a Robin boundary condition in both ends, but the text implies it is not neccesary (because transfer is fast). `C(x = 0,t) = C_air, C(x = L,t) = C_capillay`. The problem does not say much about the starting conditions of oxygen in the cell, but if we want some dynamic behaviour it would make sense to set initial oxygen concentration to 0 at all interior points, except at the boundaries. This can be written as `C(x[1]:x[-2],t = 0) = f(x)`, where `f(x)` is a function that produce a vector like `(C_air, 0, …, 0, C_capillay)`. Over time the interior points will increase in oxygen concentration to some steady state values.
+
+B\) You are designing a drug delivery system where a biodegradable polymer implant releases medication into surrounding tissue. The implant is embedded inside a muscle, and the drug diffuses outward through the muscle tissue. At the surface of the implant, the drug is released at a constant rate controlled by the degradation of the polymer. Far away from the implant, at a certain distance, the tissue type changes and the drug cannot cross that barrier.
+
+Solution: We are told that the drug is released at a constant rate, which implies that the flux is fixed. A fixed flux is a Neumann BC. In the other end the drug cannot pass, so there is a flux of 0. That is also a Neumann condition. `dC/dx(x = surface, t) = C_flux_surface, dC/dx(x = barrier, t) = 0`. It seems the drug is inserted into the body and at that time we can assume that there is no drug present. The initial condition would therefore be `C(x, t = 0) = 0`.
+
+C\) You have a long metal rod heated at one end by an electric heater that maintains the rod tip at a constant temperature. The other end of the rod is insulated so that no heat can escape from that side. Over time, heat diffuses through the rod, and you want to analyse the temperature distribution inside the rod.
+
+Solution: The rod tip is maintained at a constant temperature (fixed state variable) and in the other end it is insulated, so there is no flux. This is a Dirichlet BC at the tip and a Neumann BC in the insulated end of the rod. `C(x = tip, t) = T_tip, dC/dx(x = insulated_end, t) = 0`. We can e.g. assume that the rod starts at a temperature of 0 (except at the tip, where it is overruled by the Dirichlet BC) or at the constant temperature at the tip. We need more information about what we want to model in this problem in order to determine the initial condition.
+
+D\) A hot metal sphere is suddenly immersed in a large water bath maintained at a constant temperature. The sphere cools down by losing heat through its surface by convection to the surround water. The temperature inside the sphere changes with time as heat diffuses radially from the center to the surface, and the heat flux at the surface depends on the difference between the sphere's surface temperature and the water temperature.
+
+Solution: It seems we are interested in modelling the heat loss from the sphere to the water bath and how it cools over time. The heat flux from the sphere to the water depends on a temperature difference. Here we have that heat flux, `k * dT/dx`, depends on the state variable itself. So `-k * dT/dx = f(T(x = surface, t))`. This is a robin BC. This situation often encountered and it is common to assume that the function is heat convection (heat removal due to diffusion and moving the fluid in the water bath). From the problem we get the impression that the water bath has a single fixed temperature, therefore it must be well mixed and heat should be removed from the sphere by convection. We can assume that heat convection at the surface and therefore also the flux of heat from the surface is `h * (T_surface – T_waterbath)`. So `-k * dT/dx = h*(T(x = surface, t) – T_waterbath)` At the center of the sphere heat is only flowing away and towards the surface of the sphere. This is equivalent to a flux of 0 at the center of the sphere, which is symmetrical. Therefore, we have a Neumann condition at the center of the sphere. Actually, because we have a sphere we should not use x anymore, but rather r, which denotes the distance from the center of the symmetric sphere outwards to the surface (at distance `R` from the center). `-k * dT/dr = h * (T(r = R, t) – T_waterbath) -k * dT/dr(r = 0, t) = 0`. The initial temperature of the sphere is probably way above the water bath temperature and probably uniformly distributed on the sphere. So `T(t = 0, r) = T_start_sphere`.
+
+
+
+
