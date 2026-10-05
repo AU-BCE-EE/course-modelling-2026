@@ -52,7 +52,13 @@ $$
 
 where $H=$ dimensionless Henry's law constant (aq:g).
 
-## 3. What to do with free ammonia?
+## 3. Values for overall mass transfer coefficient
+
+The value for an mass transfer coefficient for ammonia volatilization from slurry exposed to the atmosphere would be expected to depend on air flow and slurry properties. 
+But a reasonable value from a recent literature review of measurements (<https://doi.org/10.1016/j.biosystemseng.2022.08.007>) is 0.01 $\mps$ for uncovered slurry.
+
+
+## 4. What to do with free ammonia?
 
 There was some confusion in class about what exactly should be done with free ammonia, $\ce{NH3(aq)}$.
 One thing we saw that was not correct was trying to write a governing equation (GE) for that chemical species.
@@ -68,3 +74,6 @@ Instead of thinking about tracking the concentration of free ammonia over time, 
 It may help to recognize that you could write a GE for TAN that does not even explicitly include free ammonia, but instead a constitutive equation that depends on pH and temperature, incorporating the speciation bit directly in the GE.
 But you don't have to do this; it is fine to use free ammonia concentration as an intermediate variable in a numerical model.
 
+## 5. Other inputs
+
+Remember you are welcome to ask us for numeric values for other inputs!
