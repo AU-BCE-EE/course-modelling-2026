@@ -1,3 +1,38 @@
+Code from Video
+
+```{python}
+import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+L = 1  # length of pipe, m
+D = 2.0 * 10**-5  # diffusion coefficient, m2/s
+dx = 0.01
+x_grid = np.arange(0, L + dx, dx)
+
+def rates(t, c, x_grid, dx):
+    dcdt = np.zeros(len(x_grid))
+    N = len(x_grid) - 1
+    for i in range(1, N):
+        dcdt[i] = D * (c[i-1] - 2*c[i] + c[i+1]) / dx**2
+    return dcdt
+
+tmax = 1000 # seconds
+c0 = np.zeros(len(x_grid))
+c0[0] = 21
+
+sol = solve_ivp(rates, t_span = [0, tmax], y0 = c0, method = "LSODA",
+                t_eval = np.arange(0, tmax, 1), args = (x_grid, dx))
+
+for i in range(0, 100, 10):
+    plt.plot(sol.t, sol.y[i,:], label = f'{i} cm')
+    plt.legend()
+    plt.xlabel('time, s')
+    plt.ylabel('conc O2, %')
+plt.show()
+```
+
+
 1. You watched a video and implemented its code at home. The code describes diffusion of oxygen in a pipe. This script is a good place to build from, when doing new exercises.Try to identify if any boundary or initial conditions are used and where in the code these are implemented? Theoretically how many BCs are needed?
 
 2. We now change the problem to a pipe with running saltwater in it. So instead of modelling the oxygen concentration it is now the salt concentration. We apply a flow of saltwater at a velocity of 0.1 m/s. The pipe is 10 m long and the saltwater has a concentration of 35 g/L at the inlet. The diffusion coefficient of salt in water is 1.5e-9 m^2/s.The pipe is initially filled with drinking water. 
