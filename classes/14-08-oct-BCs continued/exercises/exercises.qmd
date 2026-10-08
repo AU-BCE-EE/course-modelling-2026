@@ -1,0 +1,9 @@
+1. You watched a video and implemented its code at home. The code describes diffusion of oxygen in a pipe. This script is a good place to build from, when doing new exercises.Try to identify if any boundary or initial conditions are used and where in the code these are implemented? Theoretically how many BCs are needed?
+
+2. We now change the problem to a pipe with running saltwater in it. So instead of modelling the oxygen concentration it is now the salt concentration. We apply a flow of saltwater at a velocity of 0.1 m/s. The pipe is 10 m long and the saltwater has a concentration of 35 g/L at the inlet. The diffusion coefficient of salt in water is 1.5e-9 m^2/s.The pipe is initially filled with drinking water. 
+
+A) Implement code to model the salt concentration - remove diffusion to start with and use only advection. Use two methods for descretization in the interior points: central difference and backward difference. Then pay attention to how you will handle the boundaries. Compare the results. Hint: for comparison you could plot concentration of salt at the right boundary over time. 
+
+B) Now include diffusion in your model also. Use appropriate descretization methods and compare the results with the previous model where you had only advection. What do you see - and is it as expected?
+
+C) Try to increase the diffusion coefficient until you see a considerable impact of it in your plot. In reality we cannot really change the diffusion coefficient (physics decide that), so instead you may change something else that you are in control of to see an effect of diffusion. What parameter could that be?  
