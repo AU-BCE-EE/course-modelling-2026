@@ -1,0 +1,8 @@
+
+
+4. Derive equations for calculating carbonate species concentrations from $\ce{CO2}$ partial pressure and solution pH. 
+   Try to implement it in Python as a function.
+   This is a difficult problem.
+   Bonus: Can you include calculation of pH instead of using it as an input?
+
+
