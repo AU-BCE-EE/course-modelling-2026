@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>ferm_sol – Modelling 2026</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -67,15 +73,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../../../">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-95229807032217d73f7f766adb5e0d58.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -104,46 +109,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <script>
+
 MathJax = {
+
   loader: {load: ['[tex]/mhchem']},
+
   tex: {
+
     packages: {'[+]': ['mhchem']},
+
     macros: {
+
       degC: "{^\\circ\\mathrm{C}}",
+
       degCpm: "{^\\circ\\mathrm{C}~m^{-1}}",
+
       Wpms: "{\\mathrm{W~m^{-2}}}",
+
       WpmspK: "{\\mathrm{W~m^{-2}~K^{-1}}}",
+
       WpmpK: "{\\mathrm{W~m^{-1}~K^{-1}}}",
+
       Jps: "{\\mathrm{J~s^{-1}}}",
+
       Jpg: "{\\mathrm{J~g^{-1}}}",
+
       kgps: "{\\mathrm{kg~s^{-1}}}",
+
       kgpmc: "{\\mathrm{kg~m^{-3}}}",
+
       kgpmcps: "{\\mathrm{kg~m^{-3}~s^{-1}}}",
+
       kgpspms: "{\\mathrm{kg~s^{-1}~m^{-2}}}",
+
       gpspms: "{\\mathrm{g~s^{-1}~m^{-2}}}",
+
       gps: "{\\mathrm{g~s^{-1}}}",
+
       gpmc: "{\\mathrm{g~m^{-3}}}",
+
       mc: "{\\mathrm{m^{3}}}",
+
       gpmcps: "{\\mathrm{g~m^{-3}~s^{-1}}}",
+
       mgpl: "{\\mathrm{mg~L^{-1}}}",
+
       gpmol: "{\\mathrm{g~mol^{-1}}}",
+
       msq: "{\\mathrm{m^{2}}}",
+
       mps: "{\\mathrm{m~s^{-1}}}",
+
       msqps: "{\\mathrm{m^{2}~s^{-1}}}",
+
       kJpkg: "{\\mathrm{kJ~kg^{-1}}}",
+
       kJpkgpK: "{\\mathrm{kJ~kg^{-1}~K^{-1}}}",
+
       molps: "{\\mathrm{mol~s^{-1}}}",
+
       molpmcps: "{\\mathrm{mol~m^{-3}~s^{-1}}}",
+
       pers: "{\\mathrm{s^{-1}}}",
+
       mcbps: "{\\mathrm{m^{3}~s^{-1}}}",
+
       mcb: "{\\mathrm{m^{3}}}"
+
     }
+
   }
+
 };
+
 </script>
 
+
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -180,10 +223,6 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -391,11 +430,11 @@ T_f = \frac{A_t \cdot U_t \cdot T_a + A_j \cdot U_j \cdot T_j} {A_j \cdot U_j + 
 </div>
 <p>The actual solution (equation above) is simple. In the code it is spread across a few lines for clarity. This is good practice then an expression has a lot of terms. Note that the intermediate variables (<code>num</code> and <code>dem</code> above) do not need to have any physical interpretation.</p>
 <p>Here are some predictions.</p>
-<div id="0739b648" class="cell" data-execution_count="1">
+<div id="5d30700f" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ferm_mod <span class="im">as</span> fm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>First, using some best guesses for parameter values. Really, the <span class="math inline">\(U\)</span> terms should be estimated from individual components. But because the convection terms probably dominate the total resistance, we can use convection coefficient estimates from the book. For the top, we have free convection through a gas (air), so we might expect something in the 10s. Between the jacket and fermenter mix, we have two liquids, so something in the 100s is reasonable.</p>
-<div id="2cac2414" class="cell" data-execution_count="2">
+<div id="ab0a2c17" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fm.ferm_temp(temp_jack<span class="op">=</span><span class="dv">50</span>, temp_air<span class="op">=</span><span class="dv">20</span>, u_jack<span class="op">=</span><span class="dv">200</span>, u_top<span class="op">=</span><span class="dv">10</span>, area_jack<span class="op">=</span><span class="fl">0.1</span>, area_top<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>49.26829268292683</code></pre>
@@ -403,7 +442,7 @@ T_f = \frac{A_t \cdot U_t \cdot T_a + A_j \cdot U_j \cdot T_j} {A_j \cdot U_j + 
 </div>
 <p>So with a low <span class="math inline">\(U\)</span> for the top, the fermenter temperature is close to the jacket temperature. That makes sense.</p>
 <p>What happens if we match the heat transfer coefficients and areas?</p>
-<div id="8c823d14" class="cell" data-execution_count="3">
+<div id="fc2b8f93" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fm.ferm_temp(temp_jack<span class="op">=</span><span class="dv">50</span>, temp_air<span class="op">=</span><span class="dv">20</span>, u_jack<span class="op">=</span><span class="dv">10</span>, u_top<span class="op">=</span><span class="dv">10</span>, area_jack<span class="op">=</span><span class="fl">0.1</span>, area_top<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>35.0</code></pre>
@@ -411,7 +450,7 @@ T_f = \frac{A_t \cdot U_t \cdot T_a + A_j \cdot U_j \cdot T_j} {A_j \cdot U_j + 
 </div>
 <p>That makes sense as well. But it is physically unrealistic to match the coefficients.</p>
 <p>If we shut off the heat transfer from the jacket?</p>
-<div id="09399eb7" class="cell" data-execution_count="4">
+<div id="1268e880" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fm.ferm_temp(temp_jack<span class="op">=</span><span class="dv">50</span>, temp_air<span class="op">=</span><span class="dv">20</span>, u_jack<span class="op">=</span><span class="dv">0</span>, u_top<span class="op">=</span><span class="dv">10</span>, area_jack<span class="op">=</span><span class="fl">0.1</span>, area_top<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>20.0</code></pre>
