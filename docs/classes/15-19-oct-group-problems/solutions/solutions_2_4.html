@@ -269,7 +269,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>A 2 m long plug flow reactor converts 100% O2 gas into CO2 gas by providing some carbon source inside the reactor. The reaction rate follows first order kinetics with <span class="math inline">\(k_r = 0.01 ~minute^{-1}\)</span>. Construct a model that predicts the concentration of O2 along the plug flow reactor. Choose reasonable values for your model variables and use it to estimate approximately the minimum flow rate needed to reach O2 concentration in the outlet of 5% at a steady state. How long time does the reactor need to run before a steady-state is reached?</li>
 </ol>
-<div id="8516cb09" class="cell" data-execution_count="1">
+<div id="28a32e9c" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -371,7 +371,7 @@ window.Quarto = {
 <ol start="4" type="1">
 <li>You want to transfer an aqueous solution of acetate with a concentration of 10 g/m3 to a reactor. Before the reactor the solution has to go through a 2 m long pipe that is already filled with water contaminated with 1 g bacteria/m3. You need a flow velocity of 1 m/d in the pipe and you are concerned about whether the bacteria will eat all the acetate before it reaches the reactor. Construct a model that predicts concentrations of acetate and bacteria along the pipe and over time. The bacteria follows Monod kinetics with a umax of 0.5 pr hour and a half saturation constant (Ks) of 0.2 g acetate/m3. The biomass yield of the bacteria (Y) is 0.5 g biomass pr g acetate consumed.</li>
 </ol>
-<div id="194aa5d7" class="cell" data-execution_count="2">
+<div id="4697aeca" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
@@ -481,7 +481,113 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>It looks like all bacteria are eventually washed out of the pipe and therefore the acetate will not be consumed after some time. BUT this may be different at lower flow velocities.</p>
+<p>It looks like all bacteria are eventually washed out of the pipe and therefore the acetate will not be consumed after some time. Dirichlet BC at the inflow side of the pipe was applied by using the point 1 node left out of the domain. In this case we had to supple the value of that ghost point in the input arguments (c_in_A, c_in_B). That solved an issue where we would otherwise always carry bacteria from index 0 downward the pipe. But we can actually also solve this with the old approach where we set dcdt[0] = 0. Lets try that instead.</p>
+<div id="19e719ea" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="dv">2</span> <span class="co"># meter</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>x_grid <span class="op">=</span> np.arange(<span class="dv">0</span>, L <span class="op">+</span> dx, dx)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> <span class="dv">1</span> <span class="co"># m/d</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(x_grid)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># A is acetate, B is bacteria biomass</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>A0 <span class="op">=</span> np.zeros(n)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>B0 <span class="op">=</span> np.zeros(n)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># there is 1 g bacteria/m3 for all positions to start with.</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>B0[:] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># but now we have to set bacteria to 0 at index 0, to avoid never getting rid of the bacteria.</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>B0[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># For A, we adjust the concentration to 10 at index 0</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>A0[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># we need to pass initial conditions as 1D array: use np.concatenate</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> np.concatenate([A0, B0])</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rates(t, y, D, v, x_grid, dx, umax, Ks, Y):</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make a derivative array for each compound</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(x_grid) </span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    dAdt <span class="op">=</span> np.zeros(n) <span class="co"># A for acetate</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    dBdt <span class="op">=</span> np.zeros(n) <span class="co"># B for bacteria</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extract each state variable to make it easier below.</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> y[:n]</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> y[n:]</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># monod kinetics says that the growth rate for bacteria is </span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># u = (umax * substrate)/(substrate + Ks)     </span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># change in bacteria = u * bacteria * biomass yield. translating to our</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># state variables the reaction rates becomes:</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># rA =  -(umax * A[i])/(A[i] + Ks) * B[i] </span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># rB =  (umax * A[i])/(A[i] + Ks) * B[i] * Y</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The pipe is open in the right side, but nothing happens after the pipe (just goes into a reactor and we don't care about that)</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This is also the same as a dcdx = 0 (Neumann boundary condition).</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for advection we use backward difference (upwind scheme in this case)</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for diffusion we use central difference, but substitute ghost point.</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    dAdt[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="op">-</span>v<span class="op">*</span>(A[<span class="op">-</span><span class="dv">1</span>]<span class="op">-</span>A[<span class="op">-</span><span class="dv">2</span>])<span class="op">/</span>dx <span class="op">+</span> D <span class="op">*</span> (A[<span class="op">-</span><span class="dv">2</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>A[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> A[<span class="op">-</span><span class="dv">2</span>])<span class="op">/</span>(dx<span class="op">**</span><span class="dv">2</span>) <span class="op">-</span> (umax <span class="op">*</span> A[<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>(A[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> Ks) <span class="op">*</span> B[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    dBdt[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="op">-</span>v<span class="op">*</span>(B[<span class="op">-</span><span class="dv">1</span>]<span class="op">-</span>B[<span class="op">-</span><span class="dv">2</span>])<span class="op">/</span>dx <span class="op">+</span> D <span class="op">*</span> (B[<span class="op">-</span><span class="dv">2</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>B[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> B[<span class="op">-</span><span class="dv">2</span>])<span class="op">/</span>(dx<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> (umax <span class="op">*</span> A[<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>(A[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> Ks) <span class="op">*</span> B[<span class="op">-</span><span class="dv">1</span>] <span class="op">*</span> Y</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># At the inlet we just set the change to 0</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    dAdt[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    dBdt[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span>  </span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>        rA <span class="op">=</span> (umax <span class="op">*</span> A[i])<span class="op">/</span>(A[i] <span class="op">+</span> Ks) <span class="op">*</span> B[i]</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>        rB <span class="op">=</span> (umax <span class="op">*</span> A[i])<span class="op">/</span>(A[i] <span class="op">+</span> Ks) <span class="op">*</span> B[i] <span class="op">*</span> Y </span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>        dAdt[i] <span class="op">=</span> <span class="op">-</span>v<span class="op">*</span>(A[i]<span class="op">-</span>A[i<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>dx <span class="op">+</span> D <span class="op">*</span> (A[i<span class="op">+</span><span class="dv">1</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>A[i] <span class="op">+</span> A[i<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>(dx<span class="op">**</span><span class="dv">2</span>) <span class="op">-</span> rA</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>        dBdt[i] <span class="op">=</span> <span class="op">-</span>v<span class="op">*</span>(B[i]<span class="op">-</span>B[i<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>dx <span class="op">+</span> D <span class="op">*</span> (B[i<span class="op">+</span><span class="dv">1</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>B[i] <span class="op">+</span> B[i<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>(dx<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> rB  </span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># we need to return a 1D array. Which is possible with np.concatenate</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.concatenate([dAdt, dBdt])</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>tmax <span class="op">=</span> <span class="dv">20</span> <span class="co"># days</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="dv">10</span><span class="op">**</span>(<span class="op">-</span><span class="dv">9</span>) <span class="op">*</span> <span class="dv">3600</span><span class="op">*</span><span class="dv">24</span> <span class="co"># m2/d</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> <span class="fl">0.5</span> <span class="co"># g/g</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>Ks <span class="op">=</span> <span class="fl">0.2</span> <span class="co"># g/m3</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>umax <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="dv">24</span> <span class="co"># 1/d</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="co"># I use BDF method because it is good for stiff problems, and the numbers above</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="co"># (umax vs diffusion vs velocity indicate very different rates of change), and the problem might be quite stiff.</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> solve_ivp(rates, t_span <span class="op">=</span> [<span class="dv">0</span>, tmax], y0 <span class="op">=</span> y0, method <span class="op">=</span> <span class="st">"BDF"</span>, </span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>                t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, tmax, <span class="dv">200</span>), args <span class="op">=</span> (D, v, x_grid, dx, umax, Ks, Y))    </span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a><span class="co"># extracting acetate and bacteria from the solution first</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sol.y[:n,:]</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> sol.y[n:,:]</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting development over time at different positions</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, n, <span class="dv">5</span>):</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>    plt.plot(sol.t, A[i,:], label <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>i<span class="op">*</span>dx<span class="sc">}</span><span class="ss"> m'</span>)</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Acetate conc, g/m3'</span>)</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, n, <span class="dv">5</span>):</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>    plt.plot(sol.t, B[i,:], label <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>i<span class="op">*</span>dx<span class="sc">}</span><span class="ss"> m'</span>)</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Bacteria conc, g/m3'</span>)</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="solutions_2_4_files/figure-html/cell-4-output-1.png" width="585" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This gives almost the same solution - but it seems a little shifted. But we must be aware that we are now making the assumption that at index 0 there is no reaction, this was the case before. When dx gets smaller the - the two methods gives negligible differences.</p>
 
 
 
