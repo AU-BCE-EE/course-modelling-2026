@@ -1,0 +1,156 @@
+1.  Construct a model that predicts the temperature along a 10 m long insulated copper wire. In one end of the wire a heat source provides enough energy to ensure that the temperature is 200 degree C, the other end is open to the surrounding air. Use a heat transfer coefficient of 10 W/(K * m2) and find other relevant constants for copper online. Plot the temperature development over time at multiple positions on the copper wire including the 10 m position. Approxmately how many days does it take before the end of the wire is 100 deg C warm?  
+
+```{python}
+import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+# finding constants from the internet about copper 
+cp = 385 # J/(kg * K)
+k = 401 # W/(m*K)
+p = 8960 # kg/m3
+a = k/(cp*p) # m2/s
+T_air = 20 # degree C
+h = 10 # W/(K * m2)
+
+# grid
+L = 10 # length of wire, m
+dx = 0.1 # distance between nodes, m
+x_grid = np.arange(0, 10 + dx, dx) # grid 
+tmax = 60*60*24*10 # lets try to run for 10 days in seconds 
+# (since we don't know any better for now)
+
+# initial conditions:
+T0 = np.zeros(len(x_grid))
+T0[0] = 200 # deg C
+
+# Defining the rates function or dT/dt function
+
+def dTdt(t, T, dx, a, h, p, cp, T_air):
+    
+    dTdt = np.zeros(len(T))
+    N = len(T) - 1
+    
+    # The temperature is fixed at 200 in one end so it is a 
+    # Dirichlet boundary condition: no change from the initial condition
+    # therefore by explicit and set dT/dt to 0 at index 0
+    dTdt[0] = 0 # K/s
+    
+    # Robin BC at the right side because it is open to the air
+    # so we can assume that the heat is transferred to the outside air by convection
+    # the flux is therefore balanced by heat convection equation at index N
+    # q = -k*dT/dx = h * (T[N] - T_air)
+    # q = -k * (T[N+1]- T[N-1])/(2*dx) = h * (T[N] - T_air)
+    # isolate T[N+1]: 
+    # T[N+1] = T[N-1] - 2dx*h/k * (T[N] - T_air)
+    # write ghost point variable here: 
+    TN1_ghost = T[N-1] - 2*dx*h/k * (T[N] - T_air)
+    
+    # now we must put TN1 into the second order approximation of d2T/dx2
+    dTdt[N] = a * (TN1_ghost - 2*T[N] + T[N-1])/dx**2 # K/s
+    
+    # and now loop through the interior points using central difference for 
+    # diffusion terms
+    for i in range(1, N):
+        dTdt[i] = a * (T[i+1] - 2*T[i] + T[i-1])/dx**2
+        
+    return dTdt
+
+sol = solve_ivp(dTdt, [0, tmax], T0, method = 'BDF', t_eval = np.linspace(0, tmax, 100), args=(dx, a, h, p, cp, T_air))
+
+plt.clf()
+plt.close()
+plt.ioff()
+
+# plotting different positions and their temp development over time
+for i in range(0, len(x_grid), 20):
+    plt.plot(sol.t/(60*60*24), sol.y[i], label = f'{i*dx} m')
+
+plt.legend(loc = 4)
+plt.xlabel('Time, days')
+plt.ylabel('Temp, deg C')
+plt.show()
+
+# the plot shows the brows line is reaching 100 deg C after approximately 4 days.
+```
+
+3.  A sphere iron with diameter of 0.2 m has to be cooled in a water bath. Construct and solve a model in python to predict the temperature of the sphere. Consider first what coordinates you want to use and what assumption you can make about symmetry. Define your own initial and boundary conditions from what you think is realistic and clearly state your assumptions. The model should be able to predict the temperature of the sphere over time and space. If the sphere is 1500 deg C to start with when (approximately - look at plot) will it reach a temperature of 200 deg C on the surface and in the middle of it? Use constants found from the internet and a heat transfer coefficient of 1000 W/(m2* K).
+
+```{python}
+import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+# the obvious choice would be spherical coordinates now that we have a sphere.
+# The problem also does not involve heat advection and we assume no angular variation.
+# The GE is therefore  
+ 
+# dT/dt = k/(rho * cp) * (1/r^2 * d/dr(r^2*dT/dr))
+# we can use product rule to make this more interpretable:
+#k/(rho * cp) * (1/r^2 * d/dr(r^2*dT/dr)) = k/(rho * cp) * 1/r^2 * (r^2*d2T/dr2 + dT/dr * 2r) = k/(rho * cp) * (d2T/dr2 + 2/r * dT/dr)
+
+
+
+R = 0.1 # m, some radius of the sphere. 
+dr = 0.005 # m
+r = np.arange(0, R + dr, dr)
+tmax = 60 * 20 # seconds (20 min)
+
+# constants of iron from the internet: 
+k = 80 # W/(m * K)
+rho = 7870 # kg/m3
+cp = 449 # J/(kg * K)
+
+# the heat diffusivity is estimated as
+a = k/(cp*rho) # m2/s
+# heat convection coefficient.
+h = 1000 # W/(m2 * K)
+# water bath temperature (room temp)
+T_water = 20
+T0 = np.zeros(len(r))
+# the starting temperature of the sphere in all interior points 
+T0[:] = 1500
+
+def dTdt(t, T, k, a, T_water, r, dr, h):
+    
+    dTdt = np.zeros(len(T))
+    N = len(T)-1
+    
+    # symmetry at center of sphere, means we can set the flux to 0 at r = 0
+    # in spherical coordinates then r = 0, is the center of the sphere. 
+    # dTdr = 0, meaning that ghost point (T[start-1]) must be equal to T[1]
+    # therefore at center of sphere apply boundary condition for conduction term
+    
+    dTdt[0] = a * (T[1] - 2*T[0] + T[1])/dr**2 # the last part (2/r * dT/dr) is eliminated because dTdr = 0 at the boundary 
+    
+    
+    # at the right side (surface of the sphere) we have a Robin boundary condition
+    # we use a ghost point at N+1 and isolate it. 
+    
+    TN1_ghost = T[N-1] - h*2*dr/k*(T[N]-T_water)
+    # using that in the diffusion term for spherical coordinates. 
+    dTdt[N] = a * (TN1_ghost - 2*T[N] + T[N-1])/dr**2 + 2*a/r[N] * (TN1_ghost - T[N-1])/(2*dr)
+    
+    # at interior points
+    for i in range(1, N):
+        dTdt[i] = a * (T[i+1] - 2*T[i] + T[i-1])/dr**2 + 2*a/r[i] * (T[i+1] - T[i-1])/(2*dr) # 
+    
+    return dTdt
+    
+sol = solve_ivp(dTdt, [0, tmax], T0, method = 'LSODA', t_eval = np.linspace(0, tmax, 1000), 
+                args = (k, a, T_water, r, dr, h))
+
+plt.clf()
+plt.close()
+plt.ioff()
+for i in range(0, len(r), 10):
+    plt.plot(sol.t, sol.y[i], label = f'{i*dr} m')
+
+plt.legend(loc = 1)
+plt.xlabel('Time, seconds')
+plt.ylabel('Temp, deg C')
+plt.show()
+
+# approximately 300 and 400 min before the surface and middle of the sphere is 200 deg C
+
+```
