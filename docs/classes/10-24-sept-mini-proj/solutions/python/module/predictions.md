@@ -38,7 +38,7 @@ it and it is fine to keep it in your submitted scripts in this class.
 reload(am)
 ```
 
-    <module 'ammonia_mods' from 'C:\\Users\\au277187\\OneDrive - Aarhus universitet\\Documents\\GitHub\\AU-BCE-EE\\course-modelling-2026\\classes\\10-24-sept-mini-proj\\solutions\\python\\module\\ammonia_mods.py'>
+    <module 'ammonia_mods' from '/home/sasha/repos/course-modelling-2026/classes/10-24-sept-mini-proj/solutions/python/module/ammonia_mods.py'>
 
 # 3. Constants
 
