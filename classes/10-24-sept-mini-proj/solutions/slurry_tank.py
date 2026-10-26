@@ -1,0 +1,183 @@
+"""
+File name: slurry_tank.py
+Author: Sasha D. Hafner and Frederik Dalby
+Course: Modelling 2026
+
+Description:
+    This module defines a model function stmod() for 
+    modeling ammonia volatilization from a slurry 
+    storage tank.
+
+Usage:
+    See other files in this directory
+
+"""
+
+from scipy.integrate import solve_ivp
+import numpy as np
+
+def stmod(
+    f_in,
+    f_out,
+    a_top,
+    c_TAN_0,
+    c_urea_0,
+    c_bg,
+    pH,
+    ku,
+    kg,
+    temp_c,
+    t_range, 
+    t_step,
+    m_TAN_0 = 0.,
+    m_urea_0 = 0.,
+    v_man_0 = 1.E-6
+):
+    """ 
+    Dynamic model for ammonia volatilization from a manure storage 
+    tank with constant but possibly unequal manure flow in and out 
+    and a variable volume of manure. Includes urea hydrolysis.
+
+    Parameters
+    ----------
+    f_in : float
+        Rate of manure pumping into tank (m3/s)
+    f_out : float
+        Rate of manure pumping out of tank (m3/s)
+    a_top : float
+        Area of tank (top and at any depth) (m2).
+    c_TAN_0 : float
+        Concentration of TAN in fresh manue (kg/m3 as N).
+    c_urea_0 : float
+        Concentration of urea in fresh manue (kg/m3 as N).
+    c_bg : float
+        Concentration of NH3 (g) in ambient (background) 
+        air (kg/m3 as N).
+    pH : float
+        Manure pH (pH units).
+    ku : float
+        First-order reaction rate constant for urea hydrolysis (1/s).
+    kg : float
+        Overall gas-phase mass transfer coefficient (m/s).
+    temp_c : float
+        Slurry temperature (deg. C) for speciation calculations.
+    t_range : tuple, list, or array (length 2)
+        Initial and final time requested in output (s).
+    t_step : float
+        Time step requested for output (s).
+ 
+    """
+
+    # Calculate Henry's law constant based on temperature (dimensionless, aq:g)
+    hen = hlc(temp_c)
+  
+    # Calculate fraction of TAN as NH3(aq) (dimensionless)
+    frac_NH3 = free_NH3(pH, temp_c)
+
+    # Define rates function
+    def rates(t, y):
+
+        # Extract state variable values
+        m_TAN = y[0]
+        m_urea = y[1]
+        v_man = y[2]
+
+        # TAN flow in and out by advection (kg/s as N)
+        TAN_in = c_TAN_0 * f_in
+        TAN_out = m_TAN / v_man * f_out
+
+        # Urea flow in and out by advection (kg/s as N)
+        urea_in = c_urea_0 * f_in
+        urea_out = m_urea / v_man * f_out
+
+        # Urea hydrolysis rate (kg/s as N)
+        urea_hyd = ku * m_urea
+
+        # NH3 volatilization (kg/s as N)
+        volat = kg * a_top * (frac_NH3 * m_TAN / v_man / hen - c_bg)
+
+        # Calculate derivatives using GE from model formulation
+        dm_TAN_dt = TAN_in - TAN_out + urea_hyd - volat
+        dm_urea_dt = urea_in - urea_out - urea_hyd
+        dv_man_dt = (f_in  - f_out)
+
+        return np.array([dm_TAN_dt, dm_urea_dt, dv_man_dt])
+
+    # Now solve with solve_ivp()
+    res = solve_ivp(rates, t_span = t_range, y0 = [m_TAN_0, m_urea_0, v_man_0], 
+                    t_eval = np.arange(t_range[0], t_range[1] + t_step, t_step))
+
+    # That gives us masses of the three state variables
+    # Let's calculate concentrations too by dividing the two solute mass elements (TAN and urea) by the slurry element
+    concs = res.y[0:2, ] / res.y[2, ]
+
+    out = {
+        't': res.t,
+        'v_man': res.y[2, :],
+        'm_TAN': res.y[0, :],
+        'm_urea': res.y[1, :],
+        'c_TAN': concs[0, :],
+        'c_urea': concs[1, :]
+    }
+
+    # Return results
+    return(out)
+
+
+def free_NH3(pH, temp_c):
+    """
+    Calculate free ammonia fraction (NH3 (aq)) from pH and TAN concentration.
+
+    Parameters
+    ----------
+    pH : float or array-like
+        Solution pH
+    temp : float or array-like
+        Temperature in degrees C
+
+    Returns
+    -------
+    float or array with free ammonia concentration in same units as TAN input
+    """
+
+    # Calculate H+ concentration from pH
+    c_H = 10**(-pH)
+
+    # And Ka
+    Ka = 10**-(0.0905 + 2729.31 / (temp_c + 273.15)) 
+
+    # Apply equation from text
+    f_NH3 = 1 / (1 + c_H / Ka)
+
+    # Return solution
+    return f_NH3 
+
+
+def hlc(temp_c):
+    """
+    Caclulate Henry's law constant for NH3 from temperature
+
+    Parameters
+    ----------
+    temp_c : float
+        Temperature in deg. C      
+
+    Returns
+    -------
+    float with dimensionless Henry's law constant (aq:g)
+    """
+
+    # 1. temp_c is input temperature in degrees C but the calculations are based on Kelvin
+    temp_k = temp_c + 273.15
+
+    # 2. Universal gas constant (atm L/mol-K)
+    R = 0.082057
+
+    # 3. Henry's law constant in mol / L - atm
+    kh = 10**(-3.51645 - 0.0013637 * temp_k + 1701.35 / temp_k)
+
+    # 4. Henry's law constant in dimensionless form aq:g (e.g., g/m3 aq. per g/m3 gas, g/L per g/L, etc.)
+    hen = R * temp_k * kh
+
+    return(hen)
+
