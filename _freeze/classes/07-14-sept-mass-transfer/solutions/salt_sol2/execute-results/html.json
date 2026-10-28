@@ -1,0 +1,12 @@
+{
+  "hash": "2e4bc8d446ed0e54e7336fc41c36116f",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: Salt solution - implementation\n---\n\n\n\n```{.python filename=\"salt_mod.py\"}\n\"\"\"\nFile name: salt_mod.py\nAuthor: Sasha D. Hafner\nCourse: Modelling 2026\n\nDescription:\n    Implementation of analytical ocean salt\n    accumulation model in salty() function. \n\nUsage:\n    See demo script in this directory.\n\n\"\"\"\n\ndef salty(\n    conc_init,\n    conc_river,\n    to_rate,\n    times    \n):\n\n    \"\"\"\n    ...fill this in!\n    \"\"\"\n\n    conc = conc_init + to_rate * conc_river * times\n\n    return conc\n\n```\n\nHere are some predictions.\n\n\n::: {#42ebecd2 .cell execution_count=1}\n``` {.python .cell-code}\nimport numpy as np\nimport salt_mod as sm\n\n# If needed (common!) use reload function to reload module after editing it\nfrom importlib import reload\nreload(sm)\n\nsm.salty(\n    conc_init=35, \n    conc_river=0.01, \n    to_rate=3.6e-5, \n    times = np.linspace(0, 1000)\n)\n```\n\n::: {.cell-output .cell-output-display execution_count=1}\n```\narray([35.        , 35.00000735, 35.00001469, 35.00002204, 35.00002939,\n       35.00003673, 35.00004408, 35.00005143, 35.00005878, 35.00006612,\n       35.00007347, 35.00008082, 35.00008816, 35.00009551, 35.00010286,\n       35.0001102 , 35.00011755, 35.0001249 , 35.00013224, 35.00013959,\n       35.00014694, 35.00015429, 35.00016163, 35.00016898, 35.00017633,\n       35.00018367, 35.00019102, 35.00019837, 35.00020571, 35.00021306,\n       35.00022041, 35.00022776, 35.0002351 , 35.00024245, 35.0002498 ,\n       35.00025714, 35.00026449, 35.00027184, 35.00027918, 35.00028653,\n       35.00029388, 35.00030122, 35.00030857, 35.00031592, 35.00032327,\n       35.00033061, 35.00033796, 35.00034531, 35.00035265, 35.00036   ])\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "salt_sol2_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
