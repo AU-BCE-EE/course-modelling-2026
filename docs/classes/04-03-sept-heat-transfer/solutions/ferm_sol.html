@@ -432,11 +432,11 @@ T_f = \frac{A_t \cdot U_t \cdot T_a + A_j \cdot U_j \cdot T_j} {A_j \cdot U_j + 
 </div>
 <p>The actual solution (equation above) is simple. In the code it is spread across a few lines for clarity. This is good practice then an expression has a lot of terms. Note that the intermediate variables (<code>num</code> and <code>dem</code> above) do not need to have any physical interpretation.</p>
 <p>Here are some predictions.</p>
-<div id="5d30700f" class="cell" data-execution_count="1">
+<div id="0739b648" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ferm_mod <span class="im">as</span> fm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>First, using some best guesses for parameter values. Really, the <span class="math inline">\(U\)</span> terms should be estimated from individual components. But because the convection terms probably dominate the total resistance, we can use convection coefficient estimates from the book. For the top, we have free convection through a gas (air), so we might expect something in the 10s. Between the jacket and fermenter mix, we have two liquids, so something in the 100s is reasonable.</p>
-<div id="ab0a2c17" class="cell" data-execution_count="2">
+<div id="2cac2414" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fm.ferm_temp(temp_jack<span class="op">=</span><span class="dv">50</span>, temp_air<span class="op">=</span><span class="dv">20</span>, u_jack<span class="op">=</span><span class="dv">200</span>, u_top<span class="op">=</span><span class="dv">10</span>, area_jack<span class="op">=</span><span class="fl">0.1</span>, area_top<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>49.26829268292683</code></pre>
@@ -444,7 +444,7 @@ T_f = \frac{A_t \cdot U_t \cdot T_a + A_j \cdot U_j \cdot T_j} {A_j \cdot U_j + 
 </div>
 <p>So with a low <span class="math inline">\(U\)</span> for the top, the fermenter temperature is close to the jacket temperature. That makes sense.</p>
 <p>What happens if we match the heat transfer coefficients and areas?</p>
-<div id="fc2b8f93" class="cell" data-execution_count="3">
+<div id="8c823d14" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fm.ferm_temp(temp_jack<span class="op">=</span><span class="dv">50</span>, temp_air<span class="op">=</span><span class="dv">20</span>, u_jack<span class="op">=</span><span class="dv">10</span>, u_top<span class="op">=</span><span class="dv">10</span>, area_jack<span class="op">=</span><span class="fl">0.1</span>, area_top<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>35.0</code></pre>
@@ -452,7 +452,7 @@ T_f = \frac{A_t \cdot U_t \cdot T_a + A_j \cdot U_j \cdot T_j} {A_j \cdot U_j + 
 </div>
 <p>That makes sense as well. But it is physically unrealistic to match the coefficients.</p>
 <p>If we shut off the heat transfer from the jacket?</p>
-<div id="1268e880" class="cell" data-execution_count="4">
+<div id="09399eb7" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fm.ferm_temp(temp_jack<span class="op">=</span><span class="dv">50</span>, temp_air<span class="op">=</span><span class="dv">20</span>, u_jack<span class="op">=</span><span class="dv">0</span>, u_top<span class="op">=</span><span class="dv">10</span>, area_jack<span class="op">=</span><span class="fl">0.1</span>, area_top<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>20.0</code></pre>
