@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-a70a50fa3448bf49e0762f7b94ce7b9b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,83 +109,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <script>
-
 MathJax = {
-
   loader: {load: ['[tex]/mhchem']},
-
   tex: {
-
     packages: {'[+]': ['mhchem']},
-
     macros: {
-
       degC: "{^\\circ\\mathrm{C}}",
-
       degCpm: "{^\\circ\\mathrm{C}~m^{-1}}",
-
       Wpms: "{\\mathrm{W~m^{-2}}}",
-
       WpmspK: "{\\mathrm{W~m^{-2}~K^{-1}}}",
-
       WpmpK: "{\\mathrm{W~m^{-1}~K^{-1}}}",
-
       Jps: "{\\mathrm{J~s^{-1}}}",
-
       Jpg: "{\\mathrm{J~g^{-1}}}",
-
       kgps: "{\\mathrm{kg~s^{-1}}}",
-
       kgpmc: "{\\mathrm{kg~m^{-3}}}",
-
       kgpmcps: "{\\mathrm{kg~m^{-3}~s^{-1}}}",
-
       mcps: "{\\mathrm{m^{3}~s^{-1}}}",
-
       kgpspms: "{\\mathrm{kg~s^{-1}~m^{-2}}}",
-
       gpspms: "{\\mathrm{g~s^{-1}~m^{-2}}}",
-
       gps: "{\\mathrm{g~s^{-1}}}",
-
       gpmc: "{\\mathrm{g~m^{-3}}}",
-
       mc: "{\\mathrm{m^{3}}}",
-
       gpmcps: "{\\mathrm{g~m^{-3}~s^{-1}}}",
-
       mgpl: "{\\mathrm{mg~L^{-1}}}",
-
       gpmol: "{\\mathrm{g~mol^{-1}}}",
-
       msq: "{\\mathrm{m^{2}}}",
-
       mps: "{\\mathrm{m~s^{-1}}}",
-
       msqps: "{\\mathrm{m^{2}~s^{-1}}}",
-
       kJpkg: "{\\mathrm{kJ~kg^{-1}}}",
-
       kJpkgpK: "{\\mathrm{kJ~kg^{-1}~K^{-1}}}",
-
       molps: "{\\mathrm{mol~s^{-1}}}",
-
       molpmcps: "{\\mathrm{mol~m^{-3}~s^{-1}}}",
-
       pers: "{\\mathrm{s^{-1}}}",
-
       mcbps: "{\\mathrm{m^{3}~s^{-1}}}",
-
       mcb: "{\\mathrm{m^{3}}}"
-
     }
-
   }
-
 };
-
 </script>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -271,7 +232,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>A 2 m long plug flow reactor converts 100% O2 gas into CO2 gas by providing some carbon source inside the reactor. The reaction rate follows first order kinetics with <span class="math inline">\(k_r = 0.01 ~minute^{-1}\)</span>. Construct a model that predicts the concentration of O2 along the plug flow reactor. Choose reasonable values for your model variables and use it to estimate approximately the minimum flow rate needed to reach O2 concentration in the outlet of 5% at a steady state. How long time does the reactor need to run before a steady-state is reached?</li>
 </ol>
-<div id="87116da5" class="cell" data-execution_count="1">
+<div id="b04722c2" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -362,7 +323,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions_2_4_files/figure-html/cell-2-output-1.png" width="585" height="429" class="figure-img"></p>
+<p><img src="solutions_2_4_files/figure-html/cell-2-output-1.png" width="585" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -373,7 +334,7 @@ window.Quarto = {
 <ol start="4" type="1">
 <li>You want to transfer an aqueous solution of acetate with a concentration of 10 g/m3 to a reactor. Before the reactor the solution has to go through a 2 m long pipe that is already filled with water contaminated with 1 g bacteria/m3. You need a flow velocity of 1 m/d in the pipe and you are concerned about whether the bacteria will eat all the acetate before it reaches the reactor. Construct a model that predicts concentrations of acetate and bacteria along the pipe and over time. The bacteria follows Monod kinetics with a umax of 0.5 pr hour and a half saturation constant (Ks) of 0.2 g acetate/m3. The biomass yield of the bacteria (Y) is 0.5 g biomass pr g acetate consumed.</li>
 </ol>
-<div id="e5fc8bfa" class="cell" data-execution_count="2">
+<div id="a74a5598" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
@@ -478,13 +439,13 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions_2_4_files/figure-html/cell-3-output-1.png" width="585" height="429" class="figure-img"></p>
+<p><img src="solutions_2_4_files/figure-html/cell-3-output-1.png" width="585" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>It looks like all bacteria are eventually washed out of the pipe and therefore the acetate will not be consumed after some time. Dirichlet BC at the inflow side of the pipe was applied by using the point 1 node left (a ghost point really) of the domain. In this case we had to supply the value of that ghost point in the input arguments (c_in_A, c_in_B). That solved an issue where we would otherwise always carry bacteria from index 0 downward the pipe. But we can actually also solve this problem with the old approach where we set dcdt[0] = 0. Lets try that instead.</p>
-<div id="b62572b9" class="cell" data-execution_count="3">
+<div id="b648d4cd" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
@@ -584,7 +545,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions_2_4_files/figure-html/cell-4-output-1.png" width="585" height="429" class="figure-img"></p>
+<p><img src="solutions_2_4_files/figure-html/cell-4-output-1.png" width="585" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>

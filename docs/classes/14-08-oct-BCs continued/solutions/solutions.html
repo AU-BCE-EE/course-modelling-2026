@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-a70a50fa3448bf49e0762f7b94ce7b9b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,83 +109,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <script>
-
 MathJax = {
-
   loader: {load: ['[tex]/mhchem']},
-
   tex: {
-
     packages: {'[+]': ['mhchem']},
-
     macros: {
-
       degC: "{^\\circ\\mathrm{C}}",
-
       degCpm: "{^\\circ\\mathrm{C}~m^{-1}}",
-
       Wpms: "{\\mathrm{W~m^{-2}}}",
-
       WpmspK: "{\\mathrm{W~m^{-2}~K^{-1}}}",
-
       WpmpK: "{\\mathrm{W~m^{-1}~K^{-1}}}",
-
       Jps: "{\\mathrm{J~s^{-1}}}",
-
       Jpg: "{\\mathrm{J~g^{-1}}}",
-
       kgps: "{\\mathrm{kg~s^{-1}}}",
-
       kgpmc: "{\\mathrm{kg~m^{-3}}}",
-
       kgpmcps: "{\\mathrm{kg~m^{-3}~s^{-1}}}",
-
       mcps: "{\\mathrm{m^{3}~s^{-1}}}",
-
       kgpspms: "{\\mathrm{kg~s^{-1}~m^{-2}}}",
-
       gpspms: "{\\mathrm{g~s^{-1}~m^{-2}}}",
-
       gps: "{\\mathrm{g~s^{-1}}}",
-
       gpmc: "{\\mathrm{g~m^{-3}}}",
-
       mc: "{\\mathrm{m^{3}}}",
-
       gpmcps: "{\\mathrm{g~m^{-3}~s^{-1}}}",
-
       mgpl: "{\\mathrm{mg~L^{-1}}}",
-
       gpmol: "{\\mathrm{g~mol^{-1}}}",
-
       msq: "{\\mathrm{m^{2}}}",
-
       mps: "{\\mathrm{m~s^{-1}}}",
-
       msqps: "{\\mathrm{m^{2}~s^{-1}}}",
-
       kJpkg: "{\\mathrm{kJ~kg^{-1}}}",
-
       kJpkgpK: "{\\mathrm{kJ~kg^{-1}~K^{-1}}}",
-
       molps: "{\\mathrm{mol~s^{-1}}}",
-
       molpmcps: "{\\mathrm{mol~m^{-3}~s^{-1}}}",
-
       pers: "{\\mathrm{s^{-1}}}",
-
       mcbps: "{\\mathrm{m^{3}~s^{-1}}}",
-
       mcb: "{\\mathrm{m^{3}}}"
-
     }
-
   }
-
 };
-
 </script>
-
 
 
 </head>
@@ -240,7 +201,7 @@ MathJax = {
 
 
 <p>The code for the diffusion problem is given here:</p>
-<div id="f7ac6266" class="cell" data-execution_count="1">
+<div id="b284ce6b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -273,7 +234,7 @@ MathJax = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions_files/figure-html/cell-2-output-1.png" width="585" height="429" class="figure-img"></p>
+<p><img src="solutions_files/figure-html/cell-2-output-1.png" width="585" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -289,7 +250,7 @@ MathJax = {
 <li>Implement code to model the salt concentration - remove diffusion to start with and use only advection. Use two methods for descretization in the interior points: central difference and backward difference. Then pay attention to how you will handle the boundaries. Compare the results. Hint: for comparison you could plot concentration of salt at the right boundary over time.</li>
 </ol>
 <p>2A Solution: We change the code by removing the diffusion term and adding advection instead. Also change the constants for the problem.</p>
-<div id="21a767e0" class="cell" data-execution_count="2">
+<div id="97935356" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -353,7 +314,7 @@ MathJax = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions_files/figure-html/cell-3-output-1.png" width="585" height="429" class="figure-img"></p>
+<p><img src="solutions_files/figure-html/cell-3-output-1.png" width="585" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -362,7 +323,7 @@ MathJax = {
 <li>Now include diffusion in your model also. Use appropriate descretization methods and compare the results with the previous model where you had only advection. What do you see - and is it as expected?</li>
 </ol>
 <p>2B Solution: We need to add diffusion term back now.</p>
-<div id="20e5412b" class="cell" data-execution_count="3">
+<div id="40156576" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -410,7 +371,7 @@ MathJax = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions_files/figure-html/cell-4-output-1.png" width="585" height="429" class="figure-img"></p>
+<p><img src="solutions_files/figure-html/cell-4-output-1.png" width="585" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -419,7 +380,7 @@ MathJax = {
 <li>Try to increase the diffusion coefficient until you see a considerable impact of it in your plot. In reality we cannot really change the diffusion coefficient (physics decide that), so instead you may change something else that you are in control of to see an effect of diffusion. What parameter could that be?</li>
 </ol>
 <p>2C Solution: Velocity! we change the velocity to a low number to see diffusion kick in! But with a low velocity the salt water will not reach the end of the pipe within the simulation time. So lets check how things develop in the start of the pipe. E.g. 5 cm into the pipe. But first lets just increase the diffusion coefficient to a very high value to see something happening.</p>
-<div id="e3e58d7f" class="cell" data-execution_count="4">
+<div id="5ac14214" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -444,13 +405,13 @@ MathJax = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions_files/figure-html/cell-5-output-1.png" width="585" height="429" class="figure-img"></p>
+<p><img src="solutions_files/figure-html/cell-5-output-1.png" width="585" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>And now change velocity instead</p>
-<div id="342f93bf" class="cell" data-execution_count="5">
+<div id="a2e79cb1" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># using correct diffusion again</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fl">1.5</span> <span class="op">*</span> <span class="dv">10</span><span class="op">**-</span><span class="dv">9</span> <span class="co"># m2/s</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># adjusting flow rate 1/10**5 of before</span></span>
@@ -477,7 +438,7 @@ MathJax = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions_files/figure-html/cell-6-output-1.png" width="576" height="443" class="figure-img"></p>
+<p><img src="solutions_files/figure-html/cell-6-output-1.png" width="577" height="445" class="figure-img"></p>
 </figure>
 </div>
 </div>
