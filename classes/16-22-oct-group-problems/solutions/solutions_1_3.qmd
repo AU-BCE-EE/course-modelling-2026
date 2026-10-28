@@ -121,7 +121,10 @@ def dTdt(t, T, k, a, T_water, r, dr, h):
     # dTdr = 0, meaning that ghost point (T[start-1]) must be equal to T[1]
     # therefore at center of sphere apply boundary condition for conduction term
     
-    dTdt[0] = a * (T[1] - 2*T[0] + T[1])/dr**2 # the last part (2/r * dT/dr) is eliminated because dTdr = 0 at the boundary 
+    dTdt[0] = a * (T[1] - 2*T[0] + T[1])/dr**2 
+    # the last part (2/r * dT/dr) was ignored, because 2/r = infinity and 
+    #dT/dr = 0, which gives us trouble. By ignoring that term we make a small but insignificant error. But the math to handle this is not somethign we will cover 
+    # in this course. 
     
     
     # at the right side (surface of the sphere) we have a Robin boundary condition
