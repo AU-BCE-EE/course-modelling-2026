@@ -1,0 +1,8 @@
+1. Refer to group exercise 1 - (heating of the copper wire). You should now predict the temperature of the wire 2 m into the wire after 1 hour. You should reduce simulation time as much as possible, while still getting a converged result. Prove that your model is converged at the chosen dx by plotting solutions vs dx.
+
+2. If you were to solve the problem with forward Euler, what time step would you then choose to avoid stability problems based on what you found in exercise 1?
+
+
+
+
+
