@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>mass_heat_reaction – Modelling 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+
+MathJax = {
+
+  loader: {load: ['[tex]/mhchem']},
+
+  tex: {
+
+    packages: {'[+]': ['mhchem']},
+
+    macros: {
+
+      degC: "{^\\circ\\mathrm{C}}",
+
+      degCpm: "{^\\circ\\mathrm{C}~m^{-1}}",
+
+      Wpms: "{\\mathrm{W~m^{-2}}}",
+
+      WpmspK: "{\\mathrm{W~m^{-2}~K^{-1}}}",
+
+      WpmpK: "{\\mathrm{W~m^{-1}~K^{-1}}}",
+
+      Jps: "{\\mathrm{J~s^{-1}}}",
+
+      Jpg: "{\\mathrm{J~g^{-1}}}",
+
+      kgps: "{\\mathrm{kg~s^{-1}}}",
+
+      kgpmc: "{\\mathrm{kg~m^{-3}}}",
+
+      kgpmcps: "{\\mathrm{kg~m^{-3}~s^{-1}}}",
+
+      mcps: "{\\mathrm{m^{3}~s^{-1}}}",
+
+      kgpspms: "{\\mathrm{kg~s^{-1}~m^{-2}}}",
+
+      gpspms: "{\\mathrm{g~s^{-1}~m^{-2}}}",
+
+      gps: "{\\mathrm{g~s^{-1}}}",
+
+      gpmc: "{\\mathrm{g~m^{-3}}}",
+
+      mc: "{\\mathrm{m^{3}}}",
+
+      gpmcps: "{\\mathrm{g~m^{-3}~s^{-1}}}",
+
+      mgpl: "{\\mathrm{mg~L^{-1}}}",
+
+      gpmol: "{\\mathrm{g~mol^{-1}}}",
+
+      msq: "{\\mathrm{m^{2}}}",
+
+      mps: "{\\mathrm{m~s^{-1}}}",
+
+      msqps: "{\\mathrm{m^{2}~s^{-1}}}",
+
+      kJpkg: "{\\mathrm{kJ~kg^{-1}}}",
+
+      kJpkgpK: "{\\mathrm{kJ~kg^{-1}~K^{-1}}}",
+
+      molps: "{\\mathrm{mol~s^{-1}}}",
+
+      molpmcps: "{\\mathrm{mol~m^{-3}~s^{-1}}}",
+
+      pers: "{\\mathrm{s^{-1}}}",
+
+      mcbps: "{\\mathrm{m^{3}~s^{-1}}}",
+
+      mcb: "{\\mathrm{m^{3}}}"
+
+    }
+
+  }
+
+};
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../course_info.html"> 
+<span class="menu-text">Modelling 2026</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://au-bce-ee.github.io/modeling-py-book/"> 
+<span class="menu-text">Textbook</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/AU-BCE-EE/course-modelling-2026"> <i class="bi bi-github" role="img" aria-label="GitHub repo">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<p>Exercises - Coupled mass and heat transfer</p>
+<ol type="1">
+<li>Decomposition of <span class="math inline">\(2H_{2}O_{2} \rightarrow 2H_{2}O + O_{2}\)</span> is an exothermic reaction that occurs in water. The reaction takes place in a batch reactor and follows first order kinetics. The rate constant is temperature dependent like this:</li>
+</ol>
+<p><span class="math display">\[k(T) = A \times exp(-\frac{E_{a}}{RT})\]</span></p>
+<p>The batch reactor is cooled by a cooling jacket with ambient water temperature <span class="math inline">\(T_c\)</span> of 20 deg C. The surface area between the cooling jacket and the reactor is 1 <span class="math inline">\(m^2\)</span>. A stirrer ensures that the reactor is perfectly mixed. Use the parameter values below:</p>
+<p><span class="math display">\[
+E_{a} = 8 \times 10^{4} \; J/mol
+\]</span></p>
+<p><span class="math display">\[
+A = 1 \times 10^{10} \; s^{-1}
+\]</span></p>
+<p><span class="math display">\[
+R = 8.314\ \mathrm{J/(mol \cdot K)}
+\]</span></p>
+<p><span class="math display">\[
+\Delta H_{rxn} = -98 \cdot 10^3\ \mathrm{J/mol}
+\]</span></p>
+<p><span class="math display">\[
+C_{p,water}= 4180\ \mathrm{J/(L \cdot K)}
+\]</span></p>
+<p><span class="math display">\[
+\rho = 1000 \; kg/m^{3}
+\]</span></p>
+<p><span class="math display">\[
+q_{stirrer} = 5000 \; J/(s \cdot m^{3})
+\]</span></p>
+<p><span class="math display">\[
+T_{0} = 293 \; K
+\]</span></p>
+<p>The reactor working volume is 100 L and with an initial concentration of 1 mol/L of <span class="math inline">\(H_{2}O_{2}\)</span> in an aqueous solution. The heat from the reactor is removed with an overall heat transfer coefficient of</p>
+<p><span class="math display">\[
+U = 50\; J/(s \cdot m^{2} \cdot K)
+\]</span></p>
+<p>A) Write the governing equation for heat and mass in the reactor using a 0D model.</p>
+<p>Solution: Since the reactor is mixed we can use the approach for 0D directly or we could use the spatial governing equations and reduce to a 0D model.</p>
+<p><span class="math display">\[
+\rho \cdot C_p \left( \frac{\partial T}{\partial t} + v_x \frac{\partial T}{\partial x} + v_y \frac{\partial T}{\partial y} + v_z \frac{\partial T}{\partial z} \right) = k \left( \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} + \frac{\partial^2 T}{\partial z^2} \right) + S
+\]</span></p>
+<p>Then we cross out terms. There is no in or outflow (batch reactor) and it is perfectly mixed (no heat conduction or unidirectional advection). And we are left with only S. Cp is given in units of J/(L K), but it is water and we know 1 L is equivalent to 1 kg. Therefore we will use Cp in units of J/(kg K).</p>
+<p><span class="math display">\[
+\rho \cdot C_p \frac{\partial T}{\partial t} = S
+\]</span></p>
+<p>The S (source) is generated and removed heat combined. Lets check units here:</p>
+<p><span class="math display">\[
+kg/m3 \cdot J/(kg K) \cdot K/s = J/(m3 \cdot s)
+\]</span></p>
+<p>So S has units per volume currently. We will deal with that in a moment. We know the reaction and the stirrer produces heat and that heat is removed through a cooling jacket. That is three different processes that S currently represents and we need to be explicit about those processes now. We are given U, which is an overall heat transfer coefficient that is really made up of other conductivity and transfer coefficients. We are told the heat is lost across the cooling jacket, which has another temperature than the reactor solution. We should now realize that this temperature gradient drives the heat transfer and think newtons law of cooling! We only care about the overall heat transfer coefficient and we don’t need to know h and k as it is all combined in U. We can use newtons law of cooling for the heat loss across the cooling jacket. We also have energy added from the stirrer, which has units of J/(m3 s) already. Finally we have the heat generated from the reaction. The reaction rate r has units of mol/(m3 s) and when we multiply that with the enthalpy of reaction (J/mol) we get J/(m3 s) as well. Perfect, all terms in S have the same units now. Or do they?</p>
+<p>Wait, we have U in units of J/(s m2 K) and the temperature difference in K. When we multiply those two we get J/(s m2). So this mechanism is not related to volume, but the surface area of the reactor, but we need it to be converted to J/(s * m3) to match the other terms. The m2 refers to the surface area between the cooling jacket and reactor solution. We can convert U to J/(s m3) by multiplying by the surface area and dividing by the volume of the reactor.</p>
+<p>Therefore we can rewrite S as a combination of the heat of reaction and heat loss through the cooling jacket.</p>
+<p><span class="math display">\[
+\rho \cdot C_p \frac{\partial T}{\partial t} = Q_\mathrm{gen} - Q_\mathrm{removal} = -\Delta H_{rxn}\, k \cdot C_{A} + q_{stirrer} - U \cdot A_{jacket} \cdot (T - T_c)/V
+\]</span></p>
+<p>Finally we can multiply everything by the volume to get the energy balance on the whole reactor rather than pr volume and we can also divide by rho * Cp to isolate dTdt, which is what we are really after! Lets do that</p>
+<p><span class="math display">\[
+\frac{\partial T}{\partial t} = \frac{-\Delta H_{rxn}\, k \cdot C_{A} \cdot V + q_{stirrer} \cdot V - U \cdot A_{jacket} \cdot (T - T_c)}{\rho \cdot C_p \cdot V}
+\]</span></p>
+<p>Simplifying a bit more and we get the final governing equation for the heat balance:</p>
+<p><span class="math display">\[
+\frac{\partial T}{\partial t} = \frac{-\Delta H_{rxn}\, k \cdot C_{A} + q_{stirrer}}{\rho \cdot C_p} - \frac{U \cdot A_{jacket} \cdot (T - T_c)}{\rho \cdot C_p \cdot V}
+\]</span></p>
+<p>The mass or mole conservation equation is simple and we can remove most terms and arrive at:</p>
+<p><span class="math display">\[
+\frac{\partial C_A}{\partial t} = -r
+\]</span></p>
+<p>Where <span class="math inline">\(r\)</span> is the reaction which converts the <span class="math inline">\(H_{2}O_{2}\)</span> to the products.</p>
+<p><span class="math display">\[
+\frac{\partial C_A}{\partial t} = -k \cdot C_{A}
+\]</span></p>
+<p>Getting to a mass/mole balance instead of a concentration balance (if we want that?), we simply multiply by V on both sides. Also we should not use <span class="math inline">\(\partial\)</span> because there is no spatial variation!</p>
+<p><span class="math display">\[
+\frac{dN}{dt} = -k \cdot C_{A} \cdot V
+\]</span></p>
+<p>Remember that for both the mass and heat balance we could have kept as pr. volume instead of for the whole reactor.</p>
+<p>B) Setup the model in python and try to run it. The reaction product should not exceed 305 K. try to accomplish that by adjusting the overall mass transfer coefficient (U). How could the over all mass transfer coefficient be increased in practice?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define constants</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>T0 <span class="op">=</span> <span class="dv">293</span> <span class="co"># K</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>T_c <span class="op">=</span> <span class="dv">293</span> <span class="co"># K</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>c0 <span class="op">=</span> <span class="dv">1000</span> <span class="co"># mol/m3</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Ea <span class="op">=</span> <span class="dv">8</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">4</span> <span class="co"># J/mol</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">1e10</span> <span class="co"># s^-1</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Delta_H <span class="op">=</span>  <span class="op">-</span><span class="dv">98</span> <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">3</span> <span class="co"># J/mol</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>q_stirrer <span class="op">=</span> <span class="dv">5000</span> <span class="co"># J/(s*m3)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">8.314</span> <span class="co"># J/(mol*K)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="fl">0.100</span> <span class="co"># m3</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> <span class="fl">0.5</span><span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">2</span> <span class="co"># J/(s*m2*K) # increase to 100 J/(s*K) to get below 305 K</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>A_jacket <span class="op">=</span> <span class="dv">1</span> <span class="co"># m2</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Cp <span class="op">=</span> <span class="dv">4180</span> <span class="co"># J/(kg*K)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> <span class="dv">1000</span> <span class="co"># kg/m3</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># It is easier to use moles rather than mass when we have c0 in mole/m3 already.</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># but this is up to the user.</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>n0 <span class="op">=</span> c0 <span class="op">*</span> V</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>tmax <span class="op">=</span> <span class="dv">50000</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> np.array([n0, T0])</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rates(t, y, T_c, Ea, A, R, V, U, Cp, rho, q_stirrer, Delta_H, A_jacket):</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extracting derivatives to make it more transparant what is going on</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> y[<span class="dv">0</span>]</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  T <span class="op">=</span> y[<span class="dv">1</span>]</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  c <span class="op">=</span> n<span class="op">/</span>V</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the rate constant depends on the state variable T</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  k <span class="op">=</span> A <span class="op">*</span> np.exp(<span class="op">-</span>Ea<span class="op">/</span>(R<span class="op">*</span>T)) <span class="co"># 1/s</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reaction rate</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  ra <span class="op">=</span> <span class="op">-</span>k <span class="op">*</span> c <span class="co"># moles/(m3 * s)</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># batch reactor has only reaction in the mass balance</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  dndt <span class="op">=</span> ra <span class="op">*</span> V <span class="co"># for whole tank (multiplying by V) # moles/s</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># energy balance</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  Q_rxn_total <span class="op">=</span> Delta_H <span class="op">*</span> ra <span class="op">*</span> V <span class="co"># for whole tank, J/s </span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  Q_stirrer_total <span class="op">=</span> q_stirrer <span class="op">*</span> V <span class="co"># J/s</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  Q_loss_total <span class="op">=</span> U <span class="op">*</span> A_jacket <span class="op">*</span> (T <span class="op">-</span> T_c) <span class="co"># J/s</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> V <span class="op">*</span> rho <span class="co"># total mass of reactor solution</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Heat balance</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  dTdt <span class="op">=</span> (Q_rxn_total <span class="op">+</span> Q_stirrer_total <span class="op">-</span> Q_loss_total)<span class="op">/</span>(m <span class="op">*</span> Cp) <span class="co"># </span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="co"># putting together deriviatives in a 1D-array.</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  dydt <span class="op">=</span> np.array([dndt, dTdt])</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dydt</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>t_span <span class="op">=</span> [<span class="dv">0</span>, tmax]</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> solve_ivp(rates, t_span, y0 <span class="op">=</span> y0, method <span class="op">=</span> <span class="st">'BDF'</span>, t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, tmax, <span class="dv">100</span>), args <span class="op">=</span> (T_c, Ea, A, R, V, U, Cp, rho, q_stirrer, Delta_H, A_jacket))</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>plt.ioff()</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), sol.y[<span class="dv">0</span>])</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'moles'</span>)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>plt.ioff()</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), sol.y[<span class="dv">1</span>])</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Temperature, K'</span>)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co"># increasing U to 10**3 reduces the temperature sufficiently to keep the reaction product stable</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><img src="mass_heat_reaction_files/figure-commonmark/cell-2-output-1.png" class="img-fluid"></p>
+<p><img src="mass_heat_reaction_files/figure-commonmark/cell-2-output-2.png" class="img-fluid"></p>
+<p>C) There is no reason to keep the stirrer running after the reaction is complete. Implement code that turns of the stirrer after the reaction is 99% complete. Does it have any effect on the temperature?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define constants</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>T0 <span class="op">=</span> <span class="dv">293</span> <span class="co"># K</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>T_c <span class="op">=</span> <span class="dv">293</span> <span class="co"># K</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>c0 <span class="op">=</span> <span class="dv">1000</span> <span class="co"># mol/m3</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>Ea <span class="op">=</span> <span class="dv">8</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">4</span> <span class="co"># J/mol</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">1e10</span> <span class="co"># s^-1</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>Delta_H <span class="op">=</span>  <span class="op">-</span><span class="dv">98</span> <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">3</span> <span class="co"># J/mol</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>q_stirrer <span class="op">=</span> <span class="dv">5000</span> <span class="co"># J/(s*m3)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">8.314</span> <span class="co"># J/(mol*K)</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="fl">0.100</span> <span class="co"># m3</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> <span class="dv">1</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">2</span> <span class="co"># J/(s*m2*K)</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>A_jacket <span class="op">=</span> <span class="dv">1</span> <span class="co"># m2</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>Cp <span class="op">=</span> <span class="dv">4180</span> <span class="co"># J/(kg*K)</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> <span class="dv">1000</span> <span class="co"># kg/m3</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>n0 <span class="op">=</span> c0 <span class="op">*</span> V</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>tmax <span class="op">=</span> <span class="dv">50000</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> np.array([n0, T0])</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># define start conc as variable to pass to function</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>start_moles <span class="op">=</span> y0[<span class="dv">0</span>]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rates(t, y, T_c, Ea, A, R, V, U, Cp, rho, q_stirrer, A_jacket, start_moles):</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extracting derivatives to make it more transparant what is going on</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> y[<span class="dv">0</span>]</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  T <span class="op">=</span> y[<span class="dv">1</span>]</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  c <span class="op">=</span> n<span class="op">/</span>V</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># turn of the stirrer if reaction is 99% complete. </span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="op">&lt;</span> <span class="fl">0.01</span> <span class="op">*</span> start_moles:</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    q_stirrer <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the rate constant depends on the state variable T</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  k <span class="op">=</span> A <span class="op">*</span> np.exp(<span class="op">-</span>Ea<span class="op">/</span>(R<span class="op">*</span>T))</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reaction rate</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  ra <span class="op">=</span> <span class="op">-</span>k <span class="op">*</span> c <span class="co"># </span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># batch reactor has only reaction in the mass balance</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  dndt <span class="op">=</span> ra <span class="op">*</span> V <span class="co"># for whole tank (multiplying by V)</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="co"># energy balance</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  Q_rxn_total <span class="op">=</span> Delta_H <span class="op">*</span> ra <span class="op">*</span> V <span class="co"># for whole tank </span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  Q_stirrer_total <span class="op">=</span> q_stirrer <span class="op">*</span> V</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  Q_loss_total <span class="op">=</span> U <span class="op">*</span> A_jacket <span class="op">*</span> (T <span class="op">-</span> T_c)</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> V <span class="op">*</span> rho <span class="co"># total mass of reactor solution</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Heat balance</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  dTdt <span class="op">=</span> (Q_rxn_total <span class="op">+</span> Q_stirrer_total <span class="op">-</span> Q_loss_total)<span class="op">/</span>(m <span class="op">*</span> Cp) <span class="co"># </span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="co"># putting together deriviatives in an array.</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  dydt <span class="op">=</span> np.array([dndt, dTdt])</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dydt</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>t_span <span class="op">=</span> [<span class="dv">0</span>, tmax]</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> solve_ivp(rates, t_span, y0 <span class="op">=</span> y0, method <span class="op">=</span> <span class="st">'BDF'</span>, t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, tmax, <span class="dv">100</span>), args <span class="op">=</span> (T_c, Ea, A, R, V, U, Cp, rho, q_stirrer, A_jacket, start_moles))</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>plt.ioff()</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), sol.y[<span class="dv">0</span>])</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'moles'</span>)</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>plt.ioff()</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), sol.y[<span class="dv">1</span>])</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Temperature, K'</span>)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><img src="mass_heat_reaction_files/figure-commonmark/cell-3-output-1.png" class="img-fluid"></p>
+<p><img src="mass_heat_reaction_files/figure-commonmark/cell-3-output-2.png" class="img-fluid"></p>
+<p>D) Try to add the products to the rates function as well and plot it together with the reactant</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define constants</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>T0 <span class="op">=</span> <span class="dv">293</span> <span class="co"># K</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>T_c <span class="op">=</span> <span class="dv">293</span> <span class="co"># K</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># changing names here because we have several concentrations now.</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>cA0 <span class="op">=</span> <span class="dv">1000</span> <span class="co"># mol/m3</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>cB0 <span class="op">=</span> <span class="dv">0</span> <span class="co"># mol/m3 (H2O)</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>cC0 <span class="op">=</span> <span class="dv">0</span> <span class="co"># mol/m3, oxygen</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>Ea <span class="op">=</span> <span class="dv">8</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">4</span> <span class="co"># J/mol</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="fl">1e10</span> <span class="co"># s^-1</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>Delta_H <span class="op">=</span>  <span class="op">-</span><span class="dv">98</span> <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">3</span> <span class="co"># J/mol</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>q_stirrer <span class="op">=</span> <span class="dv">5000</span> <span class="co"># J/(s*m3)</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">8.314</span> <span class="co"># J/(mol*K)</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="fl">0.100</span> <span class="co"># m3</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> <span class="dv">1</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">2</span> <span class="co"># J/(s*m2*K)</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>A_jacket <span class="op">=</span> <span class="dv">1</span> <span class="co"># m2</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>Cp <span class="op">=</span> <span class="dv">4180</span> <span class="co"># J/(kg*K)</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> <span class="dv">1000</span> <span class="co"># kg/m3</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>nA0 <span class="op">=</span> cA0 <span class="op">*</span> V</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>nB0 <span class="op">=</span> cB0 <span class="op">*</span> V</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>nC0 <span class="op">=</span> cC0 <span class="op">*</span> V</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>tmax <span class="op">=</span> <span class="dv">50000</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> np.array([nA0, nB0, nC0, T0])</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"># define start conc of reactant as variable to pass to function</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>start_moles <span class="op">=</span> y0[<span class="dv">0</span>]</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rates(t, y, T_c, Ea, A, R, V, U, Cp, rho, q_stirrer, A_jacket, start_moles):</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extracting derivatives to make it more transparant what is going on</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  nA <span class="op">=</span> y[<span class="dv">0</span>]</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  nB <span class="op">=</span> y[<span class="dv">1</span>]</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  nC <span class="op">=</span> y[<span class="dv">2</span>]</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  T <span class="op">=</span> y[<span class="dv">3</span>]</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  cA <span class="op">=</span> nA<span class="op">/</span>V</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># turn of the stirrer if reaction is 99% complete. </span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> nA <span class="op">&lt;</span> <span class="fl">0.01</span> <span class="op">*</span> start_moles:</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    q_stirrer <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the rate constant depends on the state variable T</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>  k <span class="op">=</span> A <span class="op">*</span> np.exp(<span class="op">-</span>Ea<span class="op">/</span>(R<span class="op">*</span>T))</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reaction rate</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>  ra <span class="op">=</span> <span class="op">-</span>k<span class="op">*</span>cA</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  rb <span class="op">=</span> <span class="op">-</span>ra  <span class="co"># assuming stoichiometry of 1:1 for A to B (looks like it from the reaction)</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  rc <span class="op">=</span> <span class="op">-</span>ra<span class="op">/</span><span class="dv">2</span> <span class="co"># only 1 mole O2 produced per mole H2O2 reacted.</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># batch reactor has only reaction in the mass balance</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>  dNAdt <span class="op">=</span> ra <span class="op">*</span> V</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  dNBdt <span class="op">=</span> rb <span class="op">*</span> V</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>  dNCdt <span class="op">=</span> rc <span class="op">*</span> V</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  <span class="co"># energy balance</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  Q_rxn_total <span class="op">=</span> Delta_H <span class="op">*</span> ra <span class="op">*</span> V <span class="co"># for whole tank, J/s </span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>  Q_stirrer_total <span class="op">=</span> q_stirrer <span class="op">*</span> V <span class="co"># for the whole tank, J/s</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>  Q_loss_total <span class="op">=</span> U <span class="op">*</span> A_jacket <span class="op">*</span> (T <span class="op">-</span> T_c) <span class="co"># for the whole tank, J/s</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> V <span class="op">*</span> rho <span class="co"># total mass of reactor solution</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Heat balance</span></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>  dTdt <span class="op">=</span> (Q_rxn_total <span class="op">+</span> Q_stirrer_total <span class="op">-</span> Q_loss_total)<span class="op">/</span>(m <span class="op">*</span> Cp) <span class="co"># </span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>  <span class="co"># putting together derivatives in an array.</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>  dydt <span class="op">=</span> np.array([dNAdt, dNBdt, dNCdt, dTdt])</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dydt</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>t_span <span class="op">=</span> [<span class="dv">0</span>, tmax]</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> solve_ivp(rates, t_span, y0 <span class="op">=</span> y0, method <span class="op">=</span> <span class="st">'BDF'</span>, t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, tmax, <span class="dv">100</span>), </span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>args <span class="op">=</span> (T_c, Ea, A, R, V, U, Cp, rho, q_stirrer, A_jacket, start_moles))</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>plt.ioff()</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), sol.y[<span class="dv">0</span>], label <span class="op">=</span> <span class="st">"H2O2"</span>)</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), sol.y[<span class="dv">1</span>], label <span class="op">=</span> <span class="st">"H2O"</span>)</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), sol.y[<span class="dv">2</span>], label <span class="op">=</span> <span class="st">"O2"</span>)</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>plt.legend(loc <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'moles'</span>)</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>plt.ioff()</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), sol.y[<span class="dv">3</span>])</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Temperature, K'</span>)</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><img src="mass_heat_reaction_files/figure-commonmark/cell-4-output-1.png" class="img-fluid"></p>
+<p><img src="mass_heat_reaction_files/figure-commonmark/cell-4-output-2.png" class="img-fluid"></p>
+<p>E) Consider how you could change this problem (in part A and B) into a 1D model?</p>
+<p>Solution: We would have to first turn of the mixer to not have a homogeneous solution. With the mixer turned off, transport of heat and mass is through heat conduction and mass diffusion only, because there is not advective flow (batch reactor). Next we need to specify in which dimension we want diffusion and conduction to occur and which dimension we still assume homogeneity. We could for example imagine that heat is transferred out of the tank from the side walls where the cooling jacket is and the reactant is still added evenly to the whole reactor to start with. We would also assume that heat and mass is uniform along the vertical dimension (otherwise it would be a2D problem). Lets call the horizontal dimension r (for radial dimension). Typically a reactor is circular and we would therefore pick cylindrical coordinates. Had we focused on the vertical dimension instead, then we could pick rectangular coordinates even though the tank is circular.</p>
+<p>Boundary conditions: For the heat balance we could assume Robin or Diriclet boundary condition at the wall where heat is removed using Newtons law. In the middle there would be Neumann boundary conditions, because we have symmetry across the centerline (that means our indexing would start from the center of the tank). For the mass balance, there would be no flux across the side wall and symmetry in middle, - so two neumann boundary conditions with flux = 0.</p>
+<p>F) Difficult exercise: Make a 1D model based on the 0D model developed already. You can assume the following. The model will be along the horizontal (radial) dimension in the reactor and with heat transfer through the side walls due to a cooling jacket. Keep the parameters from the 0D exercise. The diameter of the tank is 0.5 meter and still contains 100 L working volume. The initial concentration everywhere is similar to the 0D problem (1 mole/L).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># constants</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>T0 <span class="op">=</span> <span class="dv">293</span> <span class="co"># K</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>T_c <span class="op">=</span> <span class="dv">293</span> <span class="co"># K</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>c0 <span class="op">=</span> <span class="dv">1000</span> <span class="co"># mol/m3</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>Ea <span class="op">=</span> <span class="dv">8</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">4</span> <span class="co"># J/mol</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="dv">1</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">10</span> <span class="co"># s^-1</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>Delta_H <span class="op">=</span> <span class="op">-</span><span class="dv">98</span> <span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">3</span> <span class="co"># J/mol</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">8.314</span> <span class="co"># J/(mol*K)</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="fl">0.100</span> <span class="co"># m3</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> <span class="fl">0.5</span><span class="op">*</span> <span class="dv">10</span><span class="op">**</span><span class="dv">2</span> <span class="co"># J/(s*m2*K) #</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>Cp <span class="op">=</span> <span class="dv">4180</span> <span class="co"># CP of water: J/(kg*K)</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> <span class="dv">1000</span> <span class="co"># kg/m3</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># We turn of the mixer and the transport of mass and heat is </span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># from conduction and diffusion. Things are not homogenous anymore.</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fl">2.0</span> <span class="op">*</span> <span class="dv">10</span><span class="op">**</span>(<span class="op">-</span><span class="dv">9</span>) <span class="co"># m2/s</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># we pick cylindrical coordinates (cylindrical tank) and assume symmetry </span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># in the middle. This is like modelling half of the reactor, </span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># which is all we need because the same stuff goes on in the other </span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># half due to symmetry.</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>diam <span class="op">=</span> <span class="fl">0.5</span> <span class="co"># diameter, m</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>radius <span class="op">=</span> diam<span class="op">/</span><span class="dv">2</span> <span class="co"># radius of tank, m</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>dr <span class="op">=</span> <span class="fl">0.01</span> <span class="co"># space step size, m</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>r_grid <span class="op">=</span> np.arange(<span class="dv">0</span>, radius <span class="op">+</span> dr, dr) <span class="co"># our grid positions in the r dimension </span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co"># (horizontal or radial when we are in a cylinder tank) </span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># thermal conductivity of water is found online:</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>k_heat <span class="op">=</span> <span class="fl">0.6</span> <span class="co"># J/(s * m * K)</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co"># we make our 1D grids for concentration and temperature</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>c0_1D <span class="op">=</span> np.zeros(<span class="bu">len</span>(r_grid))</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co"># just keep concentration here when we work with 1D model</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>c0_1D[:] <span class="op">=</span>  c0</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Temperature is the same everywhere to start with</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>T0_1D <span class="op">=</span> np.zeros(<span class="bu">len</span>(r_grid))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>T0_1D[:] <span class="op">=</span> T0 </span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> np.concatenate([c0_1D, T0_1D])</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>tmax <span class="op">=</span> <span class="dv">50000</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rates(t, y, T_c, Ea, A, R, U, Cp, rho, Delta_H, r_grid, dr, k_heat):</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  <span class="co"># number of grid points</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> <span class="bu">len</span>(r_grid)  </span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make arrays to hold derivatives</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  dcdt <span class="op">=</span> np.zeros(n)</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  dTdt <span class="op">=</span> np.zeros(n)</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extracting state variables from y to make it more transparent what is going on</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>  c <span class="op">=</span> y[:n]</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  T <span class="op">=</span> y[n:]</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the rate constant depends on the state variable T. </span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>  <span class="co"># vectorized calculations below</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  k <span class="op">=</span> A <span class="op">*</span> np.exp(<span class="op">-</span>Ea<span class="op">/</span>(R<span class="op">*</span>T))</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reaction rate</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>  r <span class="op">=</span> k <span class="op">*</span> c <span class="co"># moles/(m3*s), keep in per volume (1D model)</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>  <span class="co"># energy from reaction occurs everywhere</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>  q_rxn <span class="op">=</span> <span class="op">-</span>Delta_H <span class="op">*</span> r <span class="co"># J/(m3/s) ,  keep in per volume (1D model)</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Neumann BCs for mass at edge because we have no mass flux over the wall</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>  dcdt[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> D <span class="op">*</span> (c[<span class="op">-</span><span class="dv">2</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>c[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> c[<span class="op">-</span><span class="dv">2</span>])<span class="op">/</span>dr<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> r[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>  <span class="co"># At center we have symmetry, so there is no change in concentration over </span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the centerline. This is the same as there is no flux! </span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>  <span class="co"># So it is also a neumann BC with flux = 0. We removed the 1/r * dc/dr part</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>  <span class="co"># because we 1/r = inifinity and dc/dr = 0. We choose to remove it</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  <span class="co"># but in reality we make a small, but insignificant error when we do it</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>  dcdt[<span class="dv">0</span>] <span class="op">=</span> D <span class="op">*</span> (c[<span class="dv">1</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>c[<span class="dv">0</span>] <span class="op">+</span> c[<span class="dv">1</span>])<span class="op">/</span>dr<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> r[<span class="dv">0</span>]</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Neumann BC for heat in the middle (symmetry) with flux = 0 </span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>  <span class="co"># (same argument as for mass). We removed the 1/r * dT/dr part</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>  <span class="co"># because we 1/r = inifinity and dT/dr = 0. We choose to remove it</span></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>  <span class="co"># but in reality we make a small, but insignificant error when we do it</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>  dTdt[<span class="dv">0</span>] <span class="op">=</span> k_heat<span class="op">/</span>(Cp<span class="op">*</span>rho) <span class="op">*</span> (T[<span class="dv">1</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>T[<span class="dv">0</span>] <span class="op">+</span> T[<span class="dv">1</span>])<span class="op">/</span>dr<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> q_rxn[<span class="dv">0</span>]<span class="op">/</span>(Cp<span class="op">*</span>rho)</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Robin BC at wall side where we have the cooling jacket</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Use fouriers law for the heat flux: q = -k_heat * dT/dr. </span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>  <span class="co"># unit of flux is: J/(s*m*K) * K/m = J/(s*m2). </span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>  <span class="co"># We equate that to newtons law of cooling at the wall q = U * (T-T_jack)</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>  <span class="co"># unit is J/(s * m2 * K) * K = J/(s * m2): using central difference for </span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>  <span class="co"># discretization of dT/dr at the wall, will give us a ghost point outside </span></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the wall:</span></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>  <span class="co"># q = -k_heat * dT/dr =  U * (T[-1] - T_c): -k_heat * (Tghost - T[-2])/2*dr =</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>  <span class="co"># U * (T[-1] - T_c). </span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Isolate ghost point:</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>  Tghost <span class="op">=</span> T[<span class="op">-</span><span class="dv">2</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>(dr <span class="op">*</span> U)<span class="op">/</span>k_heat <span class="op">*</span> (T[<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span> T_c)</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>  <span class="co"># unit of TGhost should be deg C: lets check</span></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>  <span class="co"># K - (m * J/(s*m2*K)) * s*m*K/J * K = K - J/(s * m * K) * s*m* K/J * K </span></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>  <span class="co"># that gets us to K = K - K, which is all good.</span></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cylindrical coordinates has the extra 1/r * dT/dr in the governing equation</span></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Remember that 1/r is not 1/radius of cylinder. It is 1/r at the each node</span></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>  dTdt[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> k_heat<span class="op">/</span>(Cp<span class="op">*</span>rho) <span class="op">*</span> ((T[<span class="op">-</span><span class="dv">2</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>T[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> Tghost)<span class="op">/</span>dr<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>r_grid[<span class="op">-</span><span class="dv">1</span>] <span class="op">*</span> (Tghost <span class="op">-</span> T[<span class="op">-</span><span class="dv">2</span>])<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>dr)) <span class="op">+</span> q_rxn[<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span>(Cp<span class="op">*</span>rho)</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we did not use that extra 1/r * dT/dr term at r = 0 because it would lead </span></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to division by zero and dT/dr = 0 there. This gets us in trouble. </span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>  <span class="co"># For the Neumann BC at dcdt[-1], the 1/r * dT/dr was </span></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>  <span class="co"># also left out because discretizing dT/dr at boundary with no flux would be:</span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dT/dr = (T[1] - T[-1])/(2*dr) = 0, so that term would be zero anyway.</span></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>    <span class="co"># cylindrical coordinates has the extra 1/r * dT/dr (or 1/r * dc/dr) </span></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>    <span class="co"># in the governing equation for the diffusion part. </span></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>      dcdt[i] <span class="op">=</span> D <span class="op">*</span> ((c[i<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>c[i] <span class="op">+</span> c[i<span class="op">+</span><span class="dv">1</span>])<span class="op">/</span>dr<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>r_grid[i] <span class="op">*</span> (c[i<span class="op">+</span><span class="dv">1</span>] <span class="op">-</span> c[i<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>dr)) <span class="op">-</span> r[i]</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>      dTdt[i] <span class="op">=</span> k_heat<span class="op">/</span>(Cp<span class="op">*</span>rho) <span class="op">*</span> ((T[i<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>T[i] <span class="op">+</span> T[i<span class="op">+</span><span class="dv">1</span>])<span class="op">/</span>dr<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>r_grid[i] <span class="op">*</span> (T[i<span class="op">+</span><span class="dv">1</span>] <span class="op">-</span> T[i<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>dr)) <span class="op">+</span> q_rxn[i]<span class="op">/</span>(Cp<span class="op">*</span>rho)</span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.concatenate([dcdt, dTdt])</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>t_span <span class="op">=</span> [<span class="dv">0</span>, tmax]</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> solve_ivp(rates, t_span <span class="op">=</span> t_span, y0 <span class="op">=</span> y0, method <span class="op">=</span> <span class="st">'BDF'</span>, </span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>                t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, tmax, <span class="dv">100</span>), </span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>                args <span class="op">=</span> (T_c, Ea, A, R, U, Cp, rho, Delta_H, r_grid, dr, k_heat))</span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>conc <span class="op">=</span> sol.y[:<span class="bu">len</span>(r_grid),:]</span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> sol.y[<span class="bu">len</span>(r_grid):,:]</span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(conc), <span class="dv">5</span>):</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>    plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), conc[i, :], label <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>i <span class="op">*</span> dr<span class="sc">}</span><span class="ss"> m'</span>)</span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'moles/m3'</span>)</span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>plt.show()    </span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(temp), <span class="dv">5</span>):</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>    plt.plot(sol.t<span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">24</span>), temp[i,:], label <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>i <span class="op">*</span> dr<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'temp, K'</span>)</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'time, days'</span>)</span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><img src="mass_heat_reaction_files/figure-commonmark/cell-5-output-1.png" class="img-fluid"></p>
+<p><img src="mass_heat_reaction_files/figure-commonmark/cell-5-output-2.png" class="img-fluid"></p>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
