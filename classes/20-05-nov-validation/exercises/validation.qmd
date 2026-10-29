@@ -1,0 +1,232 @@
+# Model validation
+
+In this exercise you will work with a 1D diffusion model.
+You will get some practice with model validation.
+
+The conceptual model is quite simple.
+We have a column with some solute (NaCl for example, which is what was used in the measurements) diffusing from one end to the other through water.
+We can represent the conceptual model with text symbols:
+
+```
+       --------------------------
+       |                        |
+ c_l   |                        | c_r
+ bc[0] |                        | bc[0] 
+       |                        |
+       --------------------------
+       x -->
+```
+
+The Python model is defined in the code block below.
+
+See the data file `col_salt.csv` for some (fabricated) measurements of the total salt (NaCl here) mass within a 0.1 m long column with a diameter of 0.02 m. 
+Fixed salt concentrations at the boundaries were 36 kg/m3 at the left and zero at the right.
+Use the measurements to validate the model graphically and with relevant model fit statistics.
+The diffusivity of NaCl in water is known to be around 1.6E-9 m2/s.
+What do you think about the accuracy of the model?
+Hint: Be careful with units and variables. You have to convert model predictions to the variable that was measured.
+
+```{python}
+"""
+Author: Sasha D. Hafner
+Course: Modelling 2026
+
+Description:
+    This module defines numerical models for 1D diffusion of a solute
+    through a column or semi-infinite slab.
+
+Usage:
+    See the code block below for a demo.
+"""
+
+import numpy as np
+from scipy.integrate import solve_ivp
+
+def diff1D(L,       
+           n,       
+           D,       
+           bc,      
+           ci,      
+           t_eval   
+):  
+
+    """
+    A 1D diffusion model for rectangular geometry with flow through both boundaries.
+
+    Parameters
+    ----------
+    L : float
+        Total column, layer, material, etc. length or thickness (m)
+    n : integer
+        Number of spatial layers/cells/nodes                                                                     '
+    D : float
+        Diffusivity (m2/s)
+    bc : list or tuple
+        Boundary conditions, fixed concentrations (kg/m3), bc[0] = left or bottom, bc[1] = right or top
+    ci : float
+        Initial concentration (single value -> uniform or flat profile)
+    t_eval : list, tuple, or array
+        Times for model evaluation (s)
+
+    Returns
+    -------
+    dictionary
+        With time (t, s), cell width (dx, m), cell center position 
+        (x, m), concentration profile (c, kg/m3), and cumulative 
+        mass transfer at left and right boundaries per m2 of end or
+        cross-sectional area (ml, mr, kg/m2).
+    """
+
+    # Define rates function 
+    def rates(t, c):
+    
+        # Extract the cell concentrations (remove the two values of cumulative mass transfer)
+        c = c[:-2] 
+    
+        # Extend concentration array with the boundary condition values to make calculations easier
+        ca = np.insert(c, 0, bc[0])
+        ca = np.append(ca, bc[1])
+    
+        ## Get second differences (our approximation of second derivatives) with central difference method
+        #der2 = (ca[2:] - 2 * ca[1:-1] + ca[:-2]) / dxi[1:-1]**2
+        ## Then rate of concentration change in kg/m3-s
+        #dcdt = D * der2
+
+        # Or calculate in steps 
+        # Flux at all interfaces between cells
+        j = -D * (ca[1:] - ca[:-1]) / dxi
+        # Derivative
+        dcdt = (j[:-1] - j[1:]) / dx
+    
+        # Extract flux at first and last cell (i.e., at the boundaries)
+        # Positive is right for both
+        # kg/m2-s
+        jbound = j[[0, -1]]
+    
+        # And combine it with the derivative vector at the end to track cumlative transfer in and out
+        der = np.append(dcdt, jbound)
+        
+        # Return derivatives, all kg/m2-s
+        return(der)
+
+    # Extract some inputs
+    t_max = max(t_eval)
+    t_span = (0, t_max)
+
+    # Initial state variable vector 
+    si = np.repeat(ci, n + 2)
+    # Last positions are mass loss, always with starting value of 0
+    si[-2:] = 0
+
+    # Cell width (m)
+    dx = L / n 
+    
+    # This is a cell-based approach, so our boundary dx values are half as large as the others
+    dxi = np.full(n + 1, dx)
+    dxi[[0, -1]] = dx / 2
+
+    # Solve with ODE solver
+    res = solve_ivp(rates, t_span, si, t_eval = t_eval)
+
+    # Add x positions based on cell centers 
+    x = np.linspace(0, L, n) + dx / 2
+
+    # Organize results in a dictionary
+    out = {
+        "t": res.t, 
+        "dx": L/n, 
+        "x": x, 
+        "c": res.y[:-2], 
+        "ml": res.y[-2], 
+        "mr": res.y[-1]
+    }
+
+    return(out)
+
+```
+
+
+And here is a demo.
+
+```{python}
+"""
+Author: Sasha D. Hafner
+Class: Modelling 2025
+Description:
+    Demo of a 1D diffusion model.
+"""
+
+# Packages
+import numpy as np
+import matplotlib.pyplot as plt
+from importlib import reload
+
+# Predictions for a 0.2 m column with 20 layers and a diffusivity of 2E-9 m2/s
+# 100 kg/m3 salt on left side, none on right
+# Over 10 days
+pred = diff1D(
+    L = 0.2,
+    n = 20,
+    D = 2.1E-9,
+    bc = [100, 0],
+    ci = 0,
+    t_eval = np.linspace(0, 10 * 86400, 10)
+)
+
+```
+
+View output.
+
+```{python}
+pred
+```
+
+Tip: It can be easier to understand and view output if you reduce the number of layers/cells to e.g., 5.
+You could also reduce the number of times.
+But while exploring the model function it is helpful if the two (times, cells) do not have the same length (do you see why?).
+
+Concentrations (kg/m3) for all positions and times (2D array).
+
+```{python}
+pred['c']
+```
+
+All positions, for final time only.
+
+```{python}
+pred['c'][:, -1]
+```
+
+Middle (nearly) layer, all times.
+
+```{python}
+pred['c'][10, :]
+```
+
+The layer thickness (m) is returned as well.
+
+```{python}
+pred['dx']
+```
+
+And here are some output variables for verification--cumulative mass transfer at the left and right boundaried (kg/m2).
+```{python}
+pred['ml']
+```
+
+```{python}
+pred['mr']
+```
+
+Here are profiles for different times.
+
+```{python}
+plt.close()
+plt.plot(pred['x'], pred['c'][:, 0])
+plt.plot(pred['x'], pred['c'][:, 1])
+plt.plot(pred['x'], pred['c'][:, 2])
+plt.plot(pred['x'], pred['c'][:, 5])
+plt.plot(pred['x'], pred['c'][:, 9])
+plt.xlabel('Position (m)')
+plt.ylabel('Concentration (kg/m3)')
+```
