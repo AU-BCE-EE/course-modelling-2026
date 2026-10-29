@@ -343,7 +343,8 @@ kg/m3 \cdot J/(kg K) \cdot K/s = J/(m3 \cdot s)
 \]</span></p>
 <p>Remember that for both the mass and heat balance we could have kept as pr. volume instead of for the whole reactor.</p>
 <p>B) Setup the model in python and try to run it. The reaction product should not exceed 305 K. try to accomplish that by adjusting the overall mass transfer coefficient (U). How could the over all mass transfer coefficient be increased in practice?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="6d42521d" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define constants</span></span>
@@ -415,10 +416,24 @@ kg/m3 \cdot J/(kg K) \cdot K/s = J/(m3 \cdot s)
 <span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
 <span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co"># increasing U to 10**3 reduces the temperature sufficiently to keep the reaction product stable</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><img src="mass_heat_reaction_files/figure-commonmark/cell-2-output-1.png" class="img-fluid"></p>
-<p><img src="mass_heat_reaction_files/figure-commonmark/cell-2-output-2.png" class="img-fluid"></p>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mass_heat_reaction_files/figure-html/cell-2-output-1.png" width="597" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mass_heat_reaction_files/figure-html/cell-2-output-2.png" width="610" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>C) There is no reason to keep the stirrer running after the reaction is complete. Implement code that turns of the stirrer after the reaction is 99% complete. Does it have any effect on the temperature?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="b15afb53" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define constants</span></span>
@@ -493,10 +508,24 @@ kg/m3 \cdot J/(kg K) \cdot K/s = J/(m3 \cdot s)
 <span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time, days'</span>)</span>
 <span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Temperature, K'</span>)</span>
 <span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><img src="mass_heat_reaction_files/figure-commonmark/cell-3-output-1.png" class="img-fluid"></p>
-<p><img src="mass_heat_reaction_files/figure-commonmark/cell-3-output-2.png" class="img-fluid"></p>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mass_heat_reaction_files/figure-html/cell-3-output-1.png" width="597" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mass_heat_reaction_files/figure-html/cell-3-output-2.png" width="597" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>D) Try to add the products to the rates function as well and plot it together with the reactant</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="dc4a20fd" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define constants</span></span>
@@ -586,13 +615,27 @@ kg/m3 \cdot J/(kg K) \cdot K/s = J/(m3 \cdot s)
 <span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time, days'</span>)</span>
 <span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Temperature, K'</span>)</span>
 <span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><img src="mass_heat_reaction_files/figure-commonmark/cell-4-output-1.png" class="img-fluid"></p>
-<p><img src="mass_heat_reaction_files/figure-commonmark/cell-4-output-2.png" class="img-fluid"></p>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mass_heat_reaction_files/figure-html/cell-4-output-1.png" width="597" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mass_heat_reaction_files/figure-html/cell-4-output-2.png" width="597" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>E) Consider how you could change this problem (in part A and B) into a 1D model?</p>
 <p>Solution: We would have to first turn of the mixer to not have a homogeneous solution. With the mixer turned off, transport of heat and mass is through heat conduction and mass diffusion only, because there is not advective flow (batch reactor). Next we need to specify in which dimension we want diffusion and conduction to occur and which dimension we still assume homogeneity. We could for example imagine that heat is transferred out of the tank from the side walls where the cooling jacket is and the reactant is still added evenly to the whole reactor to start with. We would also assume that heat and mass is uniform along the vertical dimension (otherwise it would be a2D problem). Lets call the horizontal dimension r (for radial dimension). Typically a reactor is circular and we would therefore pick cylindrical coordinates. Had we focused on the vertical dimension instead, then we could pick rectangular coordinates even though the tank is circular.</p>
 <p>Boundary conditions: For the heat balance we could assume Robin or Diriclet boundary condition at the wall where heat is removed using Newtons law. In the middle there would be Neumann boundary conditions, because we have symmetry across the centerline (that means our indexing would start from the center of the tank). For the mass balance, there would be no flux across the side wall and symmetry in middle, - so two neumann boundary conditions with flux = 0.</p>
 <p>F) Difficult exercise: Make a 1D model based on the 0D model developed already. You can assume the following. The model will be along the horizontal (radial) dimension in the reactor and with heat transfer through the side walls due to a cooling jacket. Keep the parameters from the 0D exercise. The diameter of the tank is 0.5 meter and still contains 100 L working volume. The initial concentration everywhere is similar to the 0D problem (1 mole/L).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div id="8a672f82" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -732,8 +775,21 @@ kg/m3 \cdot J/(kg K) \cdot K/s = J/(m3 \cdot s)
 <span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'time, days'</span>)</span>
 <span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><img src="mass_heat_reaction_files/figure-commonmark/cell-5-output-1.png" class="img-fluid"></p>
-<p><img src="mass_heat_reaction_files/figure-commonmark/cell-5-output-2.png" class="img-fluid"></p>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mass_heat_reaction_files/figure-html/cell-5-output-1.png" width="606" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mass_heat_reaction_files/figure-html/cell-5-output-2.png" width="597" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 
