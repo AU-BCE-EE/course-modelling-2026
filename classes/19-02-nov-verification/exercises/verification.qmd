@@ -3,8 +3,13 @@
 1. This problem is based on the solution to the first mini-project on ammonia volatilization.
    Take a look at [the solution](https://au-bce-ee.github.io/course-modelling-2026/classes/10-24-sept-mini-proj/solutions/mp1_solution.html) and copy any equations you need for verification.
    Then use those to verify the Python code below.
+   This code is not identical to the mini-project solution code. 
+   There are several differences.
    Check equations and check units. 
-   Is there anything inconsistent between the mathematical and computer models?
+   It may be helpeful for verification to rewrite the mathematical model equations or the code.
+   Don't hesitate to do this!
+   For example, TAN concentration is used in the mathematical model equations but calculated on the fly in the code.
+   It might be clearer to include an intermediate variable in the code.
    Finally, copy your verified code into a new module file, and use a separate `*.py` script to run the call your model function a few times for some verification through model calls. 
 
 
@@ -26,10 +31,9 @@ import numpy as np
 
 def stmod(
     f_in,
-    f_out,
     a_top,
-    c_TAN_0,
-    c_urea_0,
+    c_TAN_in,
+    c_urea_in,
     c_bg,
     pH,
     ku,
@@ -50,13 +54,11 @@ def stmod(
     ----------
     f_in : float
         Rate of manure pumping into tank (m3/s)
-    f_out : float
-        Rate of manure pumping out of tank (m3/s)
     a_top : float
         Area of tank (top and at any depth) (m2).
-    c_TAN_0 : float
+    c_TAN_in : float
         Concentration of TAN in fresh manue (kg/m3 as N).
-    c_urea_0 : float
+    c_urea_in : float
         Concentration of urea in fresh manue (kg/m3 as N).
     c_bg : float
         Concentration of NH3 (g) in ambient (background) 
@@ -91,23 +93,21 @@ def stmod(
         v_man = y[2]
 
         # TAN flow in and out by advection ()
-        TAN_in = c_TAN_0 * f_in
-        TAN_out = m_TAN / v_man * f_out
+        TAN_in = c_TAN_in * f_in
 
         # Urea flow in and out by advection ()
-        urea_in = c_urea_0 * f_in
-        urea_out = m_urea / v_man * f_out
+        urea_in = 1000 * c_urea_in * f_in
 
         # Urea hydrolysis rate ()
         urea_hyd = ku * m_urea
 
         # NH3 volatilization ()
-        volat = kg * a_top * (frac_NH3 * m_TAN / v_man / hen - c_bg)
+        volat = kg * a_top * (frac_NH3 * m_TAN / v_man / hen)
 
         # Calculate derivatives using GE from model formulation
-        dm_TAN_dt = TAN_in - TAN_out + urea_hyd - volat
-        dm_urea_dt = urea_in - urea_out
-        dv_man_dt = f_in  - f_out
+        dm_TAN_dt = TAN_in + urea_hyd - volat
+        dm_urea_dt = urea_in
+        dv_man_dt = f_in
 
         return np.array([dm_TAN_dt, dm_urea_dt, dv_man_dt])
 
