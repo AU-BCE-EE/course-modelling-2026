@@ -219,7 +219,7 @@ MathJax = {
 
 <p>In this exercise you will work with a 1D diffusion model. You will get some practice with model validation.</p>
 <p>The conceptual model is quite simple. We have a column with some solute (NaCl for example, which is what was used in the measurements) diffusing from one end to the other through water. We can represent the conceptual model with text symbols:</p>
-<div id="eca8b0ac" class="cell" data-execution_count="1">
+<div id="af939fb3" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>       <span class="op">--------------------------</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>       <span class="op">|</span>                        <span class="op">|</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> c_l   <span class="op">|</span>                        <span class="op">|</span> c_r</span>
@@ -229,8 +229,8 @@ MathJax = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>       x <span class="op">--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The Python model is defined in the code block below. You should move it to a module.</p>
-<p>See the data file <a href=""><code>col_salt.csv</code></a> for some (fabricated) measurements of the total salt (NaCl here) mass within a 0.1 m long column with a diameter of 0.02 m. Fixed salt concentrations at the boundaries were 36 kg/m3 at the left and zero at the right. Use the measurements to validate the model graphically and with relevant model fit statistics. The diffusivity of NaCl in water is known to be around 1.6E-9 m2/s. What do you think about the accuracy of the model? Hint: Be careful with units and variables. You have to convert model predictions to the variable that was measured.</p>
-<div id="a8a69185" class="cell" data-execution_count="2">
+<p>See the data file <a href="https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/20-05-nov-validation/exercises/col_salt.csv"><code>col_salt.csv</code></a> for some (fabricated) measurements of the total salt (NaCl here) mass within a 0.1 m long column with a diameter of 0.02 m. Fixed salt concentrations at the boundaries were 36 kg/m3 at the left and zero at the right. Use the measurements to validate the model graphically and with relevant model fit statistics. The diffusivity of NaCl in water is known to be around 1.6E-9 m2/s. What do you think about the accuracy of the model? Hint: Be careful with units and variables. You have to convert model predictions to the variable that was measured.</p>
+<div id="51142786" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">Course: Modelling 2026</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">Author: Sasha D. Hafner</span></span>
@@ -345,7 +345,7 @@ MathJax = {
 <span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And here is a demo.</p>
-<div id="7320187e" class="cell" data-execution_count="3">
+<div id="01a79095" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">Class: Modelling 2026</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">Author: Sasha D. Hafner</span></span>
@@ -371,7 +371,7 @@ MathJax = {
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>View output.</p>
-<div id="35634c3e" class="cell" data-execution_count="4">
+<div id="0236cffa" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pred</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>{'t': array([     0.,  96000., 192000., 288000., 384000., 480000., 576000.,
@@ -450,7 +450,7 @@ MathJax = {
 </div>
 <p>Tip: It can be easier to understand and view output if you reduce the number of layers/cells to e.g., 5. You could also reduce the number of times. But while exploring the model function it is helpful if the two (times, cells) do not have the same length (do you see why?).</p>
 <p>Concentrations (kg/m3) for all positions and times (2D array).</p>
-<div id="e75c2e7e" class="cell" data-execution_count="5">
+<div id="3ab6fe7f" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'c'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>array([[0.00000000e+00, 7.93934553e+01, 8.57053567e+01, 8.83741569e+01,
@@ -516,7 +516,7 @@ MathJax = {
 </div>
 </div>
 <p>All positions, for final time only.</p>
-<div id="22a4ae91" class="cell" data-execution_count="6">
+<div id="6f21f096" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'c'</span>][:, <span class="op">-</span><span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>array([9.33532683e+01, 8.02480425e+01, 6.76770424e+01, 5.59571716e+01,
@@ -527,7 +527,7 @@ MathJax = {
 </div>
 </div>
 <p>Middle (nearly) layer, all times.</p>
-<div id="54a1e1dc" class="cell" data-execution_count="7">
+<div id="67357849" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'c'</span>][<span class="dv">10</span>, :]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>array([0.00000000e+00, 3.31835099e-04, 3.74474635e-02, 2.96050251e-01,
@@ -536,21 +536,21 @@ MathJax = {
 </div>
 </div>
 <p>The layer thickness (m) is returned as well.</p>
-<div id="b20e2945" class="cell" data-execution_count="8">
+<div id="ec1afee7" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'dx'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>0.01</code></pre>
 </div>
 </div>
 <p>And here are some output variables for verification–cumulative mass transfer at the left and right boundaried (kg/m2).</p>
-<div id="4bb8258a" class="cell" data-execution_count="9">
+<div id="610def1d" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'ml'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>array([0.        , 1.54964828, 2.22968992, 2.74567837, 3.17919475,
        3.56006072, 3.90399268, 4.2199497 , 4.51387805, 4.78977008])</code></pre>
 </div>
 </div>
-<div id="94c9c1ab" class="cell" data-execution_count="10">
+<div id="8e1e7264" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'mr'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>array([0.00000000e+00, 4.32842752e-15, 3.79872849e-10, 1.01416083e-07,
@@ -559,7 +559,7 @@ MathJax = {
 </div>
 </div>
 <p>Here are profiles for different times.</p>
-<div id="52c760a7" class="cell" data-execution_count="11">
+<div id="c8b0ca75" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">0</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">1</span>])</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">2</span>])</span>
