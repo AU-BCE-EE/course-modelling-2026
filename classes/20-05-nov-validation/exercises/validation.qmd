@@ -21,7 +21,7 @@ We can represent the conceptual model with text symbols:
 The Python model is defined in the code chunk below.
 You should move it to a module.
 
-See the data file [`col_salt.csv`](https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/20-05-nov-validation/exercises/col_salt.csv) for some (fabricated) measurements of the total salt (NaCl here) mass within a 0.1 m long column with a diameter of 0.02 m. 
+See the data file [`col_salt.csv`](https://raw.githubusercontent.com/AU-BCE-EE/course-modelling-2026/main/classes/20-05-nov-validation/exercises/col_salt.csv) for some (fabricated) measurements of the total salt (NaCl here) mass within a 0.1 m long column with a diameter of 0.02 m. 
 Fixed salt concentrations at the boundaries were 36 kg/m3 at the left and zero at the right.
 Use the measurements to validate the model graphically and with relevant model fit statistics.
 The diffusivity of NaCl in water is known to be around 1.6E-9 m2/s.
