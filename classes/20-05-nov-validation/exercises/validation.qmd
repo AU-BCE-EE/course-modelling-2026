@@ -18,7 +18,7 @@ We can represent the conceptual model with text symbols:
        x -->
 ```
 
-The Python model is defined in the code block below.
+The Python model is defined in the code chunk below.
 You should move it to a module.
 
 See the data file [`col_salt.csv`](https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/20-05-nov-validation/exercises/col_salt.csv) for some (fabricated) measurements of the total salt (NaCl here) mass within a 0.1 m long column with a diameter of 0.02 m. 
@@ -26,7 +26,10 @@ Fixed salt concentrations at the boundaries were 36 kg/m3 at the left and zero a
 Use the measurements to validate the model graphically and with relevant model fit statistics.
 The diffusivity of NaCl in water is known to be around 1.6E-9 m2/s.
 What do you think about the accuracy of the model?
-Hint: Be careful with units and variables. You have to convert model predictions to the variable that was measured.
+
+Be careful with units and variables. 
+You have to convert model predictions to the variable that was measured.
+See the bottom of this demo for some help on doing this.
 
 ```{python}
 """
@@ -38,7 +41,7 @@ Description:
     through a column or semi-infinite slab.
 
 Usage:
-    See the code block below for a demo.
+    See the code chunk below for a demo.
 """
 
 import numpy as np
@@ -74,10 +77,10 @@ def diff1D(
     Returns
     -------
     dictionary
-        With time (t, s), cell width (dx, m), cell center position 
-        (x, m), concentration profile (c, kg/m3), and cumulative 
-        mass transfer at left and right boundaries per m2 of end or
-        cross-sectional area (ml, mr, kg/m2).
+        With time t (s), cell width dx (m), an array of cell widths dxi (m) with the half widths at 
+        the ends, the cell center position x (m), concentration profile c (kg/m3), and cumulative 
+        mass transfer at left, ml, and right, mr, boundaries per m2 of end or cross-sectional area 
+        (kg/m2).
     """
 
     # Define rates function 
@@ -134,6 +137,7 @@ def diff1D(
     out = {
         "t": res.t, 
         "dx": L/n, 
+        "dxi": dxi, 
         "x": x, 
         "c": res.y[:-2], 
         "ml": res.y[-2], 
@@ -208,7 +212,14 @@ The layer thickness (m) is returned as well.
 pred['dx']
 ```
 
-And here are some output variables for verification--cumulative mass transfer at the left and right boundaried (kg/m2).
+With the half-widths at the ends, because this model uses a cell-based approach.
+
+```{python}
+pred['dxi']
+```
+
+And here are some output variables for verification--cumulative mass transfer at the left and right boundaries (kg/m2).
+
 ```{python}
 pred['ml']
 ```
@@ -228,3 +239,33 @@ plt.plot(pred['x'], pred['c'][:, 9])
 plt.xlabel('Position (m)')
 plt.ylabel('Concentration (kg/m3)')
 ```
+
+And finally, here is how to get total column NaCl.
+We will need concentrations (kg/m3).
+
+```{python}
+pred['c']
+```
+
+And the column area (m2).
+
+```{python} 
+area = np.pi * (0.02 / 2)**2 
+area
+```
+
+Then NaCl mass in each cell, for each time, in kg, is:
+
+```{python} 
+pred['c'] * pred['dx'] * area
+```
+
+To get the total for each time, we can use the `numpy.sum()` function, which accepts an axis parameter (second parameter).
+The help file doesn't really illuminate how to set it, but with experimentation you can figure out how to add up all the columns, so you have one sum per time.
+
+```{python} 
+tot_mod = (pred['c'] * pred['dx'] * area).sum(0)
+tot_mod
+```
+
+

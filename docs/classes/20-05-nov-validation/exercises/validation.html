@@ -219,7 +219,7 @@ MathJax = {
 
 <p>In this exercise you will work with a 1D diffusion model. You will get some practice with model validation.</p>
 <p>The conceptual model is quite simple. We have a column with some solute (NaCl for example, which is what was used in the measurements) diffusing from one end to the other through water. We can represent the conceptual model with text symbols:</p>
-<div id="af939fb3" class="cell" data-execution_count="1">
+<div id="a9f80892" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>       <span class="op">--------------------------</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>       <span class="op">|</span>                        <span class="op">|</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> c_l   <span class="op">|</span>                        <span class="op">|</span> c_r</span>
@@ -228,9 +228,10 @@ MathJax = {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>       <span class="op">--------------------------</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>       x <span class="op">--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The Python model is defined in the code block below. You should move it to a module.</p>
-<p>See the data file <a href="https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/20-05-nov-validation/exercises/col_salt.csv"><code>col_salt.csv</code></a> for some (fabricated) measurements of the total salt (NaCl here) mass within a 0.1 m long column with a diameter of 0.02 m. Fixed salt concentrations at the boundaries were 36 kg/m3 at the left and zero at the right. Use the measurements to validate the model graphically and with relevant model fit statistics. The diffusivity of NaCl in water is known to be around 1.6E-9 m2/s. What do you think about the accuracy of the model? Hint: Be careful with units and variables. You have to convert model predictions to the variable that was measured.</p>
-<div id="51142786" class="cell" data-execution_count="2">
+<p>The Python model is defined in the code chunk below. You should move it to a module.</p>
+<p>See the data file <a href="https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/20-05-nov-validation/exercises/col_salt.csv"><code>col_salt.csv</code></a> for some (fabricated) measurements of the total salt (NaCl here) mass within a 0.1 m long column with a diameter of 0.02 m. Fixed salt concentrations at the boundaries were 36 kg/m3 at the left and zero at the right. Use the measurements to validate the model graphically and with relevant model fit statistics. The diffusivity of NaCl in water is known to be around 1.6E-9 m2/s. What do you think about the accuracy of the model?</p>
+<p>Be careful with units and variables. You have to convert model predictions to the variable that was measured. See the bottom of this demo for some help on doing this.</p>
+<div id="cb95f90d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">Course: Modelling 2026</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">Author: Sasha D. Hafner</span></span>
@@ -240,7 +241,7 @@ MathJax = {
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    through a column or semi-infinite slab.</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">Usage:</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">    See the code block below for a demo.</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">    See the code chunk below for a demo.</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -276,10 +277,10 @@ MathJax = {
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
 <span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
 <span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="co">    dictionary</span></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co">        With time (t, s), cell width (dx, m), cell center position </span></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="co">        (x, m), concentration profile (c, kg/m3), and cumulative </span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="co">        mass transfer at left and right boundaries per m2 of end or</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co">        cross-sectional area (ml, mr, kg/m2).</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co">        With time t (s), cell width dx (m), an array of cell widths dxi (m) with the half widths at </span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="co">        the ends, the cell center position x (m), concentration profile c (kg/m3), and cumulative </span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="co">        mass transfer at left, ml, and right, mr, boundaries per m2 of end or cross-sectional area </span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co">        (kg/m2).</span></span>
 <span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define rates function </span></span>
@@ -336,16 +337,17 @@ MathJax = {
 <span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> {</span>
 <span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t"</span>: res.t, </span>
 <span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>        <span class="st">"dx"</span>: L<span class="op">/</span>n, </span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>        <span class="st">"x"</span>: x, </span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>        <span class="st">"c"</span>: res.y[:<span class="op">-</span><span class="dv">2</span>], </span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ml"</span>: res.y[<span class="op">-</span><span class="dv">2</span>], </span>
-<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mr"</span>: res.y[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>        <span class="st">"dxi"</span>: dxi, </span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>        <span class="st">"x"</span>: x, </span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>        <span class="st">"c"</span>: res.y[:<span class="op">-</span><span class="dv">2</span>], </span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ml"</span>: res.y[<span class="op">-</span><span class="dv">2</span>], </span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mr"</span>: res.y[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And here is a demo.</p>
-<div id="01a79095" class="cell" data-execution_count="3">
+<div id="0dd1560e" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">Class: Modelling 2026</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">Author: Sasha D. Hafner</span></span>
@@ -371,12 +373,15 @@ MathJax = {
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>View output.</p>
-<div id="0236cffa" class="cell" data-execution_count="4">
+<div id="7b5b3e68" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pred</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>{'t': array([     0.,  96000., 192000., 288000., 384000., 480000., 576000.,
         672000., 768000., 864000.]),
  'dx': 0.01,
+ 'dxi': array([0.005, 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 ,
+        0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 ,
+        0.01 , 0.01 , 0.005]),
  'x': array([0.005     , 0.01552632, 0.02605263, 0.03657895, 0.04710526,
         0.05763158, 0.06815789, 0.07868421, 0.08921053, 0.09973684,
         0.11026316, 0.12078947, 0.13131579, 0.14184211, 0.15236842,
@@ -450,7 +455,7 @@ MathJax = {
 </div>
 <p>Tip: It can be easier to understand and view output if you reduce the number of layers/cells to e.g., 5. You could also reduce the number of times. But while exploring the model function it is helpful if the two (times, cells) do not have the same length (do you see why?).</p>
 <p>Concentrations (kg/m3) for all positions and times (2D array).</p>
-<div id="3ab6fe7f" class="cell" data-execution_count="5">
+<div id="d4265228" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'c'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>array([[0.00000000e+00, 7.93934553e+01, 8.57053567e+01, 8.83741569e+01,
@@ -516,7 +521,7 @@ MathJax = {
 </div>
 </div>
 <p>All positions, for final time only.</p>
-<div id="6f21f096" class="cell" data-execution_count="6">
+<div id="596a6fe1" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'c'</span>][:, <span class="op">-</span><span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>array([9.33532683e+01, 8.02480425e+01, 6.76770424e+01, 5.59571716e+01,
@@ -527,7 +532,7 @@ MathJax = {
 </div>
 </div>
 <p>Middle (nearly) layer, all times.</p>
-<div id="67357849" class="cell" data-execution_count="7">
+<div id="f8b1cd47" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'c'</span>][<span class="dv">10</span>, :]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>array([0.00000000e+00, 3.31835099e-04, 3.74474635e-02, 2.96050251e-01,
@@ -536,43 +541,201 @@ MathJax = {
 </div>
 </div>
 <p>The layer thickness (m) is returned as well.</p>
-<div id="ec1afee7" class="cell" data-execution_count="8">
+<div id="3a7daac5" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'dx'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>0.01</code></pre>
 </div>
 </div>
-<p>And here are some output variables for verification–cumulative mass transfer at the left and right boundaried (kg/m2).</p>
-<div id="610def1d" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'ml'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>With the half-widths at the ends, because this model uses a cell-based approach.</p>
+<div id="0eb30db2" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'dxi'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>array([0.005, 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 ,
+       0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 , 0.01 ,
+       0.01 , 0.01 , 0.005])</code></pre>
+</div>
+</div>
+<p>And here are some output variables for verification–cumulative mass transfer at the left and right boundaries (kg/m2).</p>
+<div id="96658d4b" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'ml'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>array([0.        , 1.54964828, 2.22968992, 2.74567837, 3.17919475,
        3.56006072, 3.90399268, 4.2199497 , 4.51387805, 4.78977008])</code></pre>
 </div>
 </div>
-<div id="8e1e7264" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'mr'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="2f35e23f" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'mr'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>array([0.00000000e+00, 4.32842752e-15, 3.79872849e-10, 1.01416083e-07,
        2.99309109e-06, 2.94324820e-05, 1.53924318e-04, 5.38823683e-04,
        1.44316749e-03, 3.19618006e-03])</code></pre>
 </div>
 </div>
 <p>Here are profiles for different times.</p>
-<div id="c8b0ca75" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">0</span>])</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">1</span>])</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">2</span>])</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">5</span>])</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">9</span>])</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Position (m)'</span>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Concentration (kg/m3)'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="21685331" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">0</span>])</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">1</span>])</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">2</span>])</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">5</span>])</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>plt.plot(pred[<span class="st">'x'</span>], pred[<span class="st">'c'</span>][:, <span class="dv">9</span>])</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Position (m)'</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Concentration (kg/m3)'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="validation_files/figure-html/cell-12-output-1.png" width="585" height="431" class="figure-img"></p>
+<p><img src="validation_files/figure-html/cell-13-output-1.png" width="585" height="431" class="figure-img"></p>
 </figure>
 </div>
+</div>
+</div>
+<p>And finally, here is how to get total column NaCl. We will need concentrations (kg/m3).</p>
+<div id="bb7552e1" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'c'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>array([[0.00000000e+00, 7.93934553e+01, 8.57053567e+01, 8.83741569e+01,
+        8.99964717e+01, 9.10570200e+01, 9.18475481e+01, 9.24543439e+01,
+        9.29496000e+01, 9.33532683e+01],
+       [0.00000000e+00, 4.37439392e+01, 5.89880841e+01, 6.62207193e+01,
+        7.05800444e+01, 7.36247860e+01, 7.58774752e+01, 7.76422365e+01,
+        7.90626461e+01, 8.02480425e+01],
+       [0.00000000e+00, 2.02037270e+01, 3.70417052e+01, 4.66545763e+01,
+        5.29763902e+01, 5.74686393e+01, 6.08924525e+01, 6.36011062e+01,
+        6.58225682e+01, 6.76770424e+01],
+       [0.00000000e+00, 7.91208216e+00, 2.11961597e+01, 3.09367458e+01,
+        3.79343550e+01, 4.32412485e+01, 4.74008343e+01, 5.07778593e+01,
+        5.35781204e+01, 5.59571716e+01],
+       [0.00000000e+00, 2.66543963e+00, 1.10483233e+01, 1.92070559e+01,
+        2.59157343e+01, 3.13204735e+01, 3.57608765e+01, 3.94643056e+01,
+        4.26147540e+01, 4.53244638e+01],
+       [0.00000000e+00, 7.83307461e-01, 5.26163515e+00, 1.12085050e+01,
+        1.68474910e+01, 2.18223860e+01, 2.61197511e+01, 2.98459643e+01,
+        3.30905204e+01, 3.59480592e+01],
+       [0.00000000e+00, 2.03439711e-01, 2.29525482e+00, 6.12169842e+00,
+        1.04393193e+01, 1.46141318e+01, 1.84636096e+01, 2.19423710e+01,
+        2.50785634e+01, 2.78999286e+01],
+       [0.00000000e+00, 4.72410669e-02, 9.21192094e-01, 3.14771315e+00,
+        6.15008863e+00, 9.40555482e+00, 1.26216484e+01, 1.56822048e+01,
+        1.85363618e+01, 2.11841817e+01],
+       [0.00000000e+00, 9.90818627e-03, 3.41236461e-01, 1.51776769e+00,
+        3.45593143e+00, 5.81532877e+00, 8.34482874e+00, 1.08860241e+01,
+        1.33624593e+01, 1.57277646e+01],
+       [0.00000000e+00, 1.89308645e-03, 1.17198459e-01, 6.91170996e-01,
+        1.84681058e+00, 3.45535102e+00, 5.33278837e+00, 7.34272238e+00,
+        9.38809114e+00, 1.14170289e+01],
+       [0.00000000e+00, 3.31835099e-04, 3.74474635e-02, 2.96050251e-01,
+        9.43162024e-01, 1.97286301e+00, 3.29588202e+00, 4.80816351e+00,
+        6.43064034e+00, 8.09953167e+00],
+       [0.00000000e+00, 5.36504456e-05, 1.11801215e-02, 1.20213564e-01,
+        4.58401474e-01, 1.08316535e+00, 1.96880591e+00, 3.05924354e+00,
+        4.29121269e+00, 5.61633456e+00],
+       [0.00000000e+00, 8.03405142e-06, 3.12843436e-03, 4.60741791e-02,
+        2.13516023e-01, 5.71887601e-01, 1.13789292e+00, 1.88928164e+00,
+        2.79167451e+00, 3.80453042e+00],
+       [0.00000000e+00, 1.11804521e-06, 8.23725078e-04, 1.68076402e-02,
+        9.47209522e-02, 2.90647840e-01, 6.35781857e-01, 1.13401144e+00,
+        1.76866856e+00, 2.51821999e+00],
+       [0.00000000e+00, 1.45031408e-07, 2.04578822e-04, 5.80844535e-03,
+        4.04140255e-02, 1.42201587e-01, 3.43957941e-01, 6.60510394e-01,
+        1.09222157e+00, 1.62682824e+00],
+       [0.00000000e+00, 1.75889827e-08, 4.80633982e-05, 1.91804550e-03,
+        1.64287835e-02, 6.70455706e-02, 1.79875128e-01, 3.73831417e-01,
+        6.55714287e-01, 1.02455048e+00],
+       [0.00000000e+00, 2.00121951e-09, 1.06988602e-05, 6.02127546e-04,
+        6.44886413e-03, 3.04380644e-02, 9.09885889e-02, 2.04529204e-01,
+        3.81759095e-01, 6.24887357e-01],
+       [0.00000000e+00, 2.14426097e-10, 2.26027066e-06, 1.81067846e-04,
+        2.40294419e-03, 1.32451506e-02, 4.40062517e-02, 1.07124765e-01,
+        2.11571076e-01, 3.62429919e-01],
+       [0.00000000e+00, 2.17372954e-11, 4.51056970e-07, 5.10929476e-05,
+        8.43854335e-04, 5.31354665e-03, 1.94423742e-02, 5.04806099e-02,
+        1.04933188e-01, 1.86036748e-01],
+       [0.00000000e+00, 1.90953402e-12, 7.09050556e-08, 1.05815893e-05,
+        2.00568210e-04, 1.40130082e-03, 5.42938188e-03, 1.47729392e-02,
+        3.14081576e-02, 5.70889206e-02]])</code></pre>
+</div>
+</div>
+<p>And the column area (m2).</p>
+<div id="d98a251c" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>area <span class="op">=</span> np.pi <span class="op">*</span> (<span class="fl">0.02</span> <span class="op">/</span> <span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>area</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>0.0003141592653589793</code></pre>
+</div>
+</div>
+<p>Then NaCl mass in each cell, for each time, in kg, is:</p>
+<div id="8e25349e" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">'c'</span>] <span class="op">*</span> pred[<span class="st">'dx'</span>] <span class="op">*</span> area</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>array([[0.00000000e+00, 2.49421896e-04, 2.69251319e-04, 2.77635602e-04,
+        2.82732254e-04, 2.86064065e-04, 2.88547582e-04, 2.90453887e-04,
+        2.92009780e-04, 2.93277942e-04],
+       [0.00000000e+00, 1.37425638e-04, 1.85316532e-04, 2.08038525e-04,
+        2.21733749e-04, 2.31299087e-04, 2.38376119e-04, 2.43920280e-04,
+        2.48382628e-04, 2.52106661e-04],
+       [0.00000000e+00, 6.34718802e-05, 1.16369949e-04, 1.46569674e-04,
+        1.66430238e-04, 1.80543055e-04, 1.91299281e-04, 1.99808768e-04,
+        2.06787697e-04, 2.12613699e-04],
+       [0.00000000e+00, 2.48565392e-05, 6.65896995e-05, 9.71906533e-05,
+        1.19174291e-04, 1.35846389e-04, 1.48914113e-04, 1.59523350e-04,
+        1.68320629e-04, 1.75794639e-04],
+       [0.00000000e+00, 8.37372555e-06, 3.47093312e-05, 6.03407458e-05,
+        8.14166805e-05, 9.83961694e-05, 1.12346107e-04, 1.23980773e-04,
+        1.33878198e-04, 1.42391002e-04],
+       [0.00000000e+00, 2.46083296e-06, 1.65299143e-05, 3.52125570e-05,
+        5.29279539e-05, 6.85570476e-05, 8.20576180e-05, 9.37638621e-05,
+        1.03956936e-04, 1.12934159e-04],
+       [0.00000000e+00, 6.39124700e-07, 7.21075570e-06, 1.92318828e-05,
+        3.27960887e-05, 4.59116490e-05, 5.80051404e-05, 6.89339917e-05,
+        7.87866307e-05, 8.76502108e-05],
+       [0.00000000e+00, 1.48412189e-07, 2.89401032e-06, 9.88883249e-06,
+        1.93210733e-05, 2.95484219e-05, 3.96520780e-05, 4.92670994e-05,
+        5.82336981e-05, 6.65520696e-05],
+       [0.00000000e+00, 3.11274852e-08, 1.07202596e-06, 4.76820781e-06,
+        1.08571288e-05, 1.82693941e-05, 2.62160527e-05, 3.41994533e-05,
+        4.19794040e-05, 4.94102296e-05],
+       [0.00000000e+00, 5.94730648e-09, 3.68189817e-07, 2.17137772e-06,
+        5.80192655e-06, 1.08553054e-05, 1.67534488e-05, 2.30678427e-05,
+        2.94935582e-05, 3.58676542e-05],
+       [0.00000000e+00, 1.04249071e-09, 1.17644676e-07, 9.30069295e-07,
+        2.96303089e-06, 6.19793195e-06, 1.03543187e-05, 1.51052912e-05,
+        2.02024525e-05, 2.54454292e-05],
+       [0.00000000e+00, 1.68547846e-10, 3.51233876e-08, 3.77662050e-07,
+        1.44011070e-06, 3.40286430e-06, 6.18518617e-06, 9.61089704e-06,
+        1.34812423e-05, 1.76442354e-05],
+       [0.00000000e+00, 2.52397169e-11, 9.82826639e-09, 1.44746303e-07,
+        6.70780370e-07, 1.79663789e-06, 3.57479603e-06, 5.93535333e-06,
+        8.77030415e-06, 1.19522848e-05],
+       [0.00000000e+00, 3.51244262e-12, 2.58780866e-09, 5.28027589e-08,
+        2.97574647e-07, 9.13097118e-07, 1.99736761e-06, 3.56260202e-06,
+        5.55643616e-06, 7.91122143e-06],
+       [0.00000000e+00, 4.55629607e-13, 6.42703325e-10, 1.82477692e-08,
+        1.26964406e-07, 4.46739460e-07, 1.08057574e-06, 2.07505460e-06,
+        3.43131526e-06, 5.11083164e-06],
+       [0.00000000e+00, 5.52574188e-14, 1.50995619e-10, 6.02571766e-09,
+        5.16125456e-08, 2.10629872e-07, 5.65094380e-07, 1.17442603e-06,
+        2.05998719e-06, 3.21872026e-06],
+       [0.00000000e+00, 6.28701652e-15, 3.36114605e-11, 1.89163948e-09,
+        2.02597042e-08, 9.56239994e-08, 2.85849083e-07, 6.42547445e-07,
+        1.19933157e-06, 1.96314153e-06],
+       [0.00000000e+00, 6.73639450e-16, 7.10084970e-12, 5.68841414e-10,
+        7.54907182e-09, 4.16108680e-08, 1.38249717e-07, 3.36542376e-07,
+        6.64670138e-07, 1.13860717e-06],
+       [0.00000000e+00, 6.82897274e-17, 1.41703726e-12, 1.60513229e-10,
+        2.65104658e-09, 1.66929991e-08, 6.10800199e-08, 1.58589513e-07,
+        3.29657332e-07, 5.84451682e-07],
+       [0.00000000e+00, 5.99897806e-18, 2.22754802e-13, 3.32430431e-11,
+        6.30103615e-10, 4.40231637e-09, 1.70569062e-08, 4.64105573e-08,
+        9.86716371e-08, 1.79350134e-07]])</code></pre>
+</div>
+</div>
+<p>To get the total for each time, we can use the <code>numpy.sum()</code> function, which accepts an axis parameter (second parameter). The help file doesn’t really illuminate how to set it, but with experimentation you can figure out how to add up all the columns, so you have one sum per time.</p>
+<div id="c477d737" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tot_mod <span class="op">=</span> (pred[<span class="st">'c'</span>] <span class="op">*</span> pred[<span class="st">'dx'</span>] <span class="op">*</span> area).<span class="bu">sum</span>(<span class="dv">0</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>tot_mod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>array([0.        , 0.00048684, 0.00070048, 0.00086258, 0.00099877,
+       0.00111842, 0.00122643, 0.00132557, 0.00141762, 0.00150375])</code></pre>
 </div>
 </div>
 

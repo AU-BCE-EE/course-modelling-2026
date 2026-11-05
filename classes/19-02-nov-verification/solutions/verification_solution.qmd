@@ -1,0 +1,439 @@
+# Verification solution
+
+# Check of the code
+First, let's try to check the governing equation (GE) we came up with in the model formulation.
+
+$$
+\frac{dTAN}{dt} = c{TAN,in} \cdot \dot{V} + k_u \cdot m_u - K_G \cdot (\frac{c_l}{H} - c_g) \cdot A.
+$$
+
+But the Python code has intermediate variables, so the GE shows up like this:
+
+```{python}
+#| eval: false
+        dm_TAN_dt = TAN_in + urea_hyd - volat
+```
+
+So it is good to either 1) compare it to the conservation equation or 2) identify the parts of the GE that correspond to the individual variables in the code.
+Either way, all the expressions in the code need to be checked, so it is important to work backwards.
+
+Compare to [the mini-project solution](https://au-bce-ee.github.io/course-modelling-2026/classes/10-24-sept-mini-proj/solutions/mp1_solution.html#balanceconservation-equations).
+The conservation equation for TAN looks like this:
+
+```{python}
+#| eval: false
+rate of accumulation = rate of addition in slurry + rate of urea hydrolysis - rate of volatilization
+```
+
+with all terms as rate of change in N mass, i.e., $\text{kg} ~ \text{s}^{-1}$.
+
+Do the two match?
+Check for terms and the signs.
+These look the same.
+
+and for urea, the Python model has:
+
+```{python}
+#| eval: false
+        dc_urea_dt = urea_in
+```
+
+And the mathematical model:
+
+$$
+\frac{du}{dt} = c{u,in} \cdot \dot{V} - k_u \cdot m_u.
+$$
+
+We are missing urea hydrolysis in the model code!
+That is a big problem.
+
+In verification, this type of checking should be done for all variables.
+
+Let's work backwards and see how the individual terms are calculated.
+This effectively means getting into the constitutive equations.
+Here are the expressions for calculating individual terms in the conservation equation from line 100+ in the code:
+
+```{python}
+#| eval: false
+
+        # TAN flow in and out by advection ()
+        TAN_in = c_TAN_in * f_in
+
+        # Urea flow in and out by advection ()
+        urea_in = c_urea_in * f_in
+
+        # Urea hydrolysis rate ()
+        urea_hyd = ku * m_urea
+
+        # NH3 volatilization ()
+        volat = kg * a_top * (frac_NH3 * m_TAN / v_man / hen)
+
+```
+
+These should be compared to the equations in the mathematical model.
+For volatilization rate, see section 3 or 6 in the mini-project solutions.
+
+The volatilization rate calculation is wrong--it is missing the background concentration.
+
+As part of verification it is helpful to add unit checks in comments.
+This can go in a notes file or even right in the source code, i.e., the module here. 
+They don't need to stay in the code, although it is fine to keep them.
+
+```{python}
+#| eval: false
+#                kg/m3   * m3/s -> kg/s
+        TAN_in = c_TAN_in * f_in
+
+#                  1/s * kg  -> kg/s
+        urea_hyd = ku * m_urea
+
+#              m/s *   m^2 * (    .      kg    / m3    / . )
+#              m/s *   m^2 * (kg/m3) ------------------------> kg/m3-s
+        volat = kg * a_top * (frac_NH3 * m_TAN / v_man / hen)
+
+```
+
+I don't see any unit problems.
+
+We could also do a conceptual check of these expressions.
+It is probably a good idea to do the conceptual check before checking units.
+Similar to the units check above, I'll copy in the code and use comments to document a check.
+For just a couple.
+
+```{python}
+#| eval: false
+#   mass flow =? concentration * flow rate OK  
+        TAN_in = c_TAN_in * f_in
+
+# Volatilization =? MTC * area * concentration OK
+#            gas MTC                      aq. conc.    / aq:g HLC -> gas OK
+        volat = kg * a_top * (frac_NH3 * m_TAN / v_man / hen)
+
+```
+
+That Henry's law topic can be tricky.
+First, this is interphase mass transfer, which is just difficult to understand.
+Second, Henry's law constant is anything but constant!
+Yes, it changes with temperature and more, and of course varies between different compounds.
+But I mean even for the exact same compound and temperature it can be expressed with different dimensions and units, for use in different ways.
+So it is just a hassle to work with.
+I have use a dimensionless form in the model.
+And I wrote in the `hlc()` function docstring that it is aq:g, which means it gives the equilibrium ratio of dissolved to gas concentration in the same volumetric units.
+Some people prefer to use the inverse of this form, or a g:aq ratio.
+And they may just describe it as "dimensionless", which accurately describes the form we used as well.
+See why Henry's law constant is so confusing?
+
+Anyway, in our model, the calculated value of around 2300 means the concentration of the "free ammonia" species NH3 (aq) is 2300 times the equilibrium gas phase concentration when both are in g/m3 or similar units (mg/L, mol/m3, mmol/m3, etc., but *not* g/kg or ppm (which means different things for gas and solutions!)). 
+So although `hen` is dimensionless, we should hang onto that aq:g tag.
+
+Here is the code with all the corrections (look for `Note:`, which should show up in red):
+
+```{.python filename="slurry_mod.py"}
+{{< include slurry_mod.py >}}
+```
+
+# Model call verification
+
+Here we'll 1) play around with the model a bit to understand how it works and if the general patterns follow expectations, or understanding of our conceptual model, and 2) try some limiting or edge cases to check model behavior for a kind of verification.
+For the second part, it is a good idea to check the response to all inputs, but we won't do that here.
+
+Import packages.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from importlib import reload
+import slurry_mod as sm
+```
+
+To load new version after edits:
+
+```{python}
+reload(sm)
+```
+
+Reference inputs.
+We'll use some of these repeatedly.
+Say we have 200 cows, each producing around 80 kg of slurry per day.
+
+```{python} 
+f_in = 200 * 80 / 1000 / 86400
+```
+
+For the tank area, let's assume a 4 m deep tank still needs to hold 200 days' worth of manure.
+
+```{python}
+depth = 4.
+a_top = f_in * 200 * 86400 / depth
+a_top
+```
+
+What does this imply for a tank diameter, assuming a cylindrical tank?
+
+```{python}
+2 * np.sqrt(a_top / np.pi) 
+```
+
+32 m is plausible.
+
+Let's set the other inputs.
+
+```{python}
+kg = 0.01      # m/s
+c_bg = 0.      # g/m3
+pH = 7.        # pH
+c_TAN_in = 3    # g/m3
+c_urea_in = 0   # g/m3
+ku = 0.        # 1/d
+temp_c = 15.   # deg. C
+```
+
+Finally, let's run the model for a few initial scenarios, checking that effects of input values match our expectations and understanding of the conceptual and mathematical model.
+We have assumed the tank should be emptied after no more than 200 days, so we'll run it that long.
+
+```{python}
+pred_01 = sm.stmod(f_in=f_in,
+                   a_top=a_top,
+                   c_TAN_in=c_TAN_in,
+                   c_urea_in=c_urea_in,
+                   c_bg=c_bg,
+                   pH=pH,
+                   ku=ku,
+                   kg=kg,
+                   temp_c=temp_c,
+                   t_range=[0, 200 * 86400], 
+                   t_step=3600)
+```
+
+```{python}
+plt.plot(pred_01['t'] / 86400, pred_01['c_TAN'], label = 'TAN')
+plt.plot(pred_01['t'] / 86400, pred_01['c_urea'], label = 'Urea')
+plt.xlabel('Time (d)')
+plt.ylabel('Tank TAN conc. (kg/m3)')
+```
+
+We see a very rapid attainment of what seems to be a steady-state TAN concentration.
+This behavior is explained in the mini-project solution.
+The TAN concentration responds very quickly at first because the depth of slurry is so small, while volatilization responds to the exposed surface area, which is fixed.
+No urea here, because of the input setting.
+
+Scenario 2: Start with a couple m of slurry in tank.
+Here we do not expect rapid steady state.
+
+
+```{python}
+pred_02 = sm.stmod(f_in=f_in,
+                   a_top=a_top,
+                   c_TAN_in=c_TAN_in,
+                   c_urea_in=c_urea_in,
+                   c_bg=c_bg,
+                   pH=pH,
+                   ku=ku,
+                   kg=kg,
+                   temp_c=temp_c,
+                   v_man_0=a_top * 2,
+                   t_range=[0, 200 * 86400], 
+                   t_step=3600)
+```
+
+Scenario 3: Add some TAN to that initial slurry.
+
+
+```{python}
+pred_03 = sm.stmod(f_in=f_in,
+                   a_top=a_top,
+                   c_TAN_in=c_TAN_in,
+                   c_urea_in=c_urea_in,
+                   c_bg=c_bg,
+                   pH=pH,
+                   ku=ku,
+                   kg=kg,
+                   temp_c=temp_c,
+                   v_man_0=a_top * 2,
+		   m_TAN_0=c_TAN_in * a_top * 2, 
+                   t_range=[0, 200 * 86400], 
+                   t_step=3600)
+```
+
+
+Let's plot these three.
+
+
+```{python}
+plt.plot(pred_01['t'] / 86400, pred_01['c_TAN'], label = '01')
+plt.plot(pred_02['t'] / 86400, pred_02['c_TAN'], label = '02')
+plt.plot(pred_03['t'] / 86400, pred_03['c_TAN'], label = '03')
+plt.legend()
+plt.xlabel('Time (d)')
+plt.ylabel('Tank TAN conc. (g/m3)')
+```
+
+So, the model predicts that the TAN concentration in the storage tank increases or decreases, depending on the starting concentration, and tends toward a steady-state value, of course below the initial concentration (at least when we have left out urea, based on the assumption that all urea is converted to TAN quickly, prior to transfer to the tank).
+With slurry and TAN always coming into the tank, it is not clear if we will ever actually reach a steady state concentration.
+If we start with the `c_TAN_in` concentration in the tank, as volatilization removes TAN the rate of volatilization drops.
+So we have a kind of negative feedback, which is very common in mass transfer models--here removal of TAN by NH3 volatilization reduces the rate of volatilization.
+
+Now let's look at some limiting cases.
+Scenario 4: zero exposed area, but with initial TAN concentration set to the incoming TAN concentration for clarity.
+
+```{python}
+pred_04 = sm.stmod(f_in=f_in,
+                   a_top=0.,
+                   c_TAN_in=c_TAN_in,
+                   c_urea_in=c_urea_in,
+                   c_bg=c_bg,
+                   pH=pH,
+                   ku=ku,
+                   kg=kg,
+                   temp_c=temp_c,
+                   v_man_0=a_top * 2,
+		   m_TAN_0=c_TAN_in * a_top * 2,
+                   t_range=[0, 200 * 86400], 
+                   t_step=3600)
+```
+
+
+```{python}
+plt.plot(pred_01['t'] / 86400, pred_01['c_TAN'], label = '01')
+plt.plot(pred_04['t'] / 86400, pred_04['c_TAN'], label = '04')
+plt.legend()
+plt.xlabel('Time (d)')
+plt.ylabel('Tank TAN conc. (g/m3)')
+```
+
+That makes sense.
+With zero exposed area there is no TAN loss.
+
+
+Scenario 5: All incoming N as urea, no initial TAN.
+We will go back to the nearly zero initial slurry volume, because it is easier to interpret output when we see a steady-state concentration.
+
+```{python}
+pred_05 = sm.stmod(f_in=f_in,
+                   a_top=a_top,
+                   c_TAN_in=0.,
+                   c_urea_in=3.,
+                   c_bg=c_bg,
+                   pH=pH,
+                   ku=ku,
+                   kg=kg,
+                   temp_c=temp_c,
+                   v_man_0=1.e-6,
+                   t_range=[0, 200 * 86400], 
+                   t_step=3600)
+```
+
+Scenario 6: The same as 5 but with some urea hydrolysis!
+
+```{python}
+pred_06 = sm.stmod(f_in=f_in,
+                   a_top=a_top,
+                   c_TAN_in=0.,
+                   c_urea_in=3.,
+                   c_bg=c_bg,
+                   pH=pH,
+                   ku=2/86400,
+                   kg=kg,
+                   temp_c=temp_c,
+                   v_man_0=1.e-6,
+                   t_range=[0, 200 * 86400], 
+                   t_step=3600)
+```
+
+```{python}
+plt.plot(pred_01['t'] / 86400, pred_01['c_TAN'], label = '01')
+plt.plot(pred_05['t'] / 86400, pred_05['c_TAN'], label = '05')
+plt.plot(pred_06['t'] / 86400, pred_06['c_TAN'], label = '06')
+plt.legend()
+plt.xlabel('Time (d)')
+plt.ylabel('Tank TAN conc. (g/m3)')
+```
+
+```{python}
+plt.plot(pred_06['t'] / 86400, pred_06['c_TAN'], label = 'TAN')
+plt.plot(pred_06['t'] / 86400, pred_06['c_urea'], label = 'Urea')
+plt.legend()
+plt.xlabel('Time (d)')
+plt.ylabel('Tank conc. (g/m3)')
+```
+
+Scenario 7: No flow (batch), but with initial volume.
+And some TAN, so we can look for the expected decrease.
+We'll run the model for a longer time this time.
+
+
+```{python}
+pred_07 = sm.stmod(f_in=0.,
+                   a_top=a_top,
+                   c_TAN_in=c_TAN_in,
+                   c_urea_in=c_urea_in,
+                   c_bg=c_bg,
+                   pH=pH,
+                   ku=ku,
+                   kg=kg,
+                   temp_c=temp_c,
+                   v_man_0=a_top * 2,
+		   m_TAN_0=c_TAN_in * a_top * 2, 
+                   t_range=[0, 10 * 86400 * 365], 
+                   t_step=86400 * 10)
+```
+
+```{python}
+plt.plot(pred_07['t'] / 86400 / 365, pred_07['c_TAN'], label = '07')
+plt.legend()
+plt.xlabel('Time (yr)')
+plt.ylabel('Tank TAN conc. (g/m3)')
+```
+
+We should expect a continual reduction in TAN concentration.
+What would happen if we set the background to something above 0?
+
+```{python}
+pred_08 = sm.stmod(f_in=0.,
+                   a_top=a_top,
+                   c_TAN_in=c_TAN_in,
+                   c_urea_in=c_urea_in,
+                   c_bg=2.,
+                   pH=pH,
+                   ku=ku,
+                   kg=kg,
+                   temp_c=temp_c,
+                   v_man_0=a_top * 2,
+		   m_TAN_0=c_TAN_in * a_top * 2, 
+                   t_range=[0, 10 * 86400 * 365], 
+                   t_step=86400 * 10)
+```
+
+```{python}
+plt.plot(pred_07['t'] / 86400 / 365, pred_07['c_TAN'], label = '07')
+plt.plot(pred_08['t'] / 86400 / 365, pred_08['c_TAN'], label = '08')
+plt.legend()
+plt.xlabel('Time (yr)')
+plt.ylabel('Tank TAN conc. (g/m3)')
+```
+
+Scenario 9: Very high pH.
+
+```{python}
+pred_09 = sm.stmod(f_in=f_in,
+                   a_top=a_top,
+                   c_TAN_in=c_TAN_in,
+                   c_urea_in=c_urea_in,
+                   c_bg=c_bg,
+                   pH=12,
+                   ku=ku,
+                   kg=kg,
+                   temp_c=temp_c,
+                   t_range=[0, 200 * 86400], 
+                   t_step=3600)
+```
+
+```{python}
+plt.plot(pred_01['t'] / 86400, pred_01['c_TAN'], label = '01')
+plt.plot(pred_09['t'] / 86400, pred_09['c_TAN'], label = '09')
+plt.legend()
+plt.xlabel('Time (d)')
+plt.ylabel('Tank TAN conc. (g/m3)')
+```
+
+We should expect more ammonia loss, and that is what we see.
