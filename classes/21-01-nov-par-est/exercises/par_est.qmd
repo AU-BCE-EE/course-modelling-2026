@@ -1,4 +1,4 @@
-# Model validation
+# Parameter estimation
 
 Here you will work with the same 1D diffusion model you used in the validation exercise last week.
 
