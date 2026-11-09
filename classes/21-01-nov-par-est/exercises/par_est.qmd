@@ -1,0 +1,129 @@
+# Model validation
+
+Here you will work with the same 1D diffusion model you used in the validation exercise last week.
+
+Use the data in the [`col_salt.csv`](https://raw.githubusercontent.com/AU-BCE-EE/course-modelling-2026/main/classes/21-01-nov-par-est/exercises/col_salt.csv) for parameter estimation.
+Remember that the fixed salt concentrations at the boundaries were 36 kg/m3 at the left and zero at the right.
+The diffusivity of NaCl in water is known to be around 1.6E-9 m2/s.
+Is the best-fit value of diffusivity you get close to this value?
+
+The module code is included below.
+Remember to create a module!
+
+```{python}
+"""
+Course: Modelling 2026
+Author: Sasha D. Hafner
+
+Description:
+    This module defines numerical models for 1D diffusion of a solute
+    through a column or semi-infinite slab.
+
+Usage:
+    See the code chunk below for a demo.
+"""
+
+import numpy as np
+from scipy.integrate import solve_ivp
+
+def diff1D(
+    L,       
+    n,       
+    D,       
+    bc,      
+    ci,      
+    t_eval   
+):  
+
+    """
+    A 1D diffusion model for rectangular geometry with flow through both boundaries.
+
+    Parameters
+    ----------
+    L : float
+        Total column, layer, material, etc. length or thickness (m)
+    n : integer
+        Number of spatial layers/cells/nodes                                                                     '
+    D : float
+        Diffusivity (m2/s)
+    bc : list or tuple
+        Boundary conditions, fixed concentrations (kg/m3), bc[0] = left or bottom, bc[1] = right or top
+    ci : float
+        Initial concentration (single value -> uniform or flat profile) (kg/m3)
+    t_eval : list, tuple, or array
+        Times for model evaluation (s)
+
+    Returns
+    -------
+    dictionary
+        With time t (s), cell width dx (m), an array of cell widths dxi (m) with the half widths at 
+        the ends, the cell center position x (m), concentration profile c (kg/m3), and cumulative 
+        mass transfer at left, ml, and right, mr, boundaries per m2 of end or cross-sectional area 
+        (kg/m2).
+    """
+
+    # Define rates function 
+    def rates(t, c):
+    
+        # Extract the cell concentrations (remove the two values of cumulative mass transfer)
+        c = c[:-2] 
+    
+        # Extend concentration array with the boundary condition values to make calculations easier
+        # The left/bottom bc goes at the beginning
+        ca = np.insert(c, 0, bc[0])
+        # The right/top bc goes at the end
+        ca = np.append(ca, bc[1])
+    
+       # Calculate dcdt deriviatives in steps 
+        # Flux at all interfaces between cells
+        j = -D * (ca[1:] - ca[:-1]) / dxi
+        # Derivative
+        dcdt = (j[:-1] - j[1:]) / dx
+
+        # Extract flux at first and last cell (i.e., at the boundaries)
+        # Positive is right for both
+        # kg/m2-s
+        jbound = j[[0, -1]]
+        # And combine it with the derivative vector at the end to track cumlative transfer in and out
+        der = np.append(dcdt, jbound)
+        
+        # Return derivatives, all kg/m2-s
+        return(der)
+
+    # Extract some inputs
+    t_max = max(t_eval)
+    t_span = (0, t_max)
+
+    # Initial state variable vector 
+    si = np.repeat(ci, n + 2)
+    # Last positions are mass loss, always with starting value of 0
+    si[-2:] = 0
+
+    # Cell width (m)
+    dx = L / n 
+    
+    # This is a cell-based approach, so our boundary dx values are half as large as the others
+    dxi = np.full(n + 1, dx)
+    dxi[[0, -1]] = dx / 2
+
+    # Solve with ODE solver
+    res = solve_ivp(rates, t_span, si, t_eval = t_eval)
+
+    # Get x positions based on cell centers to include in output
+    x = np.linspace(0, L, n) + dx / 2
+
+    # Organize results in a dictionary
+    out = {
+        "t": res.t, 
+        "dx": L/n, 
+        "dxi": dxi, 
+        "x": x, 
+        "c": res.y[:-2], 
+        "ml": res.y[-2], 
+        "mr": res.y[-1]
+    }
+
+    return(out)
+
+```
+
