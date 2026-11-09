@@ -228,10 +228,10 @@ MathJax = {
 
 
 <p>Let’s start by looking at the measurement data. We’ll use pandas.</p>
-<div id="984279ae" class="cell" data-execution_count="1">
+<div id="e836710b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="58426a8f" class="cell" data-execution_count="2">
+<div id="b193a4f3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>measdat <span class="op">=</span> pd.read_csv(<span class="st">'col_salt.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>measdat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -358,58 +358,128 @@ MathJax = {
 </div>
 </div>
 </div>
-<p>Seems we have even 1 d spacing in time, which is convenient. We can match that exactly without changing the <code>diff1D()</code> function and align model output and measurements without a merge operation.</p>
+<p>Seems we have even 1 d spacing in time, which is convenient. We can match that exactly without changing the <code>diff1D()</code> function and align model output and measurements without a merge operation. But, for graphical validation, it is usually best to use a high resolution to get a smooth curve.</p>
 <p>Load our model function.</p>
-<div id="6780e8e7" class="cell" data-execution_count="3">
+<div id="296feb53" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> diff_mod <span class="im">as</span> dm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And other modules.</p>
-<div id="346afbd7" class="cell" data-execution_count="4">
+<div id="568ac4a0" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>So here is our model call.</p>
-<div id="58761e19" class="cell" data-execution_count="5">
+<p>So here is our model call. We’ll use a high resolution (100 points) for a smooth curve.</p>
+<div id="b344d3e4" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pred01 <span class="op">=</span> dm.diff1D(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="dv">50</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> <span class="fl">1.6E-9</span>,</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    bc <span class="op">=</span> [<span class="dv">36</span>, <span class="dv">0</span>],</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    ci <span class="op">=</span> <span class="dv">0</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">20</span> <span class="op">*</span> <span class="dv">86400</span>, <span class="dv">21</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">20</span> <span class="op">*</span> <span class="dv">86400</span>, <span class="dv">100</span>)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And we can use the same approach that was shown in the exercise for calculating accumulation. We will need the cross-sectional area.</p>
-<div id="38032939" class="cell" data-execution_count="6">
+<div id="c5a7c1c8" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>area <span class="op">=</span> np.pi <span class="op">*</span> (<span class="fl">0.02</span> <span class="op">/</span> <span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>area</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>0.0003141592653589793</code></pre>
 </div>
 </div>
-<p>The <code>numpy.sum()</code> function accepts an axis parameter (second parameter). The help file doesn’t really illuminate how to set it, but with experimentation you can figure out how to add up all the columns, so you have one sum per time.</p>
-<div id="6f42e1e1" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>salt_mod <span class="op">=</span> (pred01[<span class="st">'c'</span>] <span class="op">*</span> pred01[<span class="st">'dx'</span>] <span class="op">*</span> area).<span class="bu">sum</span>(<span class="dv">0</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>salt_mod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>numpy.sum()</code> function accepts an axis parameter (second parameter). The help file doesn’t really illuminate how to set it, but with experimentation you can figure out how to add up all the columns, so you have one sum per time. Mass units in model output are kg, and the measurement data are in mg. So we will convert to mg here.</p>
+<div id="6e642dbd" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>salt_mod_mg <span class="op">=</span> (pred01[<span class="st">'c'</span>] <span class="op">*</span> <span class="fl">1e6</span> <span class="op">*</span> pred01[<span class="st">'dx'</span>] <span class="op">*</span> area).<span class="bu">sum</span>(<span class="dv">0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>salt_mod_mg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>array([0.        , 0.00014977, 0.000212  , 0.00025964, 0.00029939,
-       0.00033354, 0.00036318, 0.00038899, 0.0004115 , 0.00043113,
-       0.00044826, 0.00046321, 0.00047625, 0.00048763, 0.00049756,
-       0.00050622, 0.00051377, 0.00052037, 0.00052612, 0.00053114,
-       0.00053552])</code></pre>
+<pre><code>array([  0.        ,  66.8265291 ,  94.94589329, 116.46024663,
+       134.57851454, 150.53093845, 164.94818074, 178.20238801,
+       190.53689802, 202.11938285, 213.07188051, 223.48576386,
+       233.43057884, 242.9617374 , 252.12192994, 260.94656446,
+       269.46362299, 277.69628009, 285.66451838, 293.38359465,
+       300.86816662, 308.12947442, 315.178295  , 322.02376961,
+       328.67345864, 335.13578279, 341.41628933, 347.52211055,
+       353.45805775, 359.23023022, 364.8434572 , 370.30227857,
+       375.61176497, 380.77541216, 385.79849037, 390.68411611,
+       395.43669446, 400.05969297, 404.55641156, 408.93130941,
+       413.18656273, 417.32638395, 421.35331682, 425.27085313,
+       429.0819469 , 432.78925412, 436.39603037, 439.90435168,
+       443.31767626, 446.6378755 , 449.86805732, 453.01034458,
+       456.06712888, 459.04115301, 461.9339505 , 464.74848782,
+       467.48624702, 470.1497813 , 472.7407894 , 475.26139178,
+       477.71361208, 480.0990236 , 482.4197663 , 484.67728138,
+       486.87357747, 489.0100775 , 491.08856389, 493.11057798,
+       495.07757383, 496.99120384, 498.85266623, 500.66370608,
+       502.42542509, 504.13930893, 505.80662168, 507.42854979,
+       509.006528  , 510.54148657, 512.03481013, 513.48748211,
+       514.90072211, 516.27554763, 517.61299837, 518.91413871,
+       520.17984571, 521.41122413, 522.60906109, 523.77440693,
+       524.90804579, 526.01087698, 527.0837737 , 528.12745271,
+       529.14283043, 530.13056104, 531.09148218, 532.02625516,
+       532.93564119, 533.82031598, 534.68092092, 535.51817484])</code></pre>
 </div>
 </div>
-<p>We should check to make sure that this output array has the same length as the number of times. It does: 21.</p>
-<p>Units here are kg, and the measurement data are in mg. And time there is in h.</p>
-<p>If we are sure that we used the right times in the model call, we could just add a column with model output. We’ll start with that. First, make a new data frame that will hold measurements and model output.</p>
-<div id="67548f4b" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mmdat <span class="op">=</span> measdat.copy()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>And time there is in h.</p>
+<p>Finally, let’s plot the results for comparison.</p>
+<div id="4d3f19db" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plt.plot(measdat.time_d, measdat.salt_mg, marker <span class="op">=</span> <span class="st">'o'</span>, label <span class="op">=</span> <span class="st">'Measured'</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>plt.plot(pred01[<span class="st">'t'</span>] <span class="op">/</span> <span class="dv">86400</span>, salt_mod_mg, label <span class="op">=</span> <span class="st">'Model output'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time (d)'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Column NaCl (mg)'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="validation_solution_files/figure-html/cell-9-output-1.png" width="594" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Well, clearly the model underestimates NaCl accumulation, even if we consider that there is some random error in measurements (see it?). But measurements and the model both show the same shape and are not terribly far off.</p>
+<p>We can get quantitative using the model fit statistics we discussed in class on Thursday. But we now need to be completly sure that the times in the measurement and model line up. There are a couple ways to do this. If measurement times are regularly spaced (they are here, see above), we could use <code>np.linspace()</code> but with the right number of times and spacing. But a more flexible and probably safer approach is to just extract the times from the measurements and put them in the model call like this.</p>
+<div id="950c06ee" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pred02 <span class="op">=</span> dm.diff1D(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    L<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    D<span class="op">=</span><span class="fl">1.6E-9</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    bc<span class="op">=</span>[<span class="dv">36</span>, <span class="dv">0</span>],</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    ci<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    t_eval <span class="op">=</span> measdat[<span class="st">'time_d'</span>] <span class="op">*</span> <span class="dv">86400</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="22eab0ef" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>salt_mod2_mg <span class="op">=</span> (pred02[<span class="st">'c'</span>] <span class="op">*</span> <span class="fl">1e6</span> <span class="op">*</span> pred01[<span class="st">'dx'</span>] <span class="op">*</span> area).<span class="bu">sum</span>(<span class="dv">0</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>salt_mod2_mg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>array([  0.        , 149.77397805, 212.00223581, 259.64298207,
+       299.38939487, 333.53749457, 363.17582796, 388.98943544,
+       411.49866496, 431.13365655, 448.2640516 , 463.21008921,
+       476.25048539, 487.62803763, 497.55500934, 506.21628765,
+       513.77330909, 520.36672581, 526.11948628, 531.13881895,
+       535.51817484])</code></pre>
+</div>
+</div>
+<p>I created a module with the model fit functions from the book. Let’s load it.</p>
+<div id="ff338e22" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mod_fit <span class="im">as</span> mf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We were careful with the time alignment, so we could do, e.g, this, for RMSE:</p>
+<div id="6a517bcb" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mf.rmse(measdat[<span class="st">'salt_mg'</span>], salt_mod2_mg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>np.float64(45.86101042417123)</code></pre>
+</div>
+</div>
+<p>So the RMSE is about 46 mg. Comparing to the plot, that makes some sense.</p>
+<p>We can also combine measurements and model output in a single DataFrame. First, make a new data frame that will hold measurements and model output.</p>
+<div id="41d953c1" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mmdat <span class="op">=</span> measdat.copy()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And add the model output we processed above.</p>
-<div id="7960ea4f" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mmdat[<span class="st">'salt_mod_mg'</span>] <span class="op">=</span> salt_mod <span class="op">*</span> <span class="fl">1E6</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mmdat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="fc2cfe92" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mmdat[<span class="st">'salt_mod_mg'</span>] <span class="op">=</span> salt_mod2_mg</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>mmdat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 
 
@@ -556,15 +626,15 @@ MathJax = {
 </div>
 </div>
 <p>We can already seen the order or magnitude is OK.</p>
-<p>But it is safer to do a proper merge. This would work even if we had some times in the model output that were not present in the measurement DataFrame, or vice versa. For that we need to combine model time and our response variable. And it is easiest to merge in a DataFrame, so we’ll do that.</p>
-<div id="64690d0b" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>moddat <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'time_d'</span>: pred01[<span class="st">'t'</span>] <span class="op">/</span> <span class="dv">86400</span>,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'salt_mod_mg'</span>: salt_mod <span class="op">*</span> <span class="fl">1E6</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>moddat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<p>Alternatively, we can do a proper merge. This is probably the safest option. This would work even if we had some times in the model output that were not present in the measurement DataFrame, or vice versa. For that we need to combine model time and our response variable. And it is easiest to merge in a DataFrame, so we’ll do that.</p>
+<div id="68221bc5" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>moddat <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'time_d'</span>: pred02[<span class="st">'t'</span>] <span class="op">/</span> <span class="dv">86400</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'salt_mod_mg'</span>: salt_mod2_mg</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>moddat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
 
@@ -689,11 +759,11 @@ MathJax = {
 </div>
 </div>
 <p>Now merge.</p>
-<div id="5501929e" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mmdat2 <span class="op">=</span> pd.merge(measdat, moddat, on <span class="op">=</span> <span class="st">'time_d'</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>mmdat2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div id="69e86a65" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>mmdat2 <span class="op">=</span> pd.merge(measdat, moddat, on <span class="op">=</span> <span class="st">'time_d'</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>mmdat2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
 
@@ -839,39 +909,19 @@ MathJax = {
 </div>
 </div>
 </div>
-<p>Finally, let’s plot the results for comparison.</p>
-<div id="4f0d6059" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plt.plot(mmdat2.time_d, mmdat2.salt_mg, marker <span class="op">=</span> <span class="st">'o'</span>, label <span class="op">=</span> <span class="st">'Measured'</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.plot(mmdat2.time_d, mmdat2.salt_mod_mg, marker <span class="op">=</span> <span class="st">'o'</span>, label <span class="op">=</span> <span class="st">'Model output'</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time (d)'</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Column NaCl (mg)'</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="validation_solution_files/figure-html/cell-13-output-1.png" width="594" height="431" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Well, clearly the model underestimates NaCl accumulation, even if we consider that there is some random error in measurements (see it?). But measurements and the model both show the same shape and are not terribly far off.</p>
-<p>We can get quantitative using the model fit statistics we discussed in class on Thursday. Let’s load the module.</p>
-<div id="9ed7f07a" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mod_fit <span class="im">as</span> mf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>First mean bias.</p>
-<div id="9d0f096f" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mf.mbe(mmdat.salt_mg, mmdat.salt_mod_mg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
-<pre><code>np.float64(-42.657897805438154)</code></pre>
+<p>Now more on fit statistics. First mean bias.</p>
+<div id="f96f6d61" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mf.mbe(mmdat.salt_mg, mmdat.salt_mod_mg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>np.float64(-42.657897805438196)</code></pre>
 </div>
 </div>
 <p>So that’s a mean bias of under 10% of the maximum. That would not be terrible for an environmental model, but depending on the application, better accuracy might be needed.</p>
 <p>Mean absolute error is similar.</p>
-<div id="55dc0fda" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mf.mae(mmdat.salt_mg, mmdat.salt_mod_mg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
-<pre><code>np.float64(42.657897805438154)</code></pre>
+<div id="b75fabed" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mf.mae(mmdat.salt_mg, mmdat.salt_mod_mg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>np.float64(42.657897805438196)</code></pre>
 </div>
 </div>
 <p>Not surprising, from looking at the plot, which shows that most of the error is related to bias.</p>

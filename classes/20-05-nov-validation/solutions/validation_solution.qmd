@@ -17,6 +17,7 @@ measdat
 
 Seems we have even 1 d spacing in time, which is convenient.
 We can match that exactly without changing the `diff1D()` function and align model output and measurements without a merge operation.
+But, for graphical validation, it is usually best to use a high resolution to get a smooth curve.
 
 Load our model function.
 
@@ -32,6 +33,7 @@ import matplotlib.pyplot as plt
 ```
 
 So here is our model call.
+We'll use a high resolution (100 points) for a smooth curve.
 
 ```{python} 
 pred01 = dm.diff1D(
@@ -40,7 +42,7 @@ pred01 = dm.diff1D(
     D = 1.6E-9,
     bc = [36, 0],
     ci = 0,
-    t_eval = np.linspace(0, 20 * 86400, 21)
+    t_eval = np.linspace(0, 20 * 86400, 100)
 )
 ```
 
@@ -54,20 +56,68 @@ area
 
 The `numpy.sum()` function accepts an axis parameter (second parameter).
 The help file doesn't really illuminate how to set it, but with experimentation you can figure out how to add up all the columns, so you have one sum per time.
+Mass units in model output are kg, and the measurement data are in mg.
+So we will convert to mg here.
 
 ```{python} 
-salt_mod = (pred01['c'] * pred01['dx'] * area).sum(0)
-salt_mod
+salt_mod_mg = (pred01['c'] * 1e6 * pred01['dx'] * area).sum(0)
+salt_mod_mg
 ```
 
-We should check to make sure that this output array has the same length as the number of times.
-It does: 21.
-
-Units here are kg, and the measurement data are in mg.
 And time there is in h.
 
-If we are sure that we used the right times in the model call, we could just add a column with model output.
-We'll start with that.
+Finally, let's plot the results for comparison.
+
+```{python} 
+plt.plot(measdat.time_d, measdat.salt_mg, marker = 'o', label = 'Measured')
+plt.plot(pred01['t'] / 86400, salt_mod_mg, label = 'Model output')
+plt.xlabel('Time (d)')
+plt.ylabel('Column NaCl (mg)')
+plt.legend()
+```
+
+Well, clearly the model underestimates NaCl accumulation, even if we consider that there is some random error in measurements (see it?).
+But measurements and the model both show the same shape and are not terribly far off.
+
+We can get quantitative using the model fit statistics we discussed in class on Thursday. 
+But we now need to be completly sure that the times in the measurement and model line up.
+There are a couple ways to do this.
+If measurement times are regularly spaced (they are here, see above), we could use `np.linspace()` but with the right number of times and spacing.
+But a more flexible and probably safer approach is to just extract the times from the measurements and put them in the model call like this.
+
+```{python} 
+pred02 = dm.diff1D(
+    L=0.1,
+    n=50,
+    D=1.6E-9,
+    bc=[36, 0],
+    ci=0,
+    t_eval = measdat['time_d'] * 86400
+)
+```
+
+```{python} 
+salt_mod2_mg = (pred02['c'] * 1e6 * pred01['dx'] * area).sum(0)
+salt_mod2_mg
+```
+
+I created a module with the model fit functions from the book.
+Let's load it.
+
+```{python}
+import mod_fit as mf
+```
+
+We were careful with the time alignment, so we could do, e.g, this, for RMSE:
+
+```{python}
+mf.rmse(measdat['salt_mg'], salt_mod2_mg)
+```
+
+So the RMSE is about 46 mg.
+Comparing to the plot, that makes some sense.
+
+We can also combine measurements and model output in a single DataFrame.
 First, make a new data frame that will hold measurements and model output.
 
 ```{python} 
@@ -77,21 +127,22 @@ mmdat = measdat.copy()
 And add the model output we processed above.
 
 ```{python} 
-mmdat['salt_mod_mg'] = salt_mod * 1E6
+mmdat['salt_mod_mg'] = salt_mod2_mg
 mmdat
 ```
 
 We can already seen the order or magnitude is OK.
 
-But it is safer to do a proper merge.
+Alternatively, we can do a proper merge.
+This is probably the safest option.
 This would work even if we had some times in the model output that were not present in the measurement DataFrame, or vice versa.
 For that we need to combine model time and our response variable.
 And it is easiest to merge in a DataFrame, so we'll do that.
 
 ```{python} 
 moddat = pd.DataFrame({
-    'time_d': pred01['t'] / 86400,
-    'salt_mod_mg': salt_mod * 1E6
+    'time_d': pred02['t'] / 86400,
+    'salt_mod_mg': salt_mod2_mg
 })
 
 moddat
@@ -105,26 +156,7 @@ mmdat2 = pd.merge(measdat, moddat, on = 'time_d')
 mmdat2
 ```
 
-Finally, let's plot the results for comparison.
-
-```{python} 
-plt.plot(mmdat2.time_d, mmdat2.salt_mg, marker = 'o', label = 'Measured')
-plt.plot(mmdat2.time_d, mmdat2.salt_mod_mg, marker = 'o', label = 'Model output')
-plt.xlabel('Time (d)')
-plt.ylabel('Column NaCl (mg)')
-plt.legend()
-```
-
-Well, clearly the model underestimates NaCl accumulation, even if we consider that there is some random error in measurements (see it?).
-But measurements and the model both show the same shape and are not terribly far off.
-
-We can get quantitative using the model fit statistics we discussed in class on Thursday. 
-Let's load the module.
-
-```{python}
-import mod_fit as mf
-```
-
+Now more on fit statistics.
 First mean bias.
 
 ```{python}
