@@ -1,8 +1,6 @@
 ---
 title: '1D diffusion model solution'
 author: 'Sasha D. Hafner'
-format: 
-  gfm: default
 ---
 
 Let's start by looking at the measurement data.
