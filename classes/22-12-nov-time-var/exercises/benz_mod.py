@@ -70,7 +70,7 @@ def benzvol_batch(cl0, ca, kg, depth, h, t_range, t_step):
     return out
 
 
-def benzvol_flow(cl0, ca, kg, depth, h, hrt, t_range, t_step):  
+def benzvol_flow(clin, cl0, ca, kg, depth, h, hrt, t_range, t_step):  
 
     """ 
     Dynamic numerical model for volatilization of benzene 
@@ -78,6 +78,8 @@ def benzvol_flow(cl0, ca, kg, depth, h, hrt, t_range, t_step):
 
     Parameters
     ----------
+    clin : float
+        Benzene concentration in untreated wastewater (g/m3) 
     cl0 : float
         Initial benzene concentration in lagoon (g/m3) 
     ca : float
@@ -106,7 +108,7 @@ def benzvol_flow(cl0, ca, kg, depth, h, hrt, t_range, t_step):
     # Define rates function
     def rates(t, cl):
 
-        dcdt = (cl0 - cl) / hrt - kg * (cl / h - ca) / depth
+        dcdt = (clin - cl) / hrt - kg * (cl / h - ca) / depth
 
         return dcdt
 

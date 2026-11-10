@@ -1,6 +1,6 @@
 # Time-variable model exercise
 
-Here you will use the bezene volatilization model from the earlier mass transfer exercise.
+Here you will use the bezene volatilization model from the mass transfer exercise.
 In the conceptual model, we have uniform benzene concentrations in the bulk air and wastewater.
 Contaminated wastewater is continuously added and older wastewater flows out through an outlet, we can assume a uniform and constant concentration, like a completely stirred tank reactor (CSTR).
 We could (and did) represent this situation with a steady-state model if the mass transfer coefficient is constant, but here you will create a time-variable model where that mass transfer coefficient changes over time.
@@ -11,40 +11,46 @@ Here is a sketch of the conceptual model:
 
 For more details, you can check the [solution](https://au-bce-ee.github.io/course-modelling-2026/classes/06-10-sept-mass-transfer/solutions/benz_sol.html).
 
-The Python module `benz_nmods.py` has a numerical implementation of two models: a batch model with no inflow or outflow, and another with constant and equal inflow and outflow.
+The Python module `benz_mod.py` has a numerical implementation of a model with constant and equal inflow and outflow.
+It has been changed slightly from the earlier solution--here there are separate inputs for initial lagoon benzene concentration and wastewater concentration.
 
-```{.python filename="benz_nmods.py"}
-{{< include benz_nmods.py >}}
+```{.python filename="benz_mod.py"}
+{{< include benz_mod.py >}}
 ```
 
-Here you will work with the second model.
-Here is a demo.
+Here is a demo, starting with a benzene concentration of 10 $\gpmc$.
 
 ```{python}
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 
-import benz_nmods as bnm
+import benz_mod as bnm
 ```
+
+We'll use a much lower mass transfer coefficient here than in the earlier exercise, only because this value is more realistic.
+And to make this lagoon at all effective, that means we need a much higher retention time.
+We might also consider whether benzene should be allowed to simply volatilize into the atmosphere, but for now let's just accept that this system may not be a very realistic one!
 
 ```{python}
 pred03 = bnm.benzvol_flow(
+    clin=10, 
     cl0=10, 
     ca=0, 
-    kg=1e-6, 
+    kg=2e-6, 
     depth=1,
     h=5,
-    hrt=86400,
-    t_range = (0, 3 * 86400),
+    hrt=21 * 86400,
+    t_range = (0, 3 * 30 * 86400),
     t_step = 3600
 )
 ```
 
 ```{python}
-plt.plot(pred03["t"] / 3600, pred03["cl"])
-plt.xlabel("Time (hours)")
+plt.plot(pred03["t"] / 86400, pred03["cl"])
+plt.xlabel("Time (days)")
 plt.ylabel("Benzene conc. (g/m3)")
+plt.show()
 ```
 
 Add wind speed as a time-variable input and use to calculate a mass transfer coefficient internally.
