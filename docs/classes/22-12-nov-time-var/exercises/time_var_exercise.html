@@ -246,7 +246,7 @@ window.Quarto = {
 </header>
 
 
-<p>Here you will use the bezene volatilization model from the mass transfer exercise. In the conceptual model, we have uniform benzene concentrations in the bulk air and wastewater. Contaminated wastewater is continuously added and older wastewater flows out through an outlet, we can assume a uniform and constant concentration, like a completely stirred tank reactor (CSTR). We could (and did) represent this situation with a steady-state model if the mass transfer coefficient is constant, but here you will create a time-variable model where that mass transfer coefficient changes over time.</p>
+<p>Here you will use the bezene volatilization model from the earlier mass transfer exercise. In the conceptual model, we have uniform benzene concentrations in the bulk air and wastewater. Contaminated wastewater is continuously added and older wastewater flows out through an outlet, we can assume a uniform and constant concentration, like a completely stirred tank reactor (CSTR). We could (and did) represent this situation with a steady-state model if the mass transfer coefficient is constant, but here you will create a time-variable model where that mass transfer coefficient changes over time.</p>
 <p>Here is a sketch of the conceptual model:</p>
 <div id="fig-benz-concept" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Benzene volatilization model concept">
 <figure class="quarto-float quarto-float-fig figure">
@@ -392,14 +392,14 @@ Figure&nbsp;1: Conceptual model for benzene volatilization from a wastewater lag
 <span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here you will work with the second model. Here is a demo.</p>
-<div id="36ee9d49" class="cell" data-execution_count="1">
+<div id="e07c41b1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> benz_nmods <span class="im">as</span> bnm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="97c596c5" class="cell" data-execution_count="2">
+<div id="1d90fcd4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pred03 <span class="op">=</span> bnm.benzvol_flow(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    cl0<span class="op">=</span><span class="dv">10</span>, </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    ca<span class="op">=</span><span class="dv">0</span>, </span>
@@ -411,7 +411,7 @@ Figure&nbsp;1: Conceptual model for benzene volatilization from a wastewater lag
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    t_step <span class="op">=</span> <span class="dv">3600</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1e9780b2" class="cell" data-execution_count="3">
+<div id="23b12c99" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plt.plot(pred03[<span class="st">"t"</span>] <span class="op">/</span> <span class="dv">3600</span>, pred03[<span class="st">"cl"</span>])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Time (hours)"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Benzene conc. (g/m3)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

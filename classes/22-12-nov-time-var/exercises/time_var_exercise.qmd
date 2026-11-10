@@ -1,6 +1,6 @@
 # Time-variable model exercise
 
-Here you will use the bezene volatilization model from the mass transfer exercise.
+Here you will use the bezene volatilization model from the earlier mass transfer exercise.
 In the conceptual model, we have uniform benzene concentrations in the bulk air and wastewater.
 Contaminated wastewater is continuously added and older wastewater flows out through an outlet, we can assume a uniform and constant concentration, like a completely stirred tank reactor (CSTR).
 We could (and did) represent this situation with a steady-state model if the mass transfer coefficient is constant, but here you will create a time-variable model where that mass transfer coefficient changes over time.
