@@ -2,14 +2,15 @@
 
 Here you will use the bezene volatilization model from the mass transfer exercise.
 In the conceptual model, we have uniform benzene concentrations in the bulk air and wastewater.
-Contaminated wastewater is continuously added and older wastewater flows out through an outlet, we can assume a uniform and constant concentration, like a completely stirred tank reactor (CSTR).
+Contaminated wastewater is continuously added and older wastewater flows out through an outlet.
+Because of mixing due to wastewater flow and wind- and temperature-driven transport, we can assume a uniform benzene concentration in the bulk of the lagoon, like a completely stirred tank reactor (CSTR).
 We could (and did) represent this situation with a steady-state model if the mass transfer coefficient is constant, but here you will create a time-variable model where that mass transfer coefficient changes over time.
 
 Here is a sketch of the conceptual model:
 
 ![Conceptual model for benzene volatilization from a wastewater lagoon](../../../drawings/benz_concept.png){#fig-benz-concept fig-alt="Benzene volatilization model concept"}
 
-For more details, you can check the [solution](https://au-bce-ee.github.io/course-modelling-2026/classes/06-10-sept-mass-transfer/solutions/benz_sol.html).
+For more details, you can check the [solution](https://au-bce-ee.github.io/course-modelling-2026/classes/06-10-sept-mass-transfer/solutions/benz_sol.html) to the original mass transfer exercise.
 
 The Python module `benz_mod.py` has a numerical implementation of a model with constant and equal inflow and outflow.
 It has been changed slightly from the earlier solution--here there are separate inputs for initial lagoon benzene concentration and wastewater concentration.
@@ -62,7 +63,7 @@ K_G = 1 \cdot 10^{-6} \frac {(1 + 0.1 \cdot w^2)} {1 + 0.1^2}
 $$
 
 where $w$ = wind speed ($\mps$).
-Use the wind speed from the file [weather.csv](https://github.com/AU-BCE-EE/course-modelling-2026/main/classes/22-12-nov-time-var/exercises/weather.csv) to generate some predictions.
+Use the wind speed from the file [weather.csv](https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/22-12-nov-time-var/exercises/weather.csv) to generate some predictions.
 (Select the download button near the top right to download it.)
 
 Once you have that working, can you also add time-variable flow?
