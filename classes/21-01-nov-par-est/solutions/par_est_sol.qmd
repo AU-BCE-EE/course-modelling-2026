@@ -3,6 +3,10 @@ title: 'Parameter estimation solution'
 author: 'Sasha D. Hafner'
 ---
 
+Note: This same solution is presented as a script-based approach at <https://github.com/AU-BCE-EE/course-modelling-2026/tree/main/classes/21-01-nov-par-est/script-solution>.
+Please check that to see how it should be set up on your local machine.
+This html here (not the script-bsaed approach) is done with a qmd (Quarto Markdown) file, and is useful for presenting a complete solution, but it does not demonstrate how to set up the individual files on your local machine.
+
 Let's get the measurement data.
 
 ```{python} 
@@ -32,19 +36,32 @@ def res_func(
 ):
 
     """
-    Function for calculating residuals for  . . . 
+    Function for calculating residuals for estimation of the diffusivity D
+    from measured total salt mass in a column, using diff1D()
 
     Parameters
     ----------
-    x : float
-        Guess for values for the D parameter (diffusivity)
-    . . . 
-
+    x : float or np.ndarray
+        Guess for the value of the D parameter (diffusivity) (m2/s)
+    L : float
+        Column length (m)
+    n : integer
+        Number of spatial layers/cells/nodes
+    bc : list or tuple
+        Boundary conditions, fixed concentrations (kg/m3), bc[0] = left or bottom, bc[1] = right or top
+    ci : float
+        Initial concentration (kg/m3)
+    times : list, tuple, or array
+        Times for model evaluation (s), must match measurement times
+    area : float
+        Column cross-sectional area (m2)
+    meas_salt : array-like
+        Measured total salt mass in the column (kg) at each time in times
 
     Returns
     -------
     np.ndarray
-        Residuals
+        Residuals, model minus measured salt mass (kg)
     """
 
     # Model call
@@ -109,6 +126,8 @@ lspar.x[0]
 ```
 
 Now see how the value does--validation.
+We will use the same times as in the measurements, so we can do some quantitative validation as well as graphical.
+Normally for graphical we would use more times for a smooth model curve.
 
 ```{python} 
 area = np.pi * (0.02 / 2)**2 
@@ -142,6 +161,7 @@ mmdat = measdat.copy()
 ```
 
 And add the model output we processed above.
+We are trusting that the time alignment is OK.
 
 ```{python} 
 mmdat['salt_mod_mg'] = salt_mod * 1E6
@@ -151,19 +171,40 @@ mmdat
 ```{python} 
 import matplotlib.pyplot as plt
 plt.plot(mmdat.time_d, mmdat.salt_mg, marker = 'o', label = 'Measured')
-plt.plot(mmdat.time_d, salt_mod, marker = 'o', label = 'Model output')
+plt.plot(mmdat.time_d, mmdat.salt_mod_mg, label = 'Model output')
 plt.xlabel('Time (d)')
 plt.ylabel('Column NaCl (mg)')
 plt.legend()
 ```
 
+And for quantitative validation, let's load the fit statistic functions.
+
+```{python}
+import mod_fit as mf
+```
+
+If you just use one, probably RMSE is the best choice, but it is only better than MAE because it is more popular.
+
+```{python}
+mf.rmse(mmdat.salt_mg, mmdat.salt_mod_mg)
+```
+
+We cannot always have low error (RMSE, MAE, or high model efficiency (`nsme()`)), but we *should* always have low bias after parameter estimation.
+
+```{python}
+mf.mbe(mmdat.salt_mg, mmdat.salt_mod_mg)
+```
+
+We do.
+
 Troubleshooting:
+If you had trouble, these tips might help.
 
 * Check units, must match
 * Use breakpoint() to check model call inside residuals function 
 * print(x) or `sum(res**2)` etc.
 
-Things to try:
+Other things to try:
 
 * How much does n cells affect result?
 * Did you try different starting values to check for global vs. local minima?
