@@ -55,11 +55,12 @@ plt.show()
 ```
 
 Add wind speed as a time-variable input and use to calculate a mass transfer coefficient internally.
-Although we should expect that mass transfer resistance is water-side limited, and therefore wind might not have an effect, in fact wind at the surface still mixes the water column.
+We should expect that mass transfer resistance is water-side limited, because benzene is not that soluble.
+Don't think that means that wind might not have an effect; in fact wind at the surface still mixes the water column and reduces the liquid film thickness.
 You can use this somewhat plausible correlation (most likely it gives high values):
 
 $$
-K_G = 1 \cdot 10^{-6} \frac {(1 + 0.1 \cdot w^2)} {1 + 0.1^2}
+K_G = 1 \cdot 10^{-6} \frac {(1 + 0.1 \cdot w^2)} {1 + 0.1}
 $$
 
 where $w$ = wind speed ($\mps$).

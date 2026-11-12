@@ -339,7 +339,7 @@ Figure&nbsp;1: Conceptual model for benzene volatilization from a wastewater lag
 <span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here is a demo, starting with a benzene concentration of 10 <span class="math inline">\(\gpmc\)</span>.</p>
-<div id="80f579f9" class="cell" data-execution_count="1">
+<div id="bb86d95b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
@@ -347,7 +347,7 @@ Figure&nbsp;1: Conceptual model for benzene volatilization from a wastewater lag
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> benz_mod <span class="im">as</span> bnm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We’ll use a much lower mass transfer coefficient here than in the earlier exercise, only because this value is more realistic. And to make this lagoon at all effective, that means we need a much higher retention time. We might also consider whether benzene should be allowed to simply volatilize into the atmosphere, but for now let’s just accept that this system may not be a very realistic one!</p>
-<div id="e159bb6d" class="cell" data-execution_count="2">
+<div id="8a73988f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pred03 <span class="op">=</span> bnm.benzvol_flow(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    clin<span class="op">=</span><span class="dv">10</span>, </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    cl0<span class="op">=</span><span class="dv">10</span>, </span>
@@ -360,7 +360,7 @@ Figure&nbsp;1: Conceptual model for benzene volatilization from a wastewater lag
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    t_step <span class="op">=</span> <span class="dv">3600</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="687a7144" class="cell" data-execution_count="3">
+<div id="7184a3f9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plt.plot(pred03[<span class="st">"t"</span>] <span class="op">/</span> <span class="dv">86400</span>, pred03[<span class="st">"cl"</span>])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Time (days)"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Benzene conc. (g/m3)"</span>)</span>
@@ -373,9 +373,9 @@ Figure&nbsp;1: Conceptual model for benzene volatilization from a wastewater lag
 </div>
 </div>
 </div>
-<p>Add wind speed as a time-variable input and use to calculate a mass transfer coefficient internally. Although we should expect that mass transfer resistance is water-side limited, and therefore wind might not have an effect, in fact wind at the surface still mixes the water column. You can use this somewhat plausible correlation (most likely it gives high values):</p>
+<p>Add wind speed as a time-variable input and use to calculate a mass transfer coefficient internally. We should expect that mass transfer resistance is water-side limited, because benzene is not that soluble. Don’t think that means that wind might not have an effect; in fact wind at the surface still mixes the water column and reduces the liquid film thickness. You can use this somewhat plausible correlation (most likely it gives high values):</p>
 <p><span class="math display">\[
-K_G = 1 \cdot 10^{-6} \frac {(1 + 0.1 \cdot w^2)} {1 + 0.1^2}
+K_G = 1 \cdot 10^{-6} \frac {(1 + 0.1 \cdot w^2)} {1 + 0.1}
 \]</span></p>
 <p>where <span class="math inline">\(w\)</span> = wind speed (<span class="math inline">\(\mps\)</span>). Use the wind speed from the file <a href="https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/22-12-nov-time-var/exercises/weather.csv">weather.csv</a> to generate some predictions. (Select the download button near the top right to download it.)</p>
 <p>Once you have that working, can you also add time-variable flow? Assuming a constant volume, that would go in through the <code>hrt</code> variable. Generate some flow data that have a 24 hour cycle, with no flow at the minimum (during night, perhaps) and use them to make model predictions.</p>
