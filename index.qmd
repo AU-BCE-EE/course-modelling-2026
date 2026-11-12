@@ -95,6 +95,8 @@ with open("schedule.csv", newline="", encoding="utf-8-sig") as f:
         if location == "Online":
             location = f'<a href="{ZOOM_URL}">Online</a>'
 
+        teacher = re.sub(r"\bonline\b", f'<a href="{ZOOM_URL}">online</a>', teacher)
+
         prep = link_prep(prep)
 
         rows_html.append(
