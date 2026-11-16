@@ -103,14 +103,15 @@ Submit in Brightspace before 23:59 on Monday the 30th of November.
   But you should expect a much higher "effective" value here.
   You can find some values in [Appendix H](https://au-bce-ee.github.io/modeling-py-book/appx_parameter_values.html) as well.
 * For an effective diffusivity value you can try $1 \cdot 10^{-6}$ $\msqps$. Consider how this compares to the diffusivity values given above and what that indicates.
-* Second-order rate constants can be estimated by fixing one reactant concentration (say, $\text{O}_2$ here) and then solving for the $k$ value that matches an observed reaction rate. 
-  For example, if you know that organic matter is degraded at a first-order rate of around 10% per day when dissolved $\text{O}_2$ is 0.01 kg/m3, you need a second-order rate constant of 10 m3/kg-d (this is from 0.1 1/d = k m3/kg-d * 0.01 kg/m3 -> k = 0.1 / 0.01 = 10 m3/kg-d), which is about 1.2e-4 m3/kg-s. 
-  This is actually a reasonable estimate for this model. 
+* For a second-order rate constant, you can try try $1 \cdot 10^{-4}$ $\kgpmcps$. 
+  Where did this come from?
+  Second-order rate constants can be estimated by fixing one reactant concentration (say, $\text{O}_2$ here) and then solving for the $k$ value that matches an observed reaction rate. 
+  For example, if you know (or are willing to assume) that organic matter is degraded at a first-order rate of around 10% per day when dissolved $\text{O}_2$ is 0.01 kg/m3, you need a second-order rate constant of 10 m3/kg-d (this is from 0.1 1/d = k m3/kg-d * 0.01 kg/m3 -> k = 0.1 / 0.01 = 10 m3/kg-d), which is about 1.2e-4 m3/kg-s. 
   You can find this approach explained in [Appendix H](https://au-bce-ee.github.io/modeling-py-book/appx_parameter_values.html) as well.
 * Remember that you have examples of 1D models to help (see slides, demos, and exercise solutions from relevant classes on spatial models).
 * Remember to include `reload()` in your testing script to make sure you are working with the updated version of your model function after you edit it.
 * Remember that you can use the pyplot module function `savefig()` to export.
-  See the [parameter estimation solution](https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/21-01-nov-par-est/script-solution/par_est_sol.py) for an example.
+  See [this solution](https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/21-01-nov-par-est/script-solution/par_est_sol.py) for an example if needed.
 * If you are struggling with VS Code or Spyder you might try to simpler IDLE editor.
   It is probably already installed.
   See [Appendix F](https://au-bce-ee.github.io/modeling-py-book/appx_idle.html) in the book for an introduction.
