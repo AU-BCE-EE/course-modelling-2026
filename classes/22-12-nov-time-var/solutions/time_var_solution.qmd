@@ -1,0 +1,20 @@
+# Time-variable model solution
+
+Instead of the normal qmd file, let's set this all up with scripts.
+We will do parameter estimation in a single script, which will include the definition of a function for calculating residuals as well as the `least_squares()` call to do the parameter estimation.
+This present file will display the script contents.
+You can download the files directly from <https://github.com/AU-BCE-EE/course-modelling-2026/tree/main/classes/22-12-nov-time-var/solutions>.
+
+Here is the time-variable model module.
+
+```{.python filename="benz_modv.py"}
+{{< include benz_modv.py >}}
+```
+
+And here is the application of the model.
+This is a script.
+
+```{.python filename="time_var_benz.py"}
+{{< include time_var_benz.py >}}
+```
+
