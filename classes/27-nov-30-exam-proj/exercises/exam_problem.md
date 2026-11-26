@@ -1,4 +1,4 @@
-# Proposed exam problem: Bioheat model
+# Skin cooling 
 
 Our skin can be painfully damaged by frostbite if it becomes too cold during exposure to cold air.
 It is kept warm and healthy by conductive heat transfer from deeper tissue (the body "core") and from warm blood flowing into your tissue (perfusion).
@@ -27,30 +27,50 @@ Verification code can go in the appendix, but main conclusions should be written
 
 ## 3. Parameter estimation
 Blood perfusion rate can vary considerably, depending on the level of physical exertion and the outdoor temperature.
-The measurements in the file `skin_temperature.csv` can be used to determine a best-fit value through parameter estimation.
+The measurements in the file [`skin_temp.csv`](https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/27-nov-30-exam-proj/exercises/skin_temp.csv) can be used to determine a best-fit value through parameter estimation.
 The data are for the surface temperature of skin on a subject's cheek measured after 1 hour at room temperature and 1 hour at a much cooler temperature.
-Air temperature for the experiment is given in the file `air_temp.csv`.
+Air temperature for the experiment is given in the file [`air_temp.csv`](https://github.com/AU-BCE-EE/course-modelling-2026/blob/main/classes/27-nov-30-exam-proj/exercises/air_temp.csv).
 Use the data to estimate the perfusion rate for your model. 
+See section 5 below for values you can use for other important parameters.
 
-Note that it would not be realistic to assume a uniform temperature profile in the 10 mm of skin at the start of the experiment.
+Note that it would not be realistic to assume a uniform temperature profile in the 30 mm of skin and tissue at the start of the experiment.
 Instead, you should run a "startup" simulation using the initial air temperature in `air_temp.csv` or a similar value, and use output for the next simulation, with variable air temperature.
 
 ## 4. Model application and research questions
 * Simulate the skin temperature profile of a human that is exposed to outdoor air over 1 hour. You can run a "startup" simulation to generate a profile for use in the following simulations.
 * How cold would it need to be for the skin surface to reach a temperature of 0 $\degC$ and thereby risk frostbite? If you struggle to ever reach frostbite conditions, you might try two changes: adjust the parameter that controls surface heat loss and responds to wind speed (you should know what we mean), and recognize that vasoconstriction (blood vessels shrinking) is a natural response to cold skin to reduce heat loss and it can greatly reduce perfusion.
 * Simulate the effect of a warm jacket under those cold conditions that caused frostbite.
-* Perfusion may decrease by as much as a factor of 10 when skin cools, in order to conserve body heat. How much does this change reduce heat loss under the cold conditions?
+* Perfusion (blood flow) may decrease by as much as a factor of 10 when skin cools, an adaptation to conserve body heat. How much does this change reduce heat loss under the cold conditions?
 
 ## 5. Parameter values
-
 You should assume the following for parameter estimation and reference conditions for model application.
 
-* Skin and tissue thickness, below which a constant core temperature is maintained: 10 mm
-* Core temperature maintained at 10 mm and lower: 37 $\degC$
+* Skin and tissue thickness, below which a constant core temperature is maintained: 30 mm
+* Core temperature maintained at 30 mm and lower: 37 $\degC$
 * Surface heat transfer convection coefficient (indoors): 9 $\WpmspK$
 * Skin and tissue thermal conductivity: 0.3 $\WpmpK$
 * Density: 1000 $\kgpmc$
 * Specific heat capacity: 3600 $\Jpkg$
+
+## 6. Report
+### Structure
+You can use the following structure:
+* Introduction (short, but do describe the system and problem),
+* Model description (feel free to move details into an appendix)
+* Model validation
+* Model application
+* Conclusions (e.g., what do you think of your model?, how could the work be improved?, did you have to make simplifications that limit its accuracy?, did you have any unresolved problems?, what else would you like to know about the physical/biological system?, did you get any insights into the system or how to could be better managed based on your model?, or do you have some hypotheses that could be explored in the future?)
+* Appendices, including Python code and any details on model verification, formulation, or other things that didn't fit well in the main body of the report.
+
+### Generative artifical intelligence (GAI)
+You are not allowed to use AI for developing the model or writing the report, but can use it for factual information.
+If you have not already, please turn off AI in VS Code following these instructions: <https://au-bce-ee.github.io/modeling-py-book/appx_vsc_problems.html#turning-off-copilot-ai-autocomplete>.
+
+### Report length
+Aim for getting the essential material into a 10 page report, with additional details in appendices.
+
+### Groups
+You work on the project and report in groups of 3-5 people.
 
 ## Reference
 Pennes, H. 1948. Analysis of tissue and arterial blood temperatures in the resting human forearm.
