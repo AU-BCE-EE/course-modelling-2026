@@ -6,7 +6,7 @@ Skin and underlying tissue temperature profiles can be modelled using a constant
 This approach was first proposed decades ago (Pennes, 1948).
 Here you will develop a dynamic model to predict skin temperature profiles under different conditions, and use it to answer some questions about frostbite and related issues.
 
-![Sketch of the skin system, showing the heat transfer processes that keep it warm.](../../../drawings/bioheat1.png){#fig-concept1 fig-alt="Skin heat transfer sketch"}
+![Sketch of the skin system, showing the heat transfer processes that keep it warm.](../../../drawings/bioheat1.png){#fig-bioheat fig-alt="Skin heat transfer sketch"}
 
 ## 1. Model development and description
 The first task is to develop a 1D model for predicting the temperature profile from the core to the skin. 
@@ -75,5 +75,3 @@ You work on the project and report in groups of 3-5 people.
 ## Reference
 Pennes, H. 1948. Analysis of tissue and arterial blood temperatures in the resting human forearm.
 *Journal of Applied Physiology* 1(2): 93.
-
-## Report 
